@@ -1,0 +1,13 @@
+@model Usuario
+<h2>Confirmar Modificacion</h2>
+<div>
+    <p>¿Estás seguro de que deseas modificacion el nombre del usuario "@Model.NombreDeUsuario"?</p>
+</div>
+<form asp-controller="Usuario" asp-action="ConfirmarUsuario">
+    <input asp-for="IdUsuario" type="hidden" />
+    <label asp-for="NombreDeUsuario"></label>
+    <input asp-for="@Model.NombreDeUsuario" />
+    <button type="submit" class="btn btn-success">Actualizar</button>
+    <a asp-controller="Usuario" asp-action="MostrarTodosUsuarios" class="btn btn-danger">Cancelar</a>
+
+</form>

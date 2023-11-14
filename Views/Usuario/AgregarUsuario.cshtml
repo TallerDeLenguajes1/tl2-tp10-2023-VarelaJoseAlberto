@@ -1,0 +1,7 @@
+@model Usuario
+<form asp-controller="Usuario" asp-action="AgregarUsuario">
+    <label asp-for="NombreDeUsuario"></label>
+    <input asp-for="NombreDeUsuario" />
+    <button type="submit" class="btn btn-success"
+        onclick="return confirm('¿Estás seguro de crear el usuario?')">Agregar</button>
+</form>
