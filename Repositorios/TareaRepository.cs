@@ -71,8 +71,15 @@ namespace TP9.Repositorios
                         tarea.DescripcionTarea = reader["descripcion_tarea"].ToString();
                         tarea.Color = reader["color_tarea"].ToString();
                         tarea.EstadoTarea = (EstadoTarea)Enum.Parse(typeof(EstadoTarea), reader["estado_tarea"].ToString());
-                        tarea.IdUsuarioAsignado = Convert.ToInt32(reader["id_usuario_asignado"]);
-
+                        // Verificar si IdUsuarioAsignado es nulo en la base de datos
+                        if (reader.IsDBNull(reader.GetOrdinal("id_usuario_asignado")))
+                        {
+                            tarea.IdUsuarioAsignado = null; // Asignar null si es nulo en la base de datos
+                        }
+                        else
+                        {
+                            tarea.IdUsuarioAsignado = Convert.ToInt32(reader["id_usuario_asignado"]);
+                        }
 
                         return tarea;
                     }
@@ -172,6 +179,44 @@ namespace TP9.Repositorios
                 connection.Close();
             }
         }
+
+        public List<Tarea> ListarTodasLasTareas()
+        {
+            var query = "SELECT * FROM Tarea";
+            List<Tarea> listaDeTareas = new List<Tarea>();
+            using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))
+            {
+                connection.Open();
+                var command = new SQLiteCommand(query, connection);
+                using (SQLiteDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        var tarea = new Tarea();
+                        tarea.IdTarea = Convert.ToInt32(reader["id_tarea"]);
+                        tarea.IdTablero = Convert.ToInt32(reader["id_tablero"]);
+                        tarea.NombreTarea = reader["nombre_tarea"].ToString();
+                        tarea.DescripcionTarea = reader["descripcion_tarea"].ToString();
+                        tarea.Color = reader["color_tarea"].ToString();
+                        tarea.EstadoTarea = (EstadoTarea)Enum.Parse(typeof(EstadoTarea), reader["estado_tarea"].ToString());
+                        // Verificar si IdUsuarioAsignado es nulo en la base de datos
+                        if (reader.IsDBNull(reader.GetOrdinal("id_usuario_asignado")))
+                        {
+                            tarea.IdUsuarioAsignado = null; // Asignar null si es nulo en la base de datos
+                        }
+                        else
+                        {
+                            tarea.IdUsuarioAsignado = Convert.ToInt32(reader["id_usuario_asignado"]);
+                        }
+                        listaDeTareas.Add(tarea);
+                    }
+                }
+                connection.Close();
+            }
+            return listaDeTareas;
+        }
+
+
 
     }
 }

@@ -1,0 +1,16 @@
+@model tl2_tp10_2023_VarelaJoseAlberto.Models.Tarea
+
+<h1>Crear Nueva Tarea</h1>
+
+<form asp-controller="Tarea" asp-action="Crear" method="post">
+    <div>
+        <label>Nombre:</label>
+        <input asp-for="NombreTarea" />
+    </div>
+    <div>
+        <label>Descripción:</label>
+        <textarea asp-for="DescripcionTarea"></textarea>
+    </div>
+    <!-- Agrega más campos según tus necesidades -->
+    <button type="submit">Crear Tarea</button>
+</form>

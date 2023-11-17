@@ -1,0 +1,30 @@
+@model List<Tablero>
+@{
+    ViewData["Title"] = "Tableros del Usuario";
+}
+
+<h1>Tableros del Usuario</h1>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Id Tablero</th>
+            <th scope="col">Nombre de Tablero</th>
+            <th scope="col">Descripcion</th>
+            <th scope="col">Id Propietario</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var tablero in Model)
+        {
+            <tr>
+                <th scope="row">
+                    @tablero.IdTablero
+                </th>
+                <td>@tablero.NombreDeTablero</td>
+                <td>@tablero.DescripcionDeTablero</td>
+            </tr>
+        }
+    </tbody>
+</table>

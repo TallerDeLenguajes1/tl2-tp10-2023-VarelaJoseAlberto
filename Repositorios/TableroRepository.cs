@@ -27,11 +27,22 @@ namespace TP9.Repositorios
             var query = "DELETE FROM Tablero WHERE id_tablero = @idRecibe";
             using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))
             {
-                connection.Open();
-                var command = new SQLiteCommand(query, connection);
-                command.Parameters.Add(new SQLiteParameter("@idRecibe", idRecibe));
-                command.ExecuteNonQuery();
-                connection.Close();
+                try
+                {
+                    connection.Open();
+                    var command = new SQLiteCommand(query, connection);
+                    command.Parameters.Add(new SQLiteParameter("@idRecibe", idRecibe));
+                    command.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error al eliminar el tablero: " + ex.Message);
+
+                }
+                finally
+                {
+                    connection.Close(); // Asegúrate de cerrar la conexión en el bloque finally
+                }
             }
         }
 
@@ -59,12 +70,11 @@ namespace TP9.Repositorios
                         };
                         tableros.Add(tablero);
                     }
+                    return tableros;
                 }
             }
 
-            return tableros;
         }
-
 
         public List<Tablero> ListarTodosTableros()
         {
@@ -107,7 +117,6 @@ namespace TP9.Repositorios
             }
         }
 
-
         public Tablero TreaerTableroPorId(int idTablero)
         {
             var query = "SELECT * FROM Tablero WHERE id_tablero = @idTablero;";
@@ -127,13 +136,12 @@ namespace TP9.Repositorios
                             DescripcionDeTablero = reader["descripcion_tablero"].ToString(),
                             IdUsuarioPropietario = Convert.ToInt32(reader["id_usuario_propietario"])
                         };
-                        connection.Close();
                         return tablero;
                     }
+                    connection.Close();
                 }
             }
             return null; // Devuelve null si no se encuentra el tablero con el ID especificado
         }
-
     }
 }

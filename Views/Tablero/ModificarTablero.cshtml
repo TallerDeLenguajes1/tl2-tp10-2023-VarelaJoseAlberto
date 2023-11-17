@@ -1,0 +1,17 @@
+@model Tablero
+<h2>Confirmar Modificacion</h2>
+<div>
+    <p>¿Estás seguro de que deseas modificacion el nombre del Tablero "@Model.NombreDeTablero"?</p>
+</div>
+<form asp-controller="Tablero" asp-action="ConfirmarTablero">
+    <input asp-for="IdTablero" type="hidden" />
+    <label asp-for="NombreDeTablero"></label>
+    <input asp-for="@Model.NombreDeTablero" />
+    <label asp-for="DescripcionDeTablero"></label>
+    <input asp-for="@Model.DescripcionDeTablero" />
+    <label asp-for="IdUsuarioPropietario"></label>
+    <input asp-for="@Model.IdUsuarioPropietario" />
+    <button type="submit" class="btn btn-success">Actualizar</button>
+    <a asp-controller="Tablero" asp-action="MostrarTodosTablero" class="btn btn-danger">Cancelar</a>
+
+</form>

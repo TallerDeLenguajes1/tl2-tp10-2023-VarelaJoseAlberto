@@ -1,0 +1,22 @@
+@{
+    ViewData["Title"] = "Tablero";
+}
+
+<div class="text-start">
+    <h2 class="text-center">Opciones de Tablero</h2>
+    <ol>
+        <li>
+            <a asp-controller="Tablero" asp-action="MostrarTodosTablero">Mostrar Todos los Tablero</a>
+        </li>
+        <li>
+            <a asp-controller="Tablero" asp-action="BuscarTableroPorID">BuscarTableroPorID</a>
+        </li>
+        <li>
+            <a asp-controller="Tablero" asp-action="Buscar">BuscarTablerosPorIdUsuarioEspecifico</a>
+        </li>
+        <li>
+            <a asp-controller="Tablero" asp-action="EliminarTablero">Eliminar Tablero</a>
+        </li>
+    </ol>
+
+</div>

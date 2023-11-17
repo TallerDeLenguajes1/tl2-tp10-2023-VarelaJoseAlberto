@@ -1,0 +1,39 @@
+@model tl2_tp10_2023_VarelaJoseAlberto.Models.Tarea
+
+<h1>Modificar Tarea</h1>
+
+<form asp-controller="Tarea" asp-action="Modificar" method="post">
+    <input type="hidden" asp-for="IdTarea" />
+    <div>
+        <label>Nombre:</label>
+        <input asp-for="NombreTarea" />
+    </div>
+    <div>
+        <label>Descripción:</label>
+        <textarea asp-for="DescripcionTarea"></textarea>
+    </div>
+    <div>
+        <label>Estado:</label>
+        <select asp-for="EstadoTarea" asp-items="@Html.GetEnumSelectList<EstadoTarea>()"></select>
+    </div>
+    <div>
+        <label>Color:</label>
+        <input asp-for="Color" type="color" />
+    </div>
+    <div>
+        <label>Id Tablero:</label>
+        <input asp-for="IdTablero" />
+    </div>
+    <div>
+        <label>Id Usuario Asignado:</label>
+        @if (Model.IdUsuarioAsignado != null)
+        {
+            <span>@Model.IdUsuarioAsignado</span>
+        }
+        else
+        {
+            <span>No Asignado</span>
+        }
+    </div>
+    <button type="submit">Guardar Cambios</button>
+</form>
