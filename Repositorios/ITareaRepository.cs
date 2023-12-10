@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using tl2_tp10_2023_VarelaJoseAlberto.Models;
 
-namespace TP9.Repositorios
+namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
 {
     public interface ITareaRepository
     {

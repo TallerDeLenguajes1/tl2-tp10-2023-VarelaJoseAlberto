@@ -1,7 +1,7 @@
 using System.Data.SQLite;
 using tl2_tp10_2023_VarelaJoseAlberto.Models;
 
-namespace TP9.Repositorios
+namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
 {
     public class TableroRepository : ITableroRepository
     {
@@ -73,7 +73,6 @@ namespace TP9.Repositorios
                     return tableros;
                 }
             }
-
         }
 
         public List<Tablero> ListarTodosTableros()

@@ -12,7 +12,7 @@
             <th scope="col">Id Tablero</th>
             <th scope="col">Nombre de Tablero</th>
             <th scope="col">Descripcion</th>
-            <th scope="col">Id Propietario</th>
+            <th scope="col">Opcion</th>
         </tr>
     </thead>
     <tbody>
@@ -24,6 +24,10 @@
                 </th>
                 <td>@tablero.NombreDeTablero</td>
                 <td>@tablero.DescripcionDeTablero</td>
+                <td>
+                    <a asp-controller="Tarea" asp-action="Index" asp-route-id="@tablero.IdUsuarioPropietario">Ver
+                        tareas</a>
+                </td>
             </tr>
         }
     </tbody>

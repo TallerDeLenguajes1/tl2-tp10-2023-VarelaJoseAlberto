@@ -1,22 +1,51 @@
-@{
-    ViewData["Title"] = "Tablero";
-}
+@using tl2_tp10_2023_VarelaJoseAlberto.Repositorios
+@model tl2_tp10_2023_VarelaJoseAlberto.ViewModels.UsuarioViewModel
 
-<div class="text-start">
-    <h2 class="text-center">Opciones de Tablero</h2>
-    <ol>
-        <li>
-            <a asp-controller="Tablero" asp-action="MostrarTodosTablero">Mostrar Todos los Tablero</a>
-        </li>
-        <li>
-            <a asp-controller="Tablero" asp-action="BuscarTableroPorID">BuscarTableroPorID</a>
-        </li>
-        <li>
-            <a asp-controller="Tablero" asp-action="Buscar">BuscarTablerosPorIdUsuarioEspecifico</a>
-        </li>
-        <li>
-            <a asp-controller="Tablero" asp-action="EliminarTablero">Eliminar Tablero</a>
-        </li>
-    </ol>
+<!DOCTYPE html>
+<html>
 
-</div>
+<head>
+    <meta charset="utf-8" />
+    @{
+        ViewData["Title"] = "Tablero";
+    }
+</head>
+
+<body>
+    <div class="text-start">
+        <h2 class="text-center">Opciones de Tablero</h2>
+        <ol>
+            @if (Autorizacion.EsAdmin(ViewContext.HttpContext))
+            {
+                <li>
+                    <a asp-controller="Tablero" asp-action="MostrarTodosTablero">Mostrar Todos los Tablero</a>
+                </li>
+                <li>
+                    <a asp-controller="Tablero" asp-action="BuscarTableroPorID">Buscar Tablero Por ID</a>
+                </li>
+                <li>
+                    <a asp-controller="Tablero" asp-action="BuscarTableroPorIdUser">Buscar Tableros Por Id Usuario
+                        Especifico</a>
+                </li>
+                <li>
+                    <a asp-controller="Tablero" asp-action="EliminarTablero">Eliminar Tablero</a>
+                </li>
+                <li>
+                    <a asp-controller="Tablero" asp-action="ListarTablerosDeUsuarioEspecifico"
+                        asp-route-idUsuario="@Autorizacion.ObtenerIdUsuario(ViewContext.HttpContext)">Mostrar mis
+                        Tablero</a>
+                </li>
+            }
+            else if (Autorizacion.ObtenerRol(ViewContext.HttpContext) == "operador")
+            {
+                <li>
+                    <a asp-controller="Tablero" asp-action="ListarTablerosDeUsuarioEspecifico"
+                        asp-route-idUsuario="@Autorizacion.ObtenerIdUsuario(ViewContext.HttpContext)">Mostrar mis
+                        Tablero</a>
+                </li>
+            }
+        </ol>
+    </div>
+</body>
+
+</html>

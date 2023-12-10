@@ -1,7 +1,27 @@
-@model Usuario
-<form asp-controller="Usuario" asp-action="AgregarUsuario">
-    <label asp-for="NombreDeUsuario"></label>
-    <input asp-for="NombreDeUsuario" />
-    <button type="submit" class="btn btn-success"
-        onclick="return confirm('¿Estás seguro de crear el usuario?')">Agregar</button>
+@model tl2_tp10_2023_VarelaJoseAlberto.ViewModels.CrearUsuarioViewModel
+
+<form asp-controller="Usuario" asp-action="ConfirmarAgregarUsuario" method="post">
+    <!-- Campos del formulario según el ViewModel -->
+    <div class="form-group">
+        <label asp-for="NombreDeUsuario"></label>
+        <input asp-for="NombreDeUsuario" class="form-control" />
+        <span asp-validation-for="NombreDeUsuario" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Contrasenia"></label>
+        <input asp-for="Contrasenia" class="form-control" />
+        <span asp-validation-for="Contrasenia" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Rol"></label>
+        <select asp-for="Rol" class="form-control">
+            <option value="admin">Admin</option>
+            <option value="operador">Operador</option>
+        </select>
+        <span asp-validation-for="Rol" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Agregar Usuario</button>
 </form>

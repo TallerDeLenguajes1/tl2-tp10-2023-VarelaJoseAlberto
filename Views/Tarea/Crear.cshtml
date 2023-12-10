@@ -1,16 +1,43 @@
 @model tl2_tp10_2023_VarelaJoseAlberto.Models.Tarea
 
+
 <h1>Crear Nueva Tarea</h1>
 
-<form asp-controller="Tarea" asp-action="Crear" method="post">
-    <div>
-        <label>Nombre:</label>
-        <input asp-for="NombreTarea" />
+<form class="row g-3 needs-validation" novalidate asp-controller="Tarea" asp-action="Crear" method="post">
+    <div class="col-md-4">
+        <label asp-for="NombreTarea" class="form-label">Nombre:</label>
+        <input type="text" class="form-control" asp-for="NombreTarea" />
     </div>
-    <div>
-        <label>Descripción:</label>
-        <textarea asp-for="DescripcionTarea"></textarea>
+    <div class="col-md-4">
+        <label asp-for="DescripcionTarea" class="form-label">Descripción:</label>
+        <input type="text" class="form-control" asp-for="DescripcionTarea"></textarea>
     </div>
-    <!-- Agrega más campos según tus necesidades -->
-    <button type="submit">Crear Tarea</button>
+    <div class="col-md-3">
+        <label asp-for="EstadoTarea">Estado:</label>
+        <select class="form-select" asp-for="EstadoTarea">
+            <option value="0">Ideas</option> @*hacer *@
+            <option value="1">ToDo</option> @*hacer *@
+            <option value="2">Doing</option> @*haciendo *@
+            <option value="2">Review</option> @*revisar *@
+            <option value="2">Done</option> @*hecho *@
+
+        </select>
+    </div>
+    <div class="col-md-4">
+        <label asp-for="Color" class="form-label">Color:</label>
+        <input type="color" class="form-control form-control-color" asp-for="Color" value="#563d7c"
+            title="Choose your color">
+    </div>
+    <div class="col-md-4">
+        <label asp-for="IdUsuarioAsignado" class="form-label">ID Usuario Asignado:</label>
+        <input asp-for="IdUsuarioAsignado" />
+    </div>
+    <div class="col-md-4">
+        <label asp-for="IdTablero" class="form-label">ID Tablero:</label>
+        <input asp-for="IdTablero" />
+    </div>
+
+    <div class="col-12">
+        <button class="btn btn-primary" type="submit">Crear Tarea</button>
+    </div>
 </form>

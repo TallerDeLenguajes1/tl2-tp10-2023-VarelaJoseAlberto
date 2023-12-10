@@ -1,90 +1,245 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using tl2_tp10_2023_VarelaJoseAlberto.Models;
-using TP9.Repositorios;
+using tl2_tp10_2023_VarelaJoseAlberto.Repositorios;
+using tl2_tp10_2023_VarelaJoseAlberto.ViewModels;
 
 namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers;
 
 public class UsuarioController : Controller
 {
-
     private readonly UsuarioRepository usuarioRepository;
 
     public UsuarioController()
     {
-
         usuarioRepository = new UsuarioRepository();
     }
 
     public IActionResult Index()
     {
-        var usuarios = usuarioRepository.TraerTodosUsuarios();
-        return View(usuarios);
+        if (Autorizacion.EstaAutentificado(HttpContext))
+        {
+            if (Autorizacion.EsAdmin(HttpContext))
+            {
+                return View();
+            }
+            else
+            {
+                return View("AccesoDenegado");
+            }
+        }
+        else
+        {
+            // si intenta ingresar forzadamente regresa al usuario
+            return RedirectToAction("Index", "Login");
+        }
     }
 
     public IActionResult MostrarTodosUsuarios()
     {
-        var usuarios = usuarioRepository.TraerTodosUsuarios();
-        return View(usuarios);
+        if (Autorizacion.EstaAutentificado(HttpContext))
+        {
+            if (Autorizacion.EsAdmin(HttpContext))
+            {
+                var usuarios = usuarioRepository.TraerTodosUsuarios();
+                var usauarioVM = usuarios.Select(u => new UsuarioViewModel
+                {
+                    IdUsuario = u.IdUsuario,
+                    NombreDeUsuario = u.NombreDeUsuario,
+                    Rol = u.Rol
+                }).ToList();
+                var viewModel = new ListarUsuariosViewModel(usauarioVM);
+                return View(viewModel);
+            }
+            else
+            {
+                return View("AccesoDenegado");
+            }
+        }
+        else
+        {
+            return RedirectToAction("Index", "Login");
+        }
     }
 
     [HttpGet]
     public IActionResult AgregarUsuario()
     {
-        return View(new Usuario());
+        if (Autorizacion.EstaAutentificado(HttpContext))
+        {
+            if (Autorizacion.EsAdmin(HttpContext))
+            {
+                var viewModel = new CrearUsuarioViewModel(new Usuario());
+                return View(viewModel);
+            }
+            else
+            {
+                return View("AccesoDenegado");
+            }
+        }
+        else
+        {
+            return RedirectToAction("Index", "Login");
+        }
     }
 
     [HttpPost]
-    public IActionResult AgregarUsuario(Usuario usuario)
+    public IActionResult ConfirmarAgregarUsuario(CrearUsuarioViewModel usuarioViewModel)
     {
-        if (ModelState.IsValid)
+        if (Autorizacion.EstaAutentificado(HttpContext))
         {
-            usuarioRepository.CrearUsuario(usuario);
-            return RedirectToAction("MostrarTodosUsuarios");
+            if (Autorizacion.EsAdmin(HttpContext))
+            {
+                if (ModelState.IsValid)
+                {
+                    var usuario = new Usuario
+                    {
+                        // Mapear los datos del ViewModel a tu modelo de Usuario
+                        NombreDeUsuario = usuarioViewModel.NombreDeUsuario,
+                        Contrasenia = usuarioViewModel.Contrasenia,
+                        Rol = usuarioViewModel.Rol
+                    };
+                    usuarioRepository.CrearUsuario(usuario);
+                    return RedirectToAction("MostrarTodosUsuarios");
+                }
+                return View(usuarioViewModel);
+            }
+            else
+            {
+                return View("AccesoDenegado");
+            }
         }
-        return View(usuario);
+        else
+        {
+            return RedirectToAction("Index", "Login");
+        }
     }
 
     public IActionResult EliminarUsuario(int id)
     {
-        var usuario = usuarioRepository.TraerUsuarioPorId(id);
-        if (usuario == null)
+        if (Autorizacion.EstaAutentificado(HttpContext))
         {
-            return NotFound();
+            if (Autorizacion.EsAdmin(HttpContext))
+            {
+                var usuario = usuarioRepository.TraerUsuarioPorId(id);
+                if (usuario == null)
+                {
+                    return NotFound();
+                }
+                return View(usuario);
+            }
+            else
+            {
+                return View("AccesoDenegado");
+            }
         }
-
-        return View(usuario);
+        else
+        {
+            return RedirectToAction("Index", "Login");
+        }
     }
 
     [HttpPost]
     public IActionResult ConfirmarEliminar(Usuario user)
     {
-        usuarioRepository.EliminarUsuarioPorId(user.IdUsuario);
-        return RedirectToAction("MostrarTodosUsuarios");
+        if (Autorizacion.EstaAutentificado(HttpContext))
+        {
+            if (Autorizacion.EsAdmin(HttpContext))
+            {
+                usuarioRepository.EliminarUsuarioPorId(user.IdUsuario);
+                return RedirectToAction("MostrarTodosUsuarios");
+            }
+            else
+            {
+                return View("AccesoDenegado");
+            }
+        }
+        else
+        {
+            return RedirectToAction("Index", "Login");
+        }
     }
 
     [HttpGet]
     public IActionResult ModificarUsuario(int id)
     {
-        var usuario = usuarioRepository.TraerUsuarioPorId(id);
-        if (usuario == null)
+        if (Autorizacion.EstaAutentificado(HttpContext))
         {
-            return NotFound();
-        }
+            if (Autorizacion.EsAdmin(HttpContext))
+            {
+                var usuario = usuarioRepository.TraerUsuarioPorId(id);
+                if (usuario == null)
+                {
+                    View("Error");
+                }
+                var viewModel = new ModificarUsuarioViewModel
+                {
+                    NombreDeUsuario = usuario!.NombreDeUsuario,
+                    Contrasenia = usuario.Contrasenia,
+                    Rol = usuario.Rol
+                };
 
-        return View(usuario);
+                return View(viewModel);
+            }
+            else
+            {
+                return View("AccesoDenegado");
+            }
+        }
+        else
+        {
+            return RedirectToAction("Index", "Login");
+        }
     }
 
     [HttpPost]
-    public IActionResult ConfirmarUsuario(Usuario usuario)
+    public IActionResult ConfirmarModificarUsuario(ModificarUsuarioViewModel viewModel)
     {
-        if (ModelState.IsValid)
+        if (Autorizacion.EstaAutentificado(HttpContext))
         {
-            usuarioRepository.ModificarUsuario(usuario.IdUsuario, usuario);
-            return RedirectToAction("MostrarTodosUsuarios");
+            if (Autorizacion.EsAdmin(HttpContext))
+            {
+                if (ModelState.IsValid)
+                {
+                    var usuario = new Usuario
+                    {
+                        NombreDeUsuario = viewModel.NombreDeUsuario,
+                        Contrasenia = viewModel.Contrasenia,
+                        Rol = viewModel.Rol
+                    };
+                    usuarioRepository.ModificarUsuario(viewModel.Id, usuario);
+                    return RedirectToAction("MostrarTodosUsuarios");
+                }
+                return View(viewModel);
+            }
+            else
+            {
+                return View("AccesoDenegado");
+            }
         }
+        else
+        {
+            return RedirectToAction("Index", "Login");
+        }
+    }
 
-        return View(usuario);
+    public IActionResult AccesoDenegado()
+    {
+        if (Autorizacion.EstaAutentificado(HttpContext))
+        {
+            if (Autorizacion.EsAdmin(HttpContext))
+            {
+                return View();
+            }
+            else
+            {
+                return View("AccesoDenegado");
+            }
+        }
+        else
+        {
+            return RedirectToAction("Index", "Login");
+        }
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -93,8 +248,4 @@ public class UsuarioController : Controller
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 
-
 }
-
-
-

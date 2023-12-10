@@ -13,7 +13,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Models
     {
         private int idTarea;
         private int idTablero;  // Agregar el campo idTablero
-        private string nombreTarea;
+        private string? nombreTarea;
         private string? descripcionTarea;
         private string? color;
         private EstadoTarea estadoTarea;
@@ -22,7 +22,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Models
 
         public int IdTarea { get => idTarea; set => idTarea = value; }
         public int IdTablero { get => idTablero; set => idTablero = value; } // Propiedad para el idTablero
-        public string NombreTarea { get => nombreTarea; set => nombreTarea = value; }
+        public string? NombreTarea { get => nombreTarea; set => nombreTarea = value; }
 
         public EstadoTarea EstadoTarea { get => estadoTarea; set => estadoTarea = value; }
         public int? IdUsuarioAsignado { get => idUsuarioAsignado; set => idUsuarioAsignado = value; }

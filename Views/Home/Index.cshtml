@@ -2,13 +2,44 @@
     ViewData["Title"] = "Taller de Lenguajes II – 2023";
 }
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+@if (TempData["Mensaje"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["Mensaje"]
+    </div>
+}
+
 <div class="text-center">
-    <h1 class="display-4">TP Nro 10</h1>
-    <div>
-        <a asp-controller="Usuario" asp-action="Index">Controlador de Usuarios</a>
-        <br />
-        <a asp-controller="Tablero" asp-action="Index">Controlador de Tableros</a>
-        <br />
-        <a asp-controller="Tarea" asp-action="Index">Controlador de Tareas</a>
+    <h1 class="display-4">TP Nro 10 y 11</h1>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <a asp-controller="Usuario" asp-action="Index">
+                    <i class="fas fa-user"></i>
+                    <p>Controlador de Usuarios</p>
+                </a>
+            </div>
+
+            <div class="col-md-3">
+                <a asp-controller="Tablero" asp-action="Index">
+                    <i class="fas fa-clipboard-list"></i>
+                    <p>Controlador de Tableros</p>
+                </a>
+            </div>
+
+            <div class="col-md-3">
+                <a asp-controller="Tarea" asp-action="Index">
+                    <i class="fas fa-tasks"></i>
+                    <p>Controlador de Tareas</p>
+                </a>
+            </div>
+            <div class="col-md-3">
+                <a asp-controller="Login" asp-action="Logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <p>Cerrar Sesión</p>
+                </a>
+            </div>
+        </div>
     </div>
 </div>

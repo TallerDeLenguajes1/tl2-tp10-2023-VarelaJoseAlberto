@@ -1,7 +1,7 @@
 using System;
 using tl2_tp10_2023_VarelaJoseAlberto.Models;
 
-namespace TP9.Repositorios
+namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
 {
     public interface IUsuarioRepository
     {
@@ -10,5 +10,6 @@ namespace TP9.Repositorios
         public List<Usuario> TraerTodosUsuarios();
         public Usuario TraerUsuarioPorId(int id);
         public void EliminarUsuarioPorId(int id);
+        public Usuario ObtenerUsuarioPorCredenciales(string nombreUsuario, string contrasenia);
     }
 }

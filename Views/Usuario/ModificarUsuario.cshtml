@@ -1,12 +1,27 @@
-@model Usuario
+@model tl2_tp10_2023_VarelaJoseAlberto.ViewModels.ModificarUsuarioViewModel
 <h2>Confirmar Modificacion</h2>
 <div>
-    <p>¿Estás seguro de que deseas modificacion el nombre del usuario "@Model.NombreDeUsuario"?</p>
+    <p>Estás modificando usuario "@Model.NombreDeUsuario"?</p>
 </div>
-<form asp-controller="Usuario" asp-action="ConfirmarUsuario">
-    <input asp-for="IdUsuario" type="hidden" />
-    <label asp-for="NombreDeUsuario"></label>
-    <input asp-for="@Model.NombreDeUsuario" />
+<form asp-controller="Usuario" asp-action="ConfirmarModificarUsuario" method="post">
+    <input asp-for="@Model.Id" type="hidden" />
+    <div class="form-group">
+        <label asp-for="NombreDeUsuario"></label>
+        <input asp-for="@Model.NombreDeUsuario" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Contrasenia"></label>
+        <input asp-for="@Model.Contrasenia" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.Rol"></label>
+        <select asp-for="Rol" class="form-control">
+            <option value="admin">Admin</option>
+            <option value="operador">Operador</option>
+        </select>
+    </div>
     <button type="submit" class="btn btn-success">Actualizar</button>
     <a asp-controller="Usuario" asp-action="MostrarTodosUsuarios" class="btn btn-danger">Cancelar</a>
 
