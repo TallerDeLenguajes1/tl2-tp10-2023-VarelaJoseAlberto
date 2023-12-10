@@ -75,7 +75,8 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
             {
                 if (Autorizacion.EsAdmin(HttpContext))
                 {
-                    return View(new CrearTableroViewModel());
+                    var viewModel = new CrearTableroViewModel(new Tablero());
+                    return View(viewModel);
                 }
                 else
                 {
@@ -89,7 +90,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
         }
 
         [HttpPost]
-        public IActionResult ConfirmaAgregarTablero(Tablero tablero)
+        public IActionResult ConfirmarAgregarTablero(CrearTableroViewModel tableroViewModel)
         {
             if (Autorizacion.EstaAutentificado(HttpContext))
             {
@@ -97,10 +98,15 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                 {
                     if (ModelState.IsValid)
                     {
+                        var tablero = new Tablero
+                        {
+                            NombreDeTablero = tableroViewModel.NombreDeTablero,
+                            DescripcionDeTablero = tableroViewModel.DescripcionDeTablero
+                        };
                         tableroRepository.CrearTablero(tablero);
                         return RedirectToAction("MostrarTodosTablero");
                     }
-                    return View(tablero);
+                    return View(tableroViewModel);
                 }
                 else
                 {
@@ -169,7 +175,13 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                     {
                         return NotFound();
                     }
-                    return View(tablero);
+                    var viewModel = new ModificarTableroViewModel
+                    {
+                        NombreDeTablero = tablero.NombreDeTablero,
+                        DescripcionDeTablero = tablero.DescripcionDeTablero,
+                        IdUsuarioPropietario = tablero.IdUsuarioPropietario
+                    };
+                    return View(viewModel);
                 }
                 else
                 {
@@ -183,7 +195,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
         }
 
         [HttpPost]
-        public IActionResult ConfirmarTablero(Tablero tablero)
+        public IActionResult ConfirmarModificarTablero(ModificarTableroViewModel tableroViewModel)
         {
             if (Autorizacion.EstaAutentificado(HttpContext))
             {
@@ -191,10 +203,23 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                 {
                     if (ModelState.IsValid)
                     {
-                        tableroRepository.ModificarTablero(tablero.IdTablero, tablero);
+                        var tablero = new Tablero
+                        {
+                            NombreDeTablero = tableroViewModel.NombreDeTablero,
+                            IdUsuarioPropietario = tableroViewModel.IdUsuarioPropietario
+                        };
+                        if (string.IsNullOrEmpty(tableroViewModel.DescripcionDeTablero))
+                        {
+                            tablero.DescripcionDeTablero = null; // Establecer explícitamente como null
+                        }
+                        else
+                        {
+                            tablero.DescripcionDeTablero = tableroViewModel.DescripcionDeTablero;
+                        }
+                        tableroRepository.ModificarTablero(tableroViewModel.Id, tablero);
                         return RedirectToAction("MostrarTodosTablero");
                     }
-                    return View(tablero);
+                    return View(tableroViewModel);
                 }
                 else
                 {

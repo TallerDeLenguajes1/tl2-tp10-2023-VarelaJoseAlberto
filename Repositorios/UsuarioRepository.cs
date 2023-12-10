@@ -103,7 +103,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
 
         public Usuario ObtenerUsuarioPorCredenciales(string nombreUsuario, string contrasenia)
         {
-            Usuario usuarioEncontrado = null;
+            Usuario? usuarioEncontrado = null;
             string query = "SELECT * FROM Usuario WHERE nombre_de_usuario = @nombreUsuario AND contrasenia = @contrasenia";
 
             using (SQLiteConnection connection = new SQLiteConnection(cadenaConexion))

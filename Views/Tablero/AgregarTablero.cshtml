@@ -1,11 +1,23 @@
-@model Tablero
-<form asp-controller="Tablero" asp-action="AgregarTablero">
-    <label asp-for="NombreDeTablero"></label>
-    <input asp-for="NombreDeTablero" />
-    <label asp-for="DescripcionDeTablero"></label>
-    <input asp-for="DescripcionDeTablero" />
-    <label asp-for="IdUsuarioPropietario"></label>
-    <input asp-for="IdUsuarioPropietario" />
-    <button type="submit" class="btn btn-success"
-        onclick="return confirm('¿Estás seguro de crear el usuario?')">Agregar</button>
+@model tl2_tp10_2023_VarelaJoseAlberto.ViewModels.CrearTableroViewModel
+
+
+<form asp-controller="Tablero" asp-action="ConfirmarAgregarTablero" method="post">
+
+    <div class="form-group">
+        <label asp-for="NombreDeTablero"></label>
+        <input asp-for="NombreDeTablero" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="DescripcionDeTablero"></label>
+        <input asp-for="DescripcionDeTablero" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="IdUsuarioPropietario"></label>
+        <input asp-for="IdUsuarioPropietario" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Agregar Tablero</button>
+    @* onclick="return confirm('¿Estás seguro de crear el usuario?')">Agregar</button> *@
 </form>

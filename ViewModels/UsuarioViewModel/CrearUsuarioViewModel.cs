@@ -6,7 +6,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.ViewModels
 {
     public class CrearUsuarioViewModel
     {
-        public int Id { get; set; }
+        // public int Id { get; set; }
         private string? nombreDeUsuario;
         private string? contrasenia;
         private Rol rol;

@@ -1,17 +1,29 @@
-@model Tablero
+@model tl2_tp10_2023_VarelaJoseAlberto.ViewModels.ModificarTableroViewModel
 <h2>Confirmar Modificacion</h2>
 <div>
-    <p>¿Estás seguro de que deseas modificacion el nombre del Tablero "@Model.NombreDeTablero"?</p>
+    <p>¿Estás seguro de que deseas modificacion el Tablero "@Model.NombreDeTablero"?</p>
 </div>
-<form asp-controller="Tablero" asp-action="ConfirmarTablero">
-    <input asp-for="IdTablero" type="hidden" />
-    <label asp-for="NombreDeTablero"></label>
-    <input asp-for="@Model.NombreDeTablero" />
-    <label asp-for="DescripcionDeTablero"></label>
-    <input asp-for="@Model.DescripcionDeTablero" />
-    <label asp-for="IdUsuarioPropietario"></label>
-    <input asp-for="@Model.IdUsuarioPropietario" />
+<form asp-controller="Tablero" asp-action="ConfirmarModificarTablero" method="post">
+    <input asp-for="@Model.Id" type="hidden" />
+
+    <div class="form-group">
+        <label asp-for="NombreDeTablero"></label>
+        <input asp-for="@Model.NombreDeTablero" />
+    </div>
+    <div class="form-group">
+        <label asp-for="DescripcionDeTablero"></label>
+        <input asp-for="@Model.DescripcionDeTablero" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="IdUsuarioPropietario"></label>
+        <input asp-for="@Model.IdUsuarioPropietario" />
+    </div>
     <button type="submit" class="btn btn-success">Actualizar</button>
     <a asp-controller="Tablero" asp-action="MostrarTodosTablero" class="btn btn-danger">Cancelar</a>
 
 </form>
+@section Scripts {
+
+    <partial name="_ValidationScriptsPartial" />
+}
