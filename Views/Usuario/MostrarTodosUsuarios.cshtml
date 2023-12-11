@@ -17,15 +17,15 @@
     <tbody>
         @foreach (var usuario in Model.UsuariosVM)
         {
-                <tr>
-                    <th scope="row">@usuario.IdUsuario</th>
-                    <td>@usuario.NombreDeUsuario</td>
-                    <td>@usuario.Rol</td>
-                    <td>
-                        <a asp-controller="Usuario" asp-action="ModificarUsuario" asp-route-id="@usuario.IdUsuario">Editar</a>
-                        <a asp-controller="Usuario" asp-action="EliminarUsuario" asp-route-id="@usuario.IdUsuario">Eliminar</a>
-                    </td>
-                </tr>
+            <tr>
+                <th scope="row">@usuario.IdUsuario</th>
+                <td>@usuario.NombreDeUsuario</td>
+                <td>@usuario.Rol</td>
+                <td>
+                    <a asp-controller="Usuario" asp-action="ModificarUsuario" asp-route-id="@usuario.IdUsuario">Editar</a>
+                    <a asp-controller="Usuario" asp-action="EliminarUsuario" asp-route-id="@usuario.IdUsuario">Eliminar</a>
+                </td>
+            </tr>
         }
     </tbody>
 </table>

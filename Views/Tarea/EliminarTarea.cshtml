@@ -1,0 +1,10 @@
+@model Tarea
+
+<h1>Eliminar Tarea</h1>
+
+<p>¿Estás seguro de que deseas eliminar la tarea "@Model.NombreTarea"?</p>
+
+<form asp-controller="Tarea" asp-action="ConfirmarEliminarTarea" method="post">
+    <input type="hidden" asp-for="@Model.IdTarea" />
+    <button type="submit">Eliminar</button>
+</form>

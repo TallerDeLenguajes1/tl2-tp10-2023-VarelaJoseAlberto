@@ -20,7 +20,6 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.ViewModels
 
         public ModificarTableroViewModel()
         {
-
         }
         public ModificarTableroViewModel(Tablero tablero)
         {

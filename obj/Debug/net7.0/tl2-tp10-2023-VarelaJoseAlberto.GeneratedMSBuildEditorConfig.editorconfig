@@ -64,20 +64,20 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGFibGVyb1xNb3N0cmFyVG9kb3NUYWJsZXJvLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Taller2/Tps/tl2-tp10-2023-VarelaJoseAlberto/Views/Tarea/Crear.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGFyZWFcQ3JlYXIuY3NodG1s
+[C:/Taller2/Tps/tl2-tp10-2023-VarelaJoseAlberto/Views/Tarea/CrearTarea.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGFyZWFcQ3JlYXJUYXJlYS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Taller2/Tps/tl2-tp10-2023-VarelaJoseAlberto/Views/Tarea/Eliminar.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGFyZWFcRWxpbWluYXIuY3NodG1s
+[C:/Taller2/Tps/tl2-tp10-2023-VarelaJoseAlberto/Views/Tarea/EliminarTarea.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGFyZWFcRWxpbWluYXJUYXJlYS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Taller2/Tps/tl2-tp10-2023-VarelaJoseAlberto/Views/Tarea/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGFyZWFcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Taller2/Tps/tl2-tp10-2023-VarelaJoseAlberto/Views/Tarea/Modificar.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGFyZWFcTW9kaWZpY2FyLmNzaHRtbA==
+[C:/Taller2/Tps/tl2-tp10-2023-VarelaJoseAlberto/Views/Tarea/ModificarTarea.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGFyZWFcTW9kaWZpY2FyVGFyZWEuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Taller2/Tps/tl2-tp10-2023-VarelaJoseAlberto/Views/Usuario/AccesoDenegado.cshtml]

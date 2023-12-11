@@ -1,4 +1,4 @@
-@model List<Tablero>
+@model tl2_tp10_2023_VarelaJoseAlberto.ViewModels.ListarTablerosViewModel
 
 <div>
     <a asp-controller="Tablero" asp-action="AgregarTablero">Agregar Tablero</a>
@@ -15,14 +15,14 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var tablero in Model)
+        @foreach (var tablero in Model.TablerosVM)
         {
             <tr>
                 <th scope="row">
                     @tablero.IdTablero
                 </th>
-                <td>@tablero.NombreDeTablero</td>
-                <td>@tablero.DescripcionDeTablero</td>
+                <td>@tablero.NombreTablero</td>
+                <td>@tablero.Descripcion</td>
                 <td>@tablero.IdUsuarioPropietario</td>
                 <td>
                     <a asp-controller="Tablero" asp-action="ModificarTablero" asp-route-id="@tablero.IdTablero">Editar</a>

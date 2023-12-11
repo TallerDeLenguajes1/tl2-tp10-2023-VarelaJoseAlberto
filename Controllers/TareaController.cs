@@ -2,6 +2,7 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using tl2_tp10_2023_VarelaJoseAlberto.Models;
 using tl2_tp10_2023_VarelaJoseAlberto.Repositorios;
+using tl2_tp10_2023_VarelaJoseAlberto.ViewModels;
 
 namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
 {
@@ -23,13 +24,24 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
             {
                 if (Autorizacion.EsAdmin(HttpContext))
                 {
-                    List<Tarea> todasLasTareas = tareaRepository.ListarTodasLasTareas();
-                    return View(todasLasTareas);
+                    var todasLasTareas = tareaRepository.ListarTodasLasTareas();
+                    var tareaVM = todasLasTareas.Select(u => new TareaViewModel
+                    {
+                        IdTablero = u.IdTablero,
+                        IdTarea = u.IdTarea,
+                        NombreTarea = u.NombreTarea,
+                        Color = u.Color,
+                        EstadoTarea = u.EstadoTarea,
+                        DescripcionTarea = u.DescripcionTarea,
+                        IdUsuarioAsignado = u.IdUsuarioAsignado.HasValue ? u.IdUsuarioAsignado.Value : 0
+                    }).ToList();
+                    var viewModel = new ListarTareaViewModel(tareaVM);
+                    return View(viewModel);
                 }
                 else if (Autorizacion.ObtenerRol(HttpContext) == "operador")
                 {
                     int idUsuario = Autorizacion.ObtenerIdUsuario(HttpContext);
-                    List<Tarea> tareasUsuario = tareaRepository.ListarTareasDeUsuario(idUsuario);
+                    var tareasUsuario = tareaRepository.ListarTareasDeUsuario(idUsuario);
                     return View(tareasUsuario);
                 }
                 return RedirectToAction("AccesoDenegado", "Usuario");
@@ -42,13 +54,14 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
         }
 
 
-        public IActionResult Crear()
+        public IActionResult CrearTarea()
         {
             if (Autorizacion.EstaAutentificado(HttpContext))
             {
                 if (Autorizacion.EsAdmin(HttpContext) || Autorizacion.ObtenerRol(HttpContext) == "operador")
                 {
-                    return View();
+                    var viewModel = new CrearTareaViewModel(new Tarea());
+                    return View(viewModel);
                 }
                 return RedirectToAction("AccesoDenegado", "Usuario");
             }
@@ -60,7 +73,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
         }
 
         [HttpPost]
-        public IActionResult ConfirmarCrear(Tarea nuevaTarea)
+        public IActionResult ConfirmarCrearTarea(CrearTareaViewModel tareaViewModel)
         {
             if (Autorizacion.EstaAutentificado(HttpContext))
             {
@@ -68,24 +81,52 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                 {
                     if (ModelState.IsValid)
                     {
-                        tareaRepository.CrearTarea(nuevaTarea.IdTablero, nuevaTarea);
+                        var nuevaTarea = new Tarea
+                        {
+                            NombreTarea = tareaViewModel.NombreTarea,
+                            DescripcionTarea = tareaViewModel.DescripcionTarea,
+                            EstadoTarea = (EstadoTarea)tareaViewModel.EstadoTarea,
+                            Color = tareaViewModel.ColorTarea
+                            // ,
+                            // IdUsuarioAsignado = tareaViewModel.IdUsuarioAsignado
+                        };
+                        if (tareaViewModel.IdUsuarioAsignado.HasValue)
+                        {
+                            nuevaTarea.IdUsuarioAsignado = tareaViewModel.IdUsuarioAsignado.Value;
+                        }
+                        else
+                        {
+                            // Define un valor predeterminado o maneja el escenario de nulo según tu lógica
+                            nuevaTarea.IdUsuarioAsignado = 0; // Por ejemplo, puedes asignar 0
+                        }
+                        tareaRepository.CrearTarea(tareaViewModel.IdTablero, nuevaTarea);
                         return RedirectToAction("Index");
                     }
-                    return View(nuevaTarea);
+                    return View(tareaViewModel);
                 }
                 else if (Autorizacion.ObtenerRol(HttpContext) == "operador")
                 {
                     var idUsuario = Autorizacion.ObtenerIdUsuario(HttpContext);
                     var tableroIdDeUsuario = tableroRepository.TreaerTableroPorId(idUsuario);
                     // Verificar si el tablero al que intenta asignar la tarea pertenece al usuario
-                    if (tableroIdDeUsuario != null && tableroIdDeUsuario.IdUsuarioPropietario == nuevaTarea.IdUsuarioAsignado)
+                    if (tableroIdDeUsuario != null && tableroIdDeUsuario.IdUsuarioPropietario == tareaViewModel.IdUsuarioAsignado)
                     {
                         if (ModelState.IsValid)
                         {
+                            var nuevaTarea = new Tarea
+                            {
+                                NombreTarea = tareaViewModel.NombreTarea,
+                                DescripcionTarea = tareaViewModel.DescripcionTarea,
+                                EstadoTarea = (EstadoTarea)tareaViewModel.EstadoTarea,
+                                Color = tareaViewModel.ColorTarea
+                                // ,
+                                // IdUsuarioAsignado = tareaViewModel.IdUsuarioAsignado
+                            };
+
                             tareaRepository.CrearTarea(tableroIdDeUsuario.IdTablero, nuevaTarea);
                             return RedirectToAction("Index");
                         }
-                        return View(nuevaTarea);
+                        return View(tareaViewModel);
                     }
                     // Si no es el tablero del usuario, redireccionar o mostrar mensaje de error
                     return RedirectToAction("AccesoDenegado", "Usuario");
@@ -98,35 +139,135 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
             }
         }
 
-
-
-
-
-
-        public IActionResult Modificar(int id)
+        public IActionResult ModificarTarea(int id)
         {
-            Tarea tarea = tareaRepository.ObtenerTareaPorId(id);
-            return View(tarea);
+            if (Autorizacion.EstaAutentificado(HttpContext))
+            {
+                if (Autorizacion.EsAdmin(HttpContext))
+                {
+                    var tarea = tareaRepository.ObtenerTareaPorId(id);
+                    if (tarea == null)
+                    {
+                        return NotFound();
+                    }
+                    var viewModel = new ModificarTareaViewModel
+                    {
+                        NombreTarea = tarea.NombreTarea,
+                        DescripcionTarea = tarea.DescripcionTarea,
+                        EstadoTarea = (int)tarea.EstadoTarea,
+                        ColorTarea = tarea.Color,
+                        // IdUsuarioAsignado = (int)tarea.IdUsuarioAsignado!,
+                        IdTablero = tarea.IdTablero
+                    };
+                    if (tarea.IdUsuarioAsignado.HasValue)
+                    {
+                        viewModel.IdUsuarioAsignado = tarea.IdUsuarioAsignado.Value;
+                    }
+                    else
+                    {
+                        // Define un valor predeterminado o maneja el escenario de nulo según tu lógica
+                        viewModel.IdUsuarioAsignado = 0; // Por ejemplo, puedes asignar 0
+                    }
+                    return View(viewModel);
+                }
+                else if (Autorizacion.ObtenerRol(HttpContext) == "operador")
+                {
+                    var tarea = tareaRepository.ObtenerTareaPorId(id);
+                    if (tarea == null)
+                    {
+                        return NotFound();
+                    }
+                    var viewModel = new ModificarTareaViewModel
+                    {
+                        NombreTarea = tarea.NombreTarea,
+                        DescripcionTarea = tarea.DescripcionTarea,
+                        EstadoTarea = (int)tarea.EstadoTarea,
+
+                    };
+                    return View(viewModel);
+                }
+                else
+                {
+                    return RedirectToAction("AccesoDenegado", "Usuario");
+                }
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
         }
 
         [HttpPost]
-        public IActionResult ConfirmarModificar(int id, Tarea tareaModificada)
+        public IActionResult ConfirmarModificarTarea(ModificarTareaViewModel tareaViewModel)
         {
-            tareaRepository.ModificarTarea(id, tareaModificada);
-            return RedirectToAction("Index");
+            if (Autorizacion.EstaAutentificado(HttpContext))
+            {
+                if (ModelState.IsValid)
+                {
+                    var tarea = new Tarea
+                    {
+                        IdTarea = tareaViewModel.Id,
+                        NombreTarea = tareaViewModel.NombreTarea,
+                        DescripcionTarea = tareaViewModel.DescripcionTarea,
+                        EstadoTarea = (EstadoTarea)tareaViewModel.EstadoTarea,
+                        Color = tareaViewModel.ColorTarea,
+                        IdUsuarioAsignado = tareaViewModel.IdUsuarioAsignado,
+                        IdTablero = tareaViewModel.IdTablero
+                    };
+                    tareaRepository.ModificarTarea(tareaViewModel.Id, tarea);
+                    return RedirectToAction("Index");
+                }
+                return RedirectToAction("Index", "Tarea");
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
         }
 
-        public IActionResult Eliminar(int id)
+        public IActionResult EliminarTarea(int id)
         {
-            Tarea tarea = tareaRepository.ObtenerTareaPorId(id);
-            return View(tarea);
+            if (Autorizacion.EstaAutentificado(HttpContext))
+            {
+                if (Autorizacion.EsAdmin(HttpContext))
+                {
+                    var tarea = tareaRepository.ObtenerTareaPorId(id);
+                    if (tarea == null)
+                    {
+                        return NotFound();
+                    }
+                    return View(tarea);
+                }
+                else
+                {
+                    return View("AccesoDenegado");
+                }
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
         }
 
         [HttpPost]
-        public IActionResult ConfirmarEliminar(int id, Tarea tareaEliminada)
+        public IActionResult ConfirmarEliminarTarea(Tarea tarea)
         {
-            tareaRepository.EliminarTarea(id);
-            return RedirectToAction("Index");
+            if (Autorizacion.EstaAutentificado(HttpContext))
+            {
+                if (Autorizacion.EsAdmin(HttpContext))
+                {
+                    tareaRepository.EliminarTarea(tarea.IdTarea);
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    return View("AccesoDenegado");
+                }
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using tl2_tp10_2023_VarelaJoseAlberto.Models;
 
 namespace tl2_tp10_2023_VarelaJoseAlberto.ViewModels
 {
@@ -21,10 +22,31 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.ViewModels
 
         [Required(ErrorMessage = "El ID del usuario asignado es requerido.")]
         [Display(Name = "ID del Usuario Asignado")]
-        public int IdUsuarioAsignado { get; set; }
+        public int? IdUsuarioAsignado { get; set; }
 
         [Required(ErrorMessage = "El ID del tablero es requerido.")]
         [Display(Name = "ID del Tablero")]
         public int IdTablero { get; set; }
+
+        public CrearTareaViewModel(Tarea tarea)
+        {
+            NombreTarea = tarea.NombreTarea;
+            DescripcionTarea = tarea.DescripcionTarea;
+            EstadoTarea = (int)tarea.EstadoTarea;
+            ColorTarea = tarea.Color;
+            if (tarea.IdUsuarioAsignado.HasValue)
+            {
+                IdUsuarioAsignado = (int)tarea.IdUsuarioAsignado; // O el valor por defecto que desees
+            }
+            else
+            {
+                IdUsuarioAsignado = 0; // O el valor por defecto que desees
+            } // O el valor por defecto que desees
+            IdTablero = tarea.IdTablero;
+        }
+
+        public CrearTareaViewModel()
+        {
+        }
     }
 }
