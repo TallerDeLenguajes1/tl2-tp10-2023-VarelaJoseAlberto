@@ -1,4 +1,6 @@
 @* @model List<tl2_tp10_2023_VarelaJoseAlberto.Models.Tarea> *@
+@using tl2_tp10_2023_VarelaJoseAlberto.Repositorios
+@* @using tl2_tp10_2023_VarelaJoseAlberto.ViewModels *@
 @model tl2_tp10_2023_VarelaJoseAlberto.ViewModels.ListarTareaViewModel
 <div>
     <a asp-controller="Tarea" asp-action="CrearTarea">Agregar Tareas</a>
@@ -31,8 +33,15 @@
 
                 </td>
                 <td>
-                    <a asp-controller="Tarea" asp-action="ModificarTarea" asp-route-id="@tarea.IdTarea">Editar</a>
-                    <a asp-controller="Tarea" asp-action="EliminarTarea" asp-route-id="@tarea.IdTarea">Eliminar</a>
+                    @if (Autorizacion.EsAdmin(ViewContext.HttpContext))
+                    {
+                        <a asp-controller="Tarea" asp-action="ModificarTarea" asp-route-id="@tarea.IdTarea">Editar</a>
+                        <a asp-controller="Tarea" asp-action="EliminarTarea" asp-route-id="@tarea.IdTarea">Eliminar</a>
+                    }
+                    else
+                    {
+                        <a asp-controller="Tarea" asp-action="ModificarTarea" asp-route-id="@tarea.IdTarea">Editar</a>
+                    }
                 </td>
             </tr>
         }

@@ -1,3 +1,5 @@
+@using tl2_tp10_2023_VarelaJoseAlberto.Repositorios
+@using tl2_tp10_2023_VarelaJoseAlberto.ViewModels
 @model tl2_tp10_2023_VarelaJoseAlberto.ViewModels.ListarTablerosViewModel
 <h1>Todos Los Tableros</h1>
 <div>
@@ -25,11 +27,13 @@
                 <td>@tablero.Descripcion</td>
                 <td>@tablero.IdUsuarioPropietario</td>
                 <td>
-                    <a asp-controller="Tablero" asp-action="ModificarTablero" asp-route-id="@tablero.IdTablero"> Editar </a>
-                    <a asp-controller="Tablero" asp-action="EliminarTablero" asp-route-id="@tablero.IdTablero"> Eliminar
-                    </a>
-                    <a asp-controller="Tarea" asp-action="MostrarTareasTableroEspecifico" asp-route-id="@tablero.IdTablero">
-                        Ver tareas </a>
+                    <a asp-controller="Tablero" asp-action="ModificarTablero" asp-route-idTablero="@tablero.IdTablero">
+                        Editar</a>
+                    <a asp-controller="Tablero" asp-action="EliminarTablero" asp-route-idTablero="@tablero.IdTablero">
+                        Eliminar</a>
+                    <a asp-controller="Tarea" asp-action="MostrarTareasTableroIdEspecifico"
+                        asp-route-idTablero="@tablero.IdTablero">
+                        Ver tareas</a>
 
                 </td>
             </tr>

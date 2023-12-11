@@ -1,40 +1,37 @@
-@* @model List<tl2_tp10_2023_VarelaJoseAlberto.Models.Tarea> *@
-@model tl2_tp10_2023_VarelaJoseAlberto.ViewModels.ListarTareaViewModel
-<div>
-    <a asp-controller="Tarea" asp-action="CrearTarea">Agregar Tareas</a>
+@using tl2_tp10_2023_VarelaJoseAlberto.Repositorios
+@model tl2_tp10_2023_VarelaJoseAlberto.ViewModels.UsuarioViewModel
+<div class="text-center">
+    <h1 class="display-4">TP Nro 10 y 11</h1>
+    <div class="container">
+        <div class="row">
+            @if (Autorizacion.ObtenerRol(ViewContext.HttpContext) == "admin")
+            {
+                <div class="col-md-3">
+                    <a asp-controller="Tarea" asp-action="MostrarTareas">
+                        <i class="fas fa-user"></i>
+                        <p>Mostrar todas las Tareas</p>
+                    </a>
+                </div>
+
+                <div class="col-md-3">
+                    <a asp-controller="Tarea" asp-action="MostrarTareasUsuarioEspecifico"
+                        asp-route-idUsuario="@Autorizacion.ObtenerIdUsuario(ViewContext.HttpContext)">
+                        <i class="fas fa-clipboard-list"></i>
+                        <p>Mostrar Mis Tareas</p>
+                    </a>
+                </div>
+
+            }
+            else if (Autorizacion.ObtenerRol(ViewContext.HttpContext) == "operador")
+            {
+                <div class="col-md-3">
+                    <a asp-controller="Tarea" asp-action="MostrarTareasUsuarioEspecifico"
+                        asp-route-idUsuario="@Autorizacion.ObtenerIdUsuario(ViewContext.HttpContext)">
+                        <i class="fas fa-clipboard-list"></i>
+                        <p>Mostrar Mis Tareas</p>
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
 </div>
-<h1>Lista de Tareas</h1>
-
-<table>
-    <thead>
-        <tr>
-            <th scope="col">Id</th>
-            <th scope="col">Nombre</th>
-            <th scope="col">Descripción</th>
-            <th scope="col">Estado</th>
-            <th scope="col">Color</th>
-            <th scope="col">Id Tablero</th>
-            <th scope="col">Id Usuario Asignado</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var tarea in Model.TareasVM)
-        {
-            <tr>
-                <td>@tarea.IdTarea</td>
-                <td>@tarea.NombreTarea</td>
-                <td>@tarea.DescripcionTarea</td>
-                <td>@tarea.EstadoTarea</td>
-                <td><input type="color" value="@tarea.Color" disabled /></td>
-                <td>@tarea.IdTablero</td>
-                <td>@tarea.IdUsuarioAsignado
-
-                </td>
-                <td>
-                    <a asp-controller="Tarea" asp-action="ModificarTarea" asp-route-id="@tarea.IdTarea">Editar</a>
-                    <a asp-controller="Tarea" asp-action="EliminarTarea" asp-route-id="@tarea.IdTarea">Eliminar</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>

@@ -20,6 +20,11 @@
                 <li>
                     <a asp-controller="Tablero" asp-action="MostrarTodosTablero">Mostrar Todos los Tablero</a>
                 </li>
+                <li>
+                    <a asp-controller="Tablero" asp-action="ListarTablerosDeUsuarioEspecifico"
+                        asp-route-idUsuario="@Autorizacion.ObtenerIdUsuario(ViewContext.HttpContext)">Mostrar mis
+                        Tablero</a>
+                </li>
                 @* <li>
             <a asp-controller="Tablero" asp-action="BuscarTableroPorID">Buscar Tablero Por ID</a>
             </li> *@
@@ -30,11 +35,6 @@
                 @* <li>
             <a asp-controller="Tablero" asp-action="EliminarTablero">Eliminar Tablero</a>
             </li> *@
-                <li>
-                    <a asp-controller="Tablero" asp-action="ListarTablerosDeUsuarioEspecifico"
-                        asp-route-idUsuario="@Autorizacion.ObtenerIdUsuario(ViewContext.HttpContext)">Mostrar mis
-                        Tablero</a>
-                </li>
             }
             else if (Autorizacion.ObtenerRol(ViewContext.HttpContext) == "operador")
             {

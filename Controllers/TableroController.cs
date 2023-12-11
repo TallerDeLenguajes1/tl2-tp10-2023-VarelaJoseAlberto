@@ -11,14 +11,14 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
         // private readonly TableroRepository tableroRepository;
         private readonly ILogger<HomeController> _logger;
         private readonly ITableroRepository tableroRepository;
+        private readonly ITareaRepository tareaRepository;
 
-        public TableroController(ITableroRepository tableRepository, ILogger<HomeController> logger)
+        public TableroController(ITableroRepository tableRepository, ILogger<HomeController> logger, ITareaRepository taRepository)
         {
             tableroRepository = tableRepository;
             _logger = logger;
+            tareaRepository = taRepository;
         }
-
-
 
         public IActionResult Index()
         {

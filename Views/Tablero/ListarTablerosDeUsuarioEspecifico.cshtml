@@ -25,7 +25,8 @@
                 <td>@tablero.NombreTablero</td>
                 <td>@tablero.Descripcion</td>
                 <td>
-                    <a asp-controller="Tarea" asp-action="MostrarTareasTableroEspecifico" asp-route-id="@tablero.IdTablero">
+                    <a asp-controller="Tarea" asp-action="MostrarTareasTableroIdEspecifico"
+                        asp-route-idTablero="@tablero.IdTablero">
                         Ver tareas</a>
                 </td>
             </tr>
