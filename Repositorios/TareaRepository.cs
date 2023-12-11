@@ -147,6 +147,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
             }
             return listaDeTareas;
         }
+
         public void EliminarTarea(int idTarea)
         {
             var query = "DELETE FROM Tarea WHERE id_tarea = @idTarea;";

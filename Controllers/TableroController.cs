@@ -8,7 +8,14 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
 
     public class TableroController : Controller
     {
-        private readonly TableroRepository tableroRepository;
+        // private readonly TableroRepository tableroRepository;
+        private readonly ITableroRepository tableroRepository;
+
+        public TableroController(ITableroRepository tableRepository)
+        {
+            tableroRepository = tableRepository;
+        }
+
         public TableroController()
         {
             tableroRepository = new TableroRepository();
@@ -42,7 +49,15 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                 if (Autorizacion.EsAdmin(HttpContext))
                 {
                     var tablero = tableroRepository.ListarTodosTableros();
-                    return View(tablero);
+                    var tableroVM = tablero.Select(u => new TableroViewModel
+                    {
+                        IdTablero = u.IdTablero,
+                        IdUsuarioPropietario = u.IdUsuarioPropietario,
+                        NombreTablero = u.NombreDeTablero,
+                        Descripcion = u.DescripcionDeTablero
+                    }).ToList();
+                    var viewModel = new ListarTablerosViewModel(tableroVM);
+                    return View(viewModel);
                 }
                 else
                 {
@@ -60,7 +75,15 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
             if (Autorizacion.EstaAutentificado(HttpContext))
             {
                 var tablero = tableroRepository.ListarTablerosDeUsuarioEspecifico(idUsuario);
-                return View(tablero);
+                var tableroVM = tablero.Select(u => new TableroViewModel
+                {
+                    IdTablero = u.IdTablero,
+                    IdUsuarioPropietario = u.IdUsuarioPropietario,
+                    NombreTablero = u.NombreDeTablero,
+                    Descripcion = u.DescripcionDeTablero
+                }).ToList();
+                var viewModel = new ListarTablerosViewModel(tableroVM);
+                return View(viewModel);
             }
             else
             {
@@ -101,7 +124,8 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                         var tablero = new Tablero
                         {
                             NombreDeTablero = tableroViewModel.NombreDeTablero,
-                            DescripcionDeTablero = tableroViewModel.DescripcionDeTablero
+                            DescripcionDeTablero = tableroViewModel.DescripcionDeTablero,
+                            IdUsuarioPropietario = tableroViewModel.IdUsuarioPropietario
                         };
                         tableroRepository.CrearTablero(tablero);
                         return RedirectToAction("MostrarTodosTablero");

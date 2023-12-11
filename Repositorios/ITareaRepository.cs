@@ -10,6 +10,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
         Tarea ObtenerTareaPorId(int idTarea); //
         List<Tarea> ListarTareasDeUsuario(int idUsuario);
         List<Tarea> ListarTareasDeTablero(int idTablero);
+        List<Tarea> ListarTodasLasTareas();
         void EliminarTarea(int idTarea);
         void AsignarUsuarioATarea(int idUsuario, int idTarea);
     }

@@ -3,7 +3,7 @@
 <h1>Modificar Tarea</h1>
 <h2>Confirmar Modificacion</h2>
 <div>
-    <p>Estás modificando usuario "@Model.NombreTarea"?</p>
+    <p>Estás modificando la Tarea "@Model.NombreTarea"?</p>
 </div>
 <div class="row justify-content-center mt-5">
     <div class="col-md-6">
@@ -26,7 +26,9 @@
             <div class="mb-3">
                 <label asp-for="@Model.EstadoTarea">Estado:</label>
                 <select class="form-select" asp-for="@Model.EstadoTarea"
-                    asp-items="@Html.GetEnumSelectList<EstadoTarea>()"></select>
+                    asp-items="@Html.GetEnumSelectList<EstadoTarea>()">
+                    <option selected disabled> ---Seleccionar---</option>
+                </select>
                 <span asp-validation-for="@Model.EstadoTarea" class="text-danger"></span>
             </div>
 
@@ -48,6 +50,7 @@
                 <span asp-validation-for="@Model.IdUsuarioAsignado" class="text-danger"></span>
             </div>
             <button class="btn btn-success" type="submit">Guardar Cambios</button>
+            <a asp-controller="Tarea" asp-action="Index" class="btn btn-danger">Cancelar</a>
         </form>
     </div>
 </div>

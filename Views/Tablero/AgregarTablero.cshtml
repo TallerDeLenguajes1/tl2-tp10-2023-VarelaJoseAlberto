@@ -1,23 +1,37 @@
 @model tl2_tp10_2023_VarelaJoseAlberto.ViewModels.CrearTableroViewModel
 
+<h1>Crear Tablero</h1>
 
-<form asp-controller="Tablero" asp-action="ConfirmarAgregarTablero" method="post">
+<div class="row justify-content-center mt-5">
+    <div class="col-md-6">
+        <form asp-controller="Tablero" asp-action="ConfirmarAgregarTablero" method="post">
 
-    <div class="form-group">
-        <label asp-for="NombreDeTablero"></label>
-        <input asp-for="NombreDeTablero" />
+            <div class="mb-3">
+                <label class="form-label" asp-for="@Model.NombreDeTablero">Nombre Del Tablero</label>
+                <input type="text" class="form-control" asp-for="@Model.NombreDeTablero" />
+                <span asp-validation-for="@Model.NombreDeTablero" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" asp-for="@Model.DescripcionDeTablero">Descripción del Tablero</label>
+                <input type="text" class="form-control" asp-for="@Model.DescripcionDeTablero" />
+                <span asp-validation-for="@Model.DescripcionDeTablero" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" asp-for="@Model.IdUsuarioPropietario">Id del Usuario Propietario</label>
+                <input type="number" class="form-control" asp-for="@Model.IdUsuarioPropietario" />
+                <span asp-validation-for="@Model.IdUsuarioPropietario" class="text-danger"></span>
+            </div>
+
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">Agregar Tablero</button>
+            </div>
+            @* onclick="return confirm('¿Estás seguro de crear el usuario?')">Agregar</button> *@
+        </form>
     </div>
+</div>
+@section Scripts {
 
-    <div class="form-group">
-        <label asp-for="DescripcionDeTablero"></label>
-        <input asp-for="DescripcionDeTablero" />
-    </div>
-
-    <div class="form-group">
-        <label asp-for="IdUsuarioPropietario"></label>
-        <input asp-for="IdUsuarioPropietario" />
-    </div>
-
-    <button type="submit" class="btn btn-primary">Agregar Tablero</button>
-    @* onclick="return confirm('¿Estás seguro de crear el usuario?')">Agregar</button> *@
-</form>
+    <partial name="_ValidationScriptsPartial" />
+}

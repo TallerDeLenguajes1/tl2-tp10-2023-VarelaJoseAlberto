@@ -1,4 +1,4 @@
-@model List<Tablero>
+@model tl2_tp10_2023_VarelaJoseAlberto.ViewModels.ListarTablerosViewModel
 @{
     ViewData["Title"] = "Tableros del Usuario";
 }
@@ -16,17 +16,17 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var tablero in Model)
+        @foreach (var tablero in Model.TablerosVM)
         {
             <tr>
                 <th scope="row">
                     @tablero.IdTablero
                 </th>
-                <td>@tablero.NombreDeTablero</td>
-                <td>@tablero.DescripcionDeTablero</td>
+                <td>@tablero.NombreTablero</td>
+                <td>@tablero.Descripcion</td>
                 <td>
-                    <a asp-controller="Tarea" asp-action="Index" asp-route-id="@tablero.IdUsuarioPropietario">Ver
-                        tareas</a>
+                    <a asp-controller="Tarea" asp-action="MostrarTareasTableroEspecifico" asp-route-id="@tablero.IdTablero">
+                        Ver tareas</a>
                 </td>
             </tr>
         }

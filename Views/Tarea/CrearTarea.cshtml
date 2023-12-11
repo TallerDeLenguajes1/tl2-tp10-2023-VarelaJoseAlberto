@@ -22,6 +22,7 @@
                 <label asp-for="@Model.EstadoTarea">Estado:</label>
                 <select class="form-select" asp-for="@Model.EstadoTarea"
                     asp-items="@Html.GetEnumSelectList<EstadoTarea>()">
+                    <option selected disabled> ---Seleccionar---</option>
                     @* <select class="form-select" asp-for="@Model.EstadoTarea"> *@
                     @* <option value="0">Ideas</option> hacer *@
                     @* <option value="1">ToDo</option> hacer *@

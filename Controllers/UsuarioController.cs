@@ -8,7 +8,13 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers;
 
 public class UsuarioController : Controller
 {
-    private readonly UsuarioRepository usuarioRepository;
+    // private readonly UsuarioRepository usuarioRepository;
+    private readonly IUsuarioRepository usuarioRepository;
+
+    public UsuarioController(IUsuarioRepository usserRepository)
+    {
+        usuarioRepository = usserRepository;
+    }
 
     public UsuarioController()
     {
