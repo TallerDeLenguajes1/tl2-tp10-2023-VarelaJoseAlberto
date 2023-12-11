@@ -5,8 +5,8 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
 {
     public interface ITareaRepository
     {
-        Tarea CrearTarea(int idTablero, Tarea nuevaTarea);
-        Tarea ModificarTarea(int idTarea, Tarea tareaModificada);
+        void CrearTarea(int idTablero, Tarea nuevaTarea);
+        void ModificarTarea(int idTarea, Tarea tareaModificada);
         Tarea ObtenerTareaPorId(int idTarea); //
         List<Tarea> ListarTareasDeUsuario(int idUsuario);
         List<Tarea> ListarTareasDeTablero(int idTablero);

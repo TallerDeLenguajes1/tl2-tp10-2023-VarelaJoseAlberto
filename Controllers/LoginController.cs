@@ -8,10 +8,12 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
 
     public class LoginController : Controller
     {
+        private readonly ILogger<HomeController> _logger;
         private readonly IUsuarioRepository usuarioRepository;
-        public LoginController()
+        public LoginController(ILogger<HomeController> logger, IUsuarioRepository userRepository)
         {
-            usuarioRepository = new UsuarioRepository();
+            _logger = logger;
+            usuarioRepository = userRepository;
         }
 
         public IActionResult Index()
@@ -27,19 +29,30 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                 ModelState.AddModelError(string.Empty, "Por favor, complete todos los campos.");
                 return View("Index", loginViewModel);
             }
+            try
+            {
+                var usuarioLogin = usuarioRepository.ObtenerUsuarioPorCredenciales(loginViewModel.NombreDeUsuario!, loginViewModel.Contrasenia!);
+                // si el usuario no existe devuelvo al index
+                if (usuarioLogin == null)
+                {
+                    _logger.LogWarning("Intento de acceso invalido - Usuario: " + loginViewModel.NombreDeUsuario + " - Clave ingresada: " + loginViewModel.Contrasenia);
 
-            var usuarioLogin = usuarioRepository.ObtenerUsuarioPorCredenciales(loginViewModel.NombreDeUsuario!, loginViewModel.Contrasenia!);
-            // si el usuario no existe devuelvo al index
-            if (usuarioLogin == null)
-            {
-                TempData["Mensaje"] = "Credenciales inválidas. Intente nuevamente.";
-                return View("Index", loginViewModel);
+                    TempData["Mensaje"] = "Credenciales inválidas. Intente nuevamente.";
+                    return View("Index", loginViewModel);
+                }
+                else
+                {
+                    //Registro el usuario
+                    _logger.LogInformation("El usuario " + loginViewModel.NombreDeUsuario + " ingreso correctamente!");
+                    LogearUsuario(usuarioLogin);
+                    return RedirectToAction("Index", "Home");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                //Registro el usuario
-                LogearUsuario(usuarioLogin);
-                return RedirectToAction("Index", "Home");
+                _logger.LogError(ex.ToString());
+                TempData["Mensaje"] = "Ocurrió un error al procesar la solicitud. Por favor, inténtalo nuevamente más tarde.";
+                return View("Index", loginViewModel);
             }
         }
 

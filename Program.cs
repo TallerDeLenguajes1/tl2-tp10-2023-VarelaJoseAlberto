@@ -4,10 +4,15 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
-// var CadenaDeConexion = builder.Configuration.GetConnectionString("SqliteConexion")!.ToString();
-// builder.Services.AddSingleton<string>(CadenaDeConexion);
 builder.Services.AddDistributedMemoryCache();
+
+var CadenaDeConexion = builder.Configuration.GetConnectionString("SqliteConexion")!.ToString();
+builder.Services.AddSingleton<string>(CadenaDeConexion);
+
+builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+builder.Services.AddScoped<ITareaRepository, TareaRepository>();
+builder.Services.AddScoped<ITableroRepository, TableroRepository>();
+
 
 builder.Services.AddSession(options =>
 {
@@ -15,10 +20,6 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
-
-// builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
-// builder.Services.AddScoped<ITableroRepository, TableroRepository>();
-// builder.Services.AddScoped<ITareaRepository, TareaRepository>();
 
 var app = builder.Build();
 

@@ -1,3 +1,5 @@
+using tl2_tp10_2023_VarelaJoseAlberto.ViewModels;
+
 namespace tl2_tp10_2023_VarelaJoseAlberto.Models
 {
     public enum EstadoTarea
@@ -12,21 +14,35 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Models
     public class Tarea
     {
         private int idTarea;
-        private int idTablero;  // Agregar el campo idTablero
-        private string? nombreTarea;
+        private int idTablero;
+        private string nombreTarea;
         private string? descripcionTarea;
         private string? color;
         private EstadoTarea estadoTarea;
         private int? idUsuarioAsignado;
 
-
         public int IdTarea { get => idTarea; set => idTarea = value; }
         public int IdTablero { get => idTablero; set => idTablero = value; } // Propiedad para el idTablero
-        public string? NombreTarea { get => nombreTarea; set => nombreTarea = value; }
-
+        public string NombreTarea { get => nombreTarea; set => nombreTarea = value; }
         public EstadoTarea EstadoTarea { get => estadoTarea; set => estadoTarea = value; }
         public int? IdUsuarioAsignado { get => idUsuarioAsignado; set => idUsuarioAsignado = value; }
         public string? DescripcionTarea { get => descripcionTarea; set => descripcionTarea = value; }
         public string? Color { get => color; set => color = value; }
+
+        public Tarea()
+        {
+        }
+
+
+        public Tarea(TareaViewModel tareaViewModel)
+        {
+            IdTarea = tareaViewModel.IdTarea;
+            IdTablero = tareaViewModel.IdTablero;
+            NombreTarea = tareaViewModel.NombreTarea!;
+            EstadoTarea = tareaViewModel.EstadoTarea;
+            IdUsuarioAsignado = tareaViewModel.IdUsuarioAsignado;
+            DescripcionTarea = tareaViewModel.DescripcionTarea;
+            Color = tareaViewModel.Color;
+        }
     }
 }
