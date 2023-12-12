@@ -1,5 +1,7 @@
 @* @using tl2_tp10_2023_VarelaJoseAlberto.ViewModels
 @model List<UsuarioViewModel> *@
+@using tl2_tp10_2023_VarelaJoseAlberto.Repositorios
+@using tl2_tp10_2023_VarelaJoseAlberto.ViewModels
 @model tl2_tp10_2023_VarelaJoseAlberto.ViewModels.ListarUsuariosViewModel
 <div>
     <a asp-controller="Usuario" asp-action="AgregarUsuario">Agregar Usuario</a>
@@ -8,7 +10,7 @@
 <table class="table">
     <thead>
         <tr>
-            <th scope="col">Id</th>
+            <th scope="col" style="visibility: hidden;">Id</th>
             <th scope="col">Nombre</th>
             <th scope="col">Rol</th>
             <th scope="col">Acciones</th>
@@ -18,12 +20,14 @@
         @foreach (var usuario in Model.UsuariosVM)
         {
             <tr>
-                <th scope="row">@usuario.IdUsuario</th>
+                <th scope="row" style="visibility: hidden;">@usuario.IdUsuario</th>
                 <td>@usuario.NombreDeUsuario</td>
                 <td>@usuario.Rol</td>
                 <td>
-                    <a asp-controller="Usuario" asp-action="ModificarUsuario" asp-route-id="@usuario.IdUsuario">Editar</a>
-                    <a asp-controller="Usuario" asp-action="EliminarUsuario" asp-route-id="@usuario.IdUsuario">Eliminar</a>
+                    <a asp-controller="Usuario" asp-action="ModificarUsuario"
+                        asp-route-idUsuario="@usuario.IdUsuario">Editar</a>
+                    <a asp-controller="Usuario" asp-action="EliminarUsuario"
+                        asp-route-idUsuario="@usuario.IdUsuario">Eliminar</a>
                 </td>
             </tr>
         }

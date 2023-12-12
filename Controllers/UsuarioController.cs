@@ -117,7 +117,6 @@ public class UsuarioController : Controller
                     {
                         var usuario = new Usuario
                         {
-                            // Mapear los datos del ViewModel a tu modelo de Usuario
                             NombreDeUsuario = usuarioViewModel.NombreDeUsuario!,
                             Contrasenia = usuarioViewModel.Contrasenia!,
                             Rol = usuarioViewModel.Rol
@@ -144,7 +143,7 @@ public class UsuarioController : Controller
         }
     }
 
-    public IActionResult EliminarUsuario(int id)
+    public IActionResult EliminarUsuario(int idUsuario)
     {
         try
         {
@@ -152,7 +151,7 @@ public class UsuarioController : Controller
             {
                 if (Autorizacion.EsAdmin(HttpContext))
                 {
-                    var usuario = usuarioRepository.TraerUsuarioPorId(id);
+                    var usuario = usuarioRepository.TraerUsuarioPorId(idUsuario);
                     if (usuario == null)
                     {
                         return NotFound();
@@ -206,7 +205,7 @@ public class UsuarioController : Controller
     }
 
     [HttpGet]
-    public IActionResult ModificarUsuario(int id)
+    public IActionResult ModificarUsuario(int idUsuario)
     {
         try
         {
@@ -214,11 +213,12 @@ public class UsuarioController : Controller
             {
                 if (Autorizacion.EsAdmin(HttpContext))
                 {
-                    var usuario = usuarioRepository.TraerUsuarioPorId(id);
+                    var usuario = usuarioRepository.TraerUsuarioPorId(idUsuario);
                     if (usuario == null)
                     {
                         View("Error");
                     }
+
                     var viewModel = new ModificarUsuarioViewModel
                     {
                         NombreDeUsuario = usuario!.NombreDeUsuario,
@@ -262,7 +262,7 @@ public class UsuarioController : Controller
                             Contrasenia = viewModel.Contrasenia!,
                             Rol = viewModel.Rol
                         };
-                        usuarioRepository.ModificarUsuario(viewModel.Id, usuario);
+                        usuarioRepository.ModificarUsuario(viewModel.IdUsuario, usuario);
                         return RedirectToAction("MostrarTodosUsuarios");
                     }
                     return View(viewModel);

@@ -146,6 +146,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                     {
                         if (ModelState.IsValid)
                         {
+
                             var tablero = new Tablero
                             {
                                 NombreDeTablero = tableroViewModel.NombreDeTablero,
@@ -174,7 +175,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
             }
         }
 
-        public IActionResult EliminarTablero(int id)
+        public IActionResult EliminarTablero(int idTablero)
         {
             try
             {
@@ -182,7 +183,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                 {
                     if (Autorizacion.EsAdmin(HttpContext))
                     {
-                        var tablero = tableroRepository.TreaerTableroPorId(id);
+                        var tablero = tableroRepository.TreaerTableroPorId(idTablero);
                         if (tablero == null)
                         {
                             return NotFound();
@@ -235,7 +236,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
         }
 
         [HttpGet]
-        public IActionResult ModificarTablero(int id)
+        public IActionResult ModificarTablero(int idTablero)
         {
             try
             {
@@ -243,7 +244,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                 {
                     if (Autorizacion.EsAdmin(HttpContext))
                     {
-                        var tablero = tableroRepository.TreaerTableroPorId(id);
+                        var tablero = tableroRepository.TreaerTableroPorId(idTablero);
                         if (tablero == null)
                         {
                             return NotFound();
@@ -274,7 +275,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
         }
 
         [HttpPost]
-        public IActionResult ConfirmarModificarTablero(ModificarTableroViewModel tableroViewModel)
+        public IActionResult ConfirmarModificarTablero(ModificarTableroViewModel viewModel)
         {
             try
             {
@@ -284,23 +285,38 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                     {
                         if (ModelState.IsValid)
                         {
+                            /*  var tablero = tableroRepository.TreaerTableroPorId(viewModel.Id);
+                             if (tablero != null)
+                             {
+                                 tablero.NombreDeTablero = viewModel.NombreDeTablero!;
+                                 tablero.IdUsuarioPropietario = viewModel.IdUsuarioPropietario;
+                                 tablero.DescripcionDeTablero = viewModel.DescripcionDeTablero;
+
+                                 tableroRepository.ModificarTablero(viewModel.Id, tablero);
+                                 return RedirectToAction("MostrarTodosTablero");
+                             }
+                             else
+                             {
+                                 return NotFound(); // Tablero no encontrado
+                             } */
+
                             var tablero = new Tablero
                             {
-                                NombreDeTablero = tableroViewModel.NombreDeTablero!,
-                                IdUsuarioPropietario = tableroViewModel.IdUsuarioPropietario
+                                NombreDeTablero = viewModel.NombreDeTablero!,
+                                IdUsuarioPropietario = viewModel.IdUsuarioPropietario
                             };
-                            if (string.IsNullOrEmpty(tableroViewModel.DescripcionDeTablero))
+                            if (string.IsNullOrEmpty(viewModel.DescripcionDeTablero))
                             {
                                 tablero.DescripcionDeTablero = null; // Establecer explícitamente como null
                             }
                             else
                             {
-                                tablero.DescripcionDeTablero = tableroViewModel.DescripcionDeTablero;
+                                tablero.DescripcionDeTablero = viewModel.DescripcionDeTablero;
                             }
-                            tableroRepository.ModificarTablero(tableroViewModel.Id, tablero);
+                            tableroRepository.ModificarTablero(viewModel.IdTablero, tablero);
                             return RedirectToAction("MostrarTodosTablero");
                         }
-                        return View(tableroViewModel);
+                        return View(viewModel);
                     }
                     else
                     {

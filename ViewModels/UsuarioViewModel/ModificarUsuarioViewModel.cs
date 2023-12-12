@@ -5,7 +5,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.ViewModels
 {
     public class ModificarUsuarioViewModel
     {
-        public int Id { get; set; }
+        public int IdUsuario { get; set; }
         private string? nombreDeUsuario;
         private string? contrasenia;
         private Rol rol;

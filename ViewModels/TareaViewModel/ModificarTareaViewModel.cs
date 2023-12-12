@@ -5,7 +5,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.ViewModels
 {
     public class ModificarTareaViewModel
     {
-        public int Id { get; set; }
+        public int IdTarea { get; set; }
 
         [Required(ErrorMessage = "El nombre de la tarea es requerido.")]
         [Display(Name = "Nombre de la Tarea")]

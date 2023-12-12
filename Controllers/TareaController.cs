@@ -245,7 +245,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
             }
         }
 
-        public IActionResult ModificarTarea(int id)
+        public IActionResult ModificarTarea(int idTarea)
         {
             try
             {
@@ -253,7 +253,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                 {
                     if (Autorizacion.EsAdmin(HttpContext))
                     {
-                        var tarea = tareaRepository.ObtenerTareaPorId(id);
+                        var tarea = tareaRepository.ObtenerTareaPorId(idTarea);
                         if (tarea == null)
                         {
                             return NotFound();
@@ -280,7 +280,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                     }
                     else if (Autorizacion.ObtenerRol(HttpContext) == "operador")
                     {
-                        var tarea = tareaRepository.ObtenerTareaPorId(id);
+                        var tarea = tareaRepository.ObtenerTareaPorId(idTarea);
                         if (tarea == null)
                         {
                             return NotFound();
@@ -322,7 +322,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                     {
                         var tarea = new Tarea
                         {
-                            IdTarea = tareaViewModel.Id,
+                            IdTarea = tareaViewModel.IdTarea,
                             NombreTarea = tareaViewModel.NombreTarea!,
                             DescripcionTarea = tareaViewModel.DescripcionTarea,
                             EstadoTarea = (EstadoTarea)tareaViewModel.EstadoTarea,
@@ -330,7 +330,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                             IdUsuarioAsignado = tareaViewModel.IdUsuarioAsignado,
                             IdTablero = tareaViewModel.IdTablero
                         };
-                        tareaRepository.ModificarTarea(tareaViewModel.Id, tarea);
+                        tareaRepository.ModificarTarea(tareaViewModel.IdTarea, tarea);
                         return RedirectToAction("Index");
                     }
                     return RedirectToAction("Index", "Tarea");

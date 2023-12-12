@@ -18,6 +18,9 @@
             @if (Autorizacion.EsAdmin(ViewContext.HttpContext))
             {
                 <li>
+                    <a asp-controller="Tablero" asp-action="AgregarTablero">Crear Tablero</a>
+                </li>
+                <li>
                     <a asp-controller="Tablero" asp-action="MostrarTodosTablero">Mostrar Todos los Tablero</a>
                 </li>
                 <li>

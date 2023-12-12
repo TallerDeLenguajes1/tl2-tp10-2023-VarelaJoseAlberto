@@ -35,12 +35,12 @@
                 <td>
                     @if (Autorizacion.EsAdmin(ViewContext.HttpContext))
                     {
-                        <a asp-controller="Tarea" asp-action="ModificarTarea" asp-route-id="@tarea.IdTarea">Editar</a>
-                        <a asp-controller="Tarea" asp-action="EliminarTarea" asp-route-id="@tarea.IdTarea">Eliminar</a>
+                        <a asp-controller="Tarea" asp-action="ModificarTarea" asp-route-idTarea="@tarea.IdTarea">Editar</a>
+                        <a asp-controller="Tarea" asp-action="EliminarTarea" asp-route-idTarea="@tarea.IdTarea">Eliminar</a>
                     }
                     else
                     {
-                        <a asp-controller="Tarea" asp-action="ModificarTarea" asp-route-id="@tarea.IdTarea">Editar</a>
+                        <a asp-controller="Tarea" asp-action="ModificarTarea" asp-route-idTarea="@tarea.IdTarea">Editar</a>
                     }
                 </td>
             </tr>

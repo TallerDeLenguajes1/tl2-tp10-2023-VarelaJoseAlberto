@@ -1,6 +1,5 @@
 @model tl2_tp10_2023_VarelaJoseAlberto.ViewModels.ModificarTableroViewModel
 <h1>Modificar Tablero</h1>
-<h2>Confirmar Modificacion</h2>
 <div>
     <p>Estás modificando el Tablero "@Model.NombreDeTablero"?</p>
 </div>
@@ -8,23 +7,23 @@
     <div class="col-md-6">
         <form asp-controller="Tablero" asp-action="ConfirmarModificarTablero" method="post">
 
-            <input asp-for="@Model.Id" type="hidden" />
+            <input asp-for="@Model.IdTablero" />
 
             <div class="mb-3">
-                <label class="form-label" asp-for="@Model.NombreDeTablero">Nombre Del Tablero</label>
-                <input type="text" class="form-control" asp-for="@Model.NombreDeTablero" />
+                <label class="form-label" asp-for="@Model.NombreDeTablero"></label>
+                <input class="form-control" asp-for="@Model.NombreDeTablero" />
                 <span asp-validation-for="@Model.NombreDeTablero" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
-                <label class="form-label" asp-for="@Model.DescripcionDeTablero">Descripción del Tablero</label>
-                <input type="text" class="form-control" asp-for="@Model.DescripcionDeTablero" />
+                <label class="form-label" asp-for="@Model.DescripcionDeTablero"></label>
+                <input class="form-control" asp-for="@Model.DescripcionDeTablero" />
                 <span asp-validation-for="@Model.DescripcionDeTablero" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
-                <label class="form-label" asp-for="@Model.IdUsuarioPropietario">Id del Usuario Propietario</label>
-                <input type="number" class="form-control" asp-for="@Model.IdUsuarioPropietario" />
+                <label class="form-label" asp-for="@Model.IdUsuarioPropietario"></label>
+                <input class="form-control" asp-for="@Model.IdUsuarioPropietario" />
                 <span asp-validation-for="@Model.IdUsuarioPropietario" class="text-danger"></span>
             </div>
 

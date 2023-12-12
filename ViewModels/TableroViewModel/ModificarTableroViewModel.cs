@@ -5,7 +5,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.ViewModels
 {
     public class ModificarTableroViewModel
     {
-        public int Id { get; set; }
+        public int IdTablero { get; set; }
 
         [Required(ErrorMessage = "El nombre del tablero es requerido.")]
         [Display(Name = "Nombre del Tablero")]

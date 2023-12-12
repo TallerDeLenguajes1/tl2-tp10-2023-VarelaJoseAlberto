@@ -9,7 +9,7 @@
 <table class="table">
     <thead>
         <tr>
-            <th scope="col">Id Tablero</th>
+            <th scope="col" style="visibility: hidden;">Id Tablero</th>
             <th scope="col">Nombre de Tablero</th>
             <th scope="col">Descripcion</th>
             <th scope="col">Id del Usuario Propietario</th>
@@ -20,9 +20,7 @@
         @foreach (var tablero in Model.TablerosVM)
         {
             <tr>
-                <th scope="row">
-                    @tablero.IdTablero
-                </th>
+                <th scope="row" style="visibility: hidden;">@tablero.IdTablero </th>
                 <td>@tablero.NombreTablero</td>
                 <td>@tablero.Descripcion</td>
                 <td>@tablero.IdUsuarioPropietario</td>
