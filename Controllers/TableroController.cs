@@ -215,7 +215,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                 {
                     if (Autorizacion.EsAdmin(HttpContext))
                     {
-                        tableroRepository.EliminarTableroPorId(tablero.IdTablero);
+                        tableroRepository.EliminarTableroYTareas(tablero.IdTablero);
                         return RedirectToAction("MostrarTodosTablero");
                     }
                     else
@@ -285,20 +285,6 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                     {
                         if (ModelState.IsValid)
                         {
-                            /*  var tablero = tableroRepository.TreaerTableroPorId(viewModel.Id);
-                             if (tablero != null)
-                             {
-                                 tablero.NombreDeTablero = viewModel.NombreDeTablero!;
-                                 tablero.IdUsuarioPropietario = viewModel.IdUsuarioPropietario;
-                                 tablero.DescripcionDeTablero = viewModel.DescripcionDeTablero;
-
-                                 tableroRepository.ModificarTablero(viewModel.Id, tablero);
-                                 return RedirectToAction("MostrarTodosTablero");
-                             }
-                             else
-                             {
-                                 return NotFound(); // Tablero no encontrado
-                             } */
 
                             var tablero = new Tablero
                             {

@@ -11,5 +11,6 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
         // lista los tableros de un usuario especifico en la tabla tablero de la BD y recibe un id usuario para comparar con el id_usuario_propietario de la BD
         public List<Tablero> ListarTablerosDeUsuarioEspecifico(int idUsuario);
         public void EliminarTableroPorId(int idTablero);
+        public void EliminarTableroYTareas(int idTablero);
     }
 }

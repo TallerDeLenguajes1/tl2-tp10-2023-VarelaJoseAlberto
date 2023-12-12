@@ -191,6 +191,34 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
         }
 
 
+        public void EliminarTableroYTareas(int idTablero)
+        {
+            string queryEliminarTareas = "DELETE FROM Tarea WHERE id_tablero = @idTablero;";
+            string queryEliminarTablero = "DELETE FROM Tablero WHERE id_tablero = @idTablero;";
+
+            using (SQLiteConnection connection = new SQLiteConnection(connectionString))
+            {
+                connection.Open();
+
+                using (SQLiteCommand command = new SQLiteCommand(queryEliminarTareas, connection))
+                {
+                    command.Parameters.AddWithValue("@idTablero", idTablero);
+                    command.ExecuteNonQuery();
+                }
+
+                using (SQLiteCommand command = new SQLiteCommand(queryEliminarTablero, connection))
+                {
+                    command.Parameters.AddWithValue("@idTablero", idTablero);
+                    command.ExecuteNonQuery();
+                }
+
+                connection.Close();
+            }
+        }
+
+
+
+
         public void ModificarTablero(int idRecibe, Tablero modificarTablero)
         {
             var query = "UPDATE Tablero SET id_usuario_propietario = @idPropietario, nombre_tablero = @nombreTablero, descripcion_tablero = @descripTablero WHERE id_tablero = @idRecibe;";
