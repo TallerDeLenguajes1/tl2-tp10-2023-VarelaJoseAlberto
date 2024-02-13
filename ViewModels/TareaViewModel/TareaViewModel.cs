@@ -4,31 +4,31 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.ViewModels
 {
     public class TareaViewModel
     {
-        private int idTarea;
-        private int idTablero;
-        private string? nombreTarea;
-        private EstadoTarea estadoTarea;
-        private string? descripcionTarea;
-        private string? color;
-        private int idUsuarioAsignado;
+        private int idTareaVM;
+        private int idTableroVM;
+        private string? nombreTareaVM;
+        private EstadoTarea estadoTareaVM;
+        private string? descripcionTareaVM;
+        private string? colorVM;
+        private int idUsuarioAsignadoVM;
 
-        public int IdTarea { get => idTarea; set => idTarea = value; }
-        public int IdTablero { get => idTablero; set => idTablero = value; }
-        public string? NombreTarea { get => nombreTarea; set => nombreTarea = value; }
-        public EstadoTarea EstadoTarea { get => estadoTarea; set => estadoTarea = value; }
-        public string? DescripcionTarea { get => descripcionTarea; set => descripcionTarea = value; }
-        public string? Color { get => color; set => color = value; }
-        public int IdUsuarioAsignado { get => idUsuarioAsignado; set => idUsuarioAsignado = value; }
+        public int IdTareaVM { get => idTareaVM; set => idTareaVM = value; }
+        public int IdTableroVM { get => idTableroVM; set => idTableroVM = value; }
+        public string? NombreTareaVM { get => nombreTareaVM; set => nombreTareaVM = value; }
+        public EstadoTarea EstadoTareaVM { get => estadoTareaVM; set => estadoTareaVM = value; }
+        public string? DescripcionTareaVM { get => descripcionTareaVM; set => descripcionTareaVM = value; }
+        public string? ColorVM { get => colorVM; set => colorVM = value; }
+        public int IdUsuarioAsignadoVM { get => idUsuarioAsignadoVM; set => idUsuarioAsignadoVM = value; }
 
         public TareaViewModel(Tarea tarea)
         {
-            IdTarea = tarea.IdTarea;
-            IdTablero = tarea.IdTablero;
-            NombreTarea = tarea.NombreTarea;
-            EstadoTarea = tarea.EstadoTarea;
-            DescripcionTarea = tarea.DescripcionTarea;
-            Color = tarea.Color;
-            IdUsuarioAsignado = (int)tarea.IdUsuarioAsignado!;
+            IdTareaVM = tarea.IdTareaM;
+            IdTableroVM = tarea.IdTableroM;
+            NombreTareaVM = tarea.NombreTareaM;
+            EstadoTareaVM = tarea.EstadoTareaM;
+            DescripcionTareaVM = tarea.DescripcionTareaM;
+            ColorVM = tarea.ColorM;
+            IdUsuarioAsignadoVM = (int)tarea.IdUsuarioAsignadoM!;
         }
         public TareaViewModel()
         {

@@ -1,4 +1,3 @@
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using tl2_tp10_2023_VarelaJoseAlberto.Models;
 
@@ -6,7 +5,6 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.ViewModels
 {
     public class CrearUsuarioViewModel
     {
-        // public int Id { get; set; }
         private string? nombreDeUsuario;
         private string? contrasenia;
         private Rol rol;
@@ -25,9 +23,9 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.ViewModels
 
         public CrearUsuarioViewModel(Usuario usuario)
         {
-            NombreDeUsuario = usuario.NombreDeUsuario!;
-            Contrasenia = usuario.Contrasenia!;
-            Rol = usuario.Rol;
+            NombreDeUsuario = usuario.NombreDeUsuarioM!;
+            Contrasenia = usuario.ContraseniaM!;
+            Rol = usuario.RolM;
         }
 
         public CrearUsuarioViewModel()

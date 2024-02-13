@@ -4,16 +4,16 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Models
 {
     public class Tablero
     {
-        private int idTablero;
-        private int idUsuarioPropietario;
-        private string nombreDeTablero;
-        private string? descripcionDeTablero;
+        private int idTableroM;
+        private int idUsuarioPropietarioM;
+        private string nombreDeTableroM;
+        private string? descripcionDeTableroM;
 
 
-        public int IdTablero { get => idTablero; set => idTablero = value; }
-        public int IdUsuarioPropietario { get => idUsuarioPropietario; set => idUsuarioPropietario = value; }
-        public string NombreDeTablero { get => nombreDeTablero; set => nombreDeTablero = value; }
-        public string? DescripcionDeTablero { get => descripcionDeTablero; set => descripcionDeTablero = value; }
+        public int IdTableroM { get => idTableroM; set => idTableroM = value; }
+        public int IdUsuarioPropietarioM { get => idUsuarioPropietarioM; set => idUsuarioPropietarioM = value; }
+        public string NombreDeTableroM { get => nombreDeTableroM; set => nombreDeTableroM = value; }
+        public string? DescripcionDeTableroM { get => descripcionDeTableroM; set => descripcionDeTableroM = value; }
 
         public Tablero()
         {
@@ -22,10 +22,10 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Models
 
         public Tablero(TableroViewModel tableroViewModel)
         {
-            IdTablero = tableroViewModel.IdTablero;
-            IdUsuarioPropietario = tableroViewModel.IdUsuarioPropietario;
-            NombreDeTablero = tableroViewModel.NombreTablero!;
-            DescripcionDeTablero = tableroViewModel.Descripcion;
+            IdTableroM = tableroViewModel.IdTablero;
+            IdUsuarioPropietarioM = tableroViewModel.IdUsuarioPropietario;
+            NombreDeTableroM = tableroViewModel.NombreTablero!;
+            DescripcionDeTableroM = tableroViewModel.Descripcion;
         }
     }
 }

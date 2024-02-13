@@ -30,9 +30,9 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.ViewModels
 
         public ModificarUsuarioViewModel(Usuario usuario)
         {
-            NombreDeUsuario = usuario.NombreDeUsuario!;
-            Contrasenia = usuario.Contrasenia!;
-            Rol = usuario.Rol;
+            NombreDeUsuario = usuario.NombreDeUsuarioM!;
+            Contrasenia = usuario.ContraseniaM!;
+            Rol = usuario.RolM;
         }
     }
 }

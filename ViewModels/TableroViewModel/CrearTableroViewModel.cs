@@ -22,9 +22,9 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.ViewModels
 
         public CrearTableroViewModel(Tablero tablero)
         {
-            NombreDeTablero = tablero.NombreDeTablero;
-            DescripcionDeTablero = tablero.DescripcionDeTablero;
-            IdUsuarioPropietario = tablero.IdUsuarioPropietario;
+            NombreDeTablero = tablero.NombreDeTableroM;
+            DescripcionDeTablero = tablero.DescripcionDeTableroM;
+            IdUsuarioPropietario = tablero.IdUsuarioPropietarioM;
         }
 
         public CrearTableroViewModel() { }

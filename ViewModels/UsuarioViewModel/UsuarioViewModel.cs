@@ -5,23 +5,23 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.ViewModels
 {
     public class UsuarioViewModel
     {
-        private int idUsuario;
-        private string? nombreDeUsuario;
-        private string? contrasenia;
-        private Rol rol;
+        private int idUsuarioVM;
+        private string? nombreDeUsuarioVM;
+        private string? contraseniaVM;
+        private Rol rolVM;
 
 
-        public string? NombreDeUsuario { get => nombreDeUsuario; set => nombreDeUsuario = value; }
-        public string? Contrasenia { get => contrasenia; set => contrasenia = value; }
-        public Rol Rol { get => rol; set => rol = value; }
-        public int IdUsuario { get => idUsuario; set => idUsuario = value; }
+        public string? NombreDeUsuarioVM { get => nombreDeUsuarioVM; set => nombreDeUsuarioVM = value; }
+        public string? ContraseniaVM { get => contraseniaVM; set => contraseniaVM = value; }
+        public Rol RolVM { get => rolVM; set => rolVM = value; }
+        public int IdUsuarioVM { get => idUsuarioVM; set => idUsuarioVM = value; }
 
         public UsuarioViewModel(Usuario usuario)
         {
-            IdUsuario = usuario.IdUsuario;
-            NombreDeUsuario = usuario.NombreDeUsuario!;
-            Contrasenia = contrasenia!;
-            Rol = usuario.Rol;
+            IdUsuarioVM = usuario.IdUsuarioM;
+            NombreDeUsuarioVM = usuario.NombreDeUsuarioM!;
+            ContraseniaVM = contraseniaM!;
+            RolVM = usuario.RolM;
         }
 
         public UsuarioViewModel()

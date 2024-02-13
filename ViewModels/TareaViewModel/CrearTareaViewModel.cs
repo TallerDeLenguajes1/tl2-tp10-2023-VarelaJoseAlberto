@@ -30,19 +30,19 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.ViewModels
 
         public CrearTareaViewModel(Tarea tarea)
         {
-            NombreTarea = tarea.NombreTarea;
-            DescripcionTarea = tarea.DescripcionTarea;
-            EstadoTarea = (int)tarea.EstadoTarea;
-            ColorTarea = tarea.Color;
+            NombreTarea = tarea.NombreTareaM;
+            DescripcionTarea = tarea.DescripcionTareaM;
+            EstadoTarea = (int)tarea.EstadoTareaM;
+            ColorTarea = tarea.ColorM;
             if (tarea.IdUsuarioAsignado.HasValue)
             {
-                IdUsuarioAsignado = (int)tarea.IdUsuarioAsignado; // O el valor por defecto que desees
+                IdUsuarioAsignado = (int)tarea.IdUsuarioAsignadoM; // O el valor por defecto que desees
             }
             else
             {
                 IdUsuarioAsignado = 0; // O el valor por defecto que desees
             } // O el valor por defecto que desees
-            IdTablero = tarea.IdTablero;
+            IdTablero = tarea.IdTableroM;
         }
 
         public CrearTareaViewModel()

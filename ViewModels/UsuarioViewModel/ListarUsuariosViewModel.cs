@@ -6,17 +6,17 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.ViewModels
 {
     public class ListarUsuariosViewModel
     {
-        public List<UsuarioViewModel> UsuariosVM { get; set; }
+        public List<UsuarioViewModel> ListaUsuariosVM { get; set; }
 
         public ListarUsuariosViewModel(List<UsuarioViewModel> usuariosVM)
         {
-            UsuariosVM = usuariosVM;
+            ListaUsuariosVM = usuariosVM;
         }
 
 
         public ListarUsuariosViewModel()
         {
-            UsuariosVM = new List<UsuarioViewModel>();
+            ListaUsuariosVM = new List<UsuarioViewModel>();
         }
 
     }

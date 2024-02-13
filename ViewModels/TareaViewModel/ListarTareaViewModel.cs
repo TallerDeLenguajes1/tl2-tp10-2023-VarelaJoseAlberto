@@ -2,14 +2,14 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.ViewModels
 {
     public class ListarTareaViewModel
     {
-        public List<TareaViewModel>? TareasVM { get; set; }
+        public List<TareaViewModel>? ListaTareasVM { get; set; }
         public ListarTareaViewModel(List<TareaViewModel> tareasVM)
         {
-            TareasVM = tareasVM;
+            ListaTareasVM = tareasVM;
         }
         public ListarTareaViewModel()
         {
-            TareasVM = new List<TareaViewModel>();
+            ListaTareasVM = new List<TareaViewModel>();
         }
 
     }

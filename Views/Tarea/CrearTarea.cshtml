@@ -23,12 +23,6 @@
                 <select class="form-select" asp-for="@Model.EstadoTarea"
                     asp-items="@Html.GetEnumSelectList<EstadoTarea>()">
                     <option selected disabled> ---Seleccionar---</option>
-                    @* <select class="form-select" asp-for="@Model.EstadoTarea"> *@
-                    @* <option value="0">Ideas</option> hacer *@
-                    @* <option value="1">ToDo</option> hacer *@
-                    @* <option value="2">Doing</option> haciendo *@
-                    @* <option value="2">Review</option> revisar *@
-                    @* <option value="2">Done</option> hecho *@
                 </select>
                 <span asp-validation-for="@Model.EstadoTarea" class="text-danger"></span>
             </div>

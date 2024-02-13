@@ -35,12 +35,12 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.ViewModels
         }
         public ModificarTareaViewModel(Tarea tarea)
         {
-            NombreTarea = tarea.NombreTarea;
-            DescripcionTarea = tarea.DescripcionTarea;
-            EstadoTarea = (int)tarea.EstadoTarea;
-            ColorTarea = tarea.Color;
-            IdUsuarioAsignado = (int)tarea.IdUsuarioAsignado!;
-            IdTablero = tarea.IdTablero;
+            NombreTarea = tarea.NombreTareaM;
+            DescripcionTarea = tarea.DescripcionTareaM;
+            EstadoTarea = (int)tarea.EstadoTareaM;
+            ColorTarea = tarea.ColorM;
+            IdUsuarioAsignado = (int)tarea.IdUsuarioAsignadoM!;
+            IdTablero = tarea.IdTableroM;
         }
 
 

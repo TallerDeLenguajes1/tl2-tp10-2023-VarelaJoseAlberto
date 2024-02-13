@@ -4,23 +4,23 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.ViewModels
 {
     public class TableroViewModel
     {
-        private int idTablero;
-        private int idUsuarioPropietario;
-        private string? nombreTablero;
-        private string? descripcion;
+        private int idTableroVM;
+        private int idUsuarioPropietarioVM;
+        private string? nombreTableroVM;
+        private string? descripcionVM;
 
 
-        public int IdTablero { get => idTablero; set => idTablero = value; }
-        public int IdUsuarioPropietario { get => idUsuarioPropietario; set => idUsuarioPropietario = value; }
-        public string? NombreTablero { get => nombreTablero; set => nombreTablero = value; }
-        public string? Descripcion { get => descripcion; set => descripcion = value; }
+        public int IdTableroVM { get => idTableroVM; set => idTableroVM = value; }
+        public int IdUsuarioPropietarioVM { get => idUsuarioPropietarioVM; set => idUsuarioPropietarioVM = value; }
+        public string? NombreTableroVM { get => nombreTableroVM; set => nombreTableroVM = value; }
+        public string? DescripcionVM { get => descripcionVM; set => descripcionVM = value; }
 
         public TableroViewModel(Tablero tablero)
         {
-            IdTablero = tablero.IdTablero;
-            IdUsuarioPropietario = tablero.IdUsuarioPropietario;
-            NombreTablero = tablero.NombreDeTablero;
-            Descripcion = tablero.DescripcionDeTablero!;
+            IdTableroVM = tablero.IdTableroM;
+            IdUsuarioPropietarioVM = tablero.IdUsuarioPropietarioM;
+            NombreTableroVM = tablero.NombreDeTableroM;
+            DescripcionVM = tablero.DescripcionDeTableroM!;
         }
 
         public TableroViewModel()
