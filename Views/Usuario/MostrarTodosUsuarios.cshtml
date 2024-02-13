@@ -17,17 +17,17 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var usuario in Model.UsuariosVM)
+        @foreach (var usuario in Model.ListaUsuariosVM)
         {
             <tr>
-                <th scope="row" style="visibility: hidden;">@usuario.IdUsuario</th>
-                <td>@usuario.NombreDeUsuario</td>
-                <td>@usuario.Rol</td>
+                <th scope="row" style="visibility: hidden;">@usuario.IdUsuarioVM</th>
+                <td>@usuario.NombreDeUsuarioVM</td>
+                <td>@usuario.RolVM</td>
                 <td>
                     <a asp-controller="Usuario" asp-action="ModificarUsuario"
-                        asp-route-idUsuario="@usuario.IdUsuario">Editar</a>
+                        asp-route-idUsuario="@usuario.IdUsuarioVM">Editar</a>
                     <a asp-controller="Usuario" asp-action="EliminarUsuario"
-                        asp-route-idUsuario="@usuario.IdUsuario">Eliminar</a>
+                        asp-route-idUsuario="@usuario.IdUsuarioVM">Eliminar</a>
                 </td>
             </tr>
         }

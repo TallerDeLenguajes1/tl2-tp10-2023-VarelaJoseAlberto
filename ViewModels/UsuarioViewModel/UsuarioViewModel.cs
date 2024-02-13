@@ -20,7 +20,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.ViewModels
         {
             IdUsuarioVM = usuario.IdUsuarioM;
             NombreDeUsuarioVM = usuario.NombreDeUsuarioM!;
-            ContraseniaVM = contraseniaM!;
+            ContraseniaVM = usuario.ContraseniaM!;
             RolVM = usuario.RolM;
         }
 

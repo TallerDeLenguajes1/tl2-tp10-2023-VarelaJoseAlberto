@@ -51,9 +51,9 @@ public class UsuarioController : Controller
                     var usuarios = usuarioRepository.TraerTodosUsuarios();
                     var usauarioVM = usuarios.Select(u => new UsuarioViewModel
                     {
-                        IdUsuario = u.IdUsuario,
-                        NombreDeUsuario = u.NombreDeUsuario,
-                        Rol = u.Rol
+                        IdUsuarioVM = u.IdUsuarioM,
+                        NombreDeUsuarioVM = u.NombreDeUsuarioM,
+                        RolVM = u.RolM
                     }).ToList();
                     var viewModel = new ListarUsuariosViewModel(usauarioVM);
                     return View(viewModel);
@@ -117,9 +117,9 @@ public class UsuarioController : Controller
                     {
                         var usuario = new Usuario
                         {
-                            NombreDeUsuario = usuarioViewModel.NombreDeUsuario!,
-                            Contrasenia = usuarioViewModel.Contrasenia!,
-                            Rol = usuarioViewModel.Rol
+                            NombreDeUsuarioM = usuarioViewModel.NombreDeUsuario!,
+                            ContraseniaM = usuarioViewModel.Contrasenia!,
+                            RolM = usuarioViewModel.Rol
                         };
                         usuarioRepository.CrearUsuario(usuario);
                         return RedirectToAction("MostrarTodosUsuarios");
@@ -184,7 +184,7 @@ public class UsuarioController : Controller
             {
                 if (Autorizacion.EsAdmin(HttpContext))
                 {
-                    usuarioRepository.EliminarUsuarioPorId(user.IdUsuario);
+                    usuarioRepository.EliminarUsuarioPorId(user.IdUsuarioM);
                     return RedirectToAction("MostrarTodosUsuarios");
                 }
                 else
@@ -221,9 +221,9 @@ public class UsuarioController : Controller
 
                     var viewModel = new ModificarUsuarioViewModel
                     {
-                        NombreDeUsuario = usuario!.NombreDeUsuario,
-                        Contrasenia = usuario.Contrasenia,
-                        Rol = usuario.Rol
+                        NombreDeUsuario = usuario!.NombreDeUsuarioM,
+                        Contrasenia = usuario.ContraseniaM,
+                        Rol = usuario.RolM
                     };
 
                     return View(viewModel);
@@ -258,9 +258,9 @@ public class UsuarioController : Controller
                     {
                         var usuario = new Usuario
                         {
-                            NombreDeUsuario = viewModel.NombreDeUsuario!,
-                            Contrasenia = viewModel.Contrasenia!,
-                            Rol = viewModel.Rol
+                            NombreDeUsuarioM = viewModel.NombreDeUsuario!,
+                            ContraseniaM = viewModel.Contrasenia!,
+                            RolM = viewModel.Rol
                         };
                         usuarioRepository.ModificarUsuario(viewModel.IdUsuario, usuario);
                         return RedirectToAction("MostrarTodosUsuarios");

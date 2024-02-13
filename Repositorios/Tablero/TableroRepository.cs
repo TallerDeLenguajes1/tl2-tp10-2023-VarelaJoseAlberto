@@ -22,9 +22,9 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
                 {
                     connection.Open();
                     var command = new SQLiteCommand(query, connection);
-                    command.Parameters.Add(new SQLiteParameter("@idPropietario", nuevoTablero.IdUsuarioPropietario));
-                    command.Parameters.Add(new SQLiteParameter("@nombreTablero", nuevoTablero.NombreDeTablero));
-                    command.Parameters.Add(new SQLiteParameter("@descripTablero", nuevoTablero.DescripcionDeTablero));
+                    command.Parameters.Add(new SQLiteParameter("@idPropietario", nuevoTablero.IdUsuarioPropietarioM));
+                    command.Parameters.Add(new SQLiteParameter("@nombreTablero", nuevoTablero.NombreDeTableroM));
+                    command.Parameters.Add(new SQLiteParameter("@descripTablero", nuevoTablero.DescripcionDeTableroM));
                     command.ExecuteNonQuery();
                 }
                 catch (Exception)
@@ -54,10 +54,10 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
                         while (reader.Read())
                         {
                             var tabler = new Tablero();
-                            tabler.IdTablero = Convert.ToInt32(reader["id_tablero"]);
-                            tabler.NombreDeTablero = reader["nombre_tablero"].ToString()!;
-                            tabler.DescripcionDeTablero = reader["descripcion_tablero"].ToString();
-                            tabler.IdUsuarioPropietario = Convert.ToInt32(reader["id_usuario_propietario"]);
+                            tabler.IdTableroM = Convert.ToInt32(reader["id_tablero"]);
+                            tabler.NombreDeTableroM = reader["nombre_tablero"].ToString()!;
+                            tabler.DescripcionDeTableroM = reader["descripcion_tablero"].ToString();
+                            tabler.IdUsuarioPropietarioM = Convert.ToInt32(reader["id_usuario_propietario"]);
                             listaDeTablero.Add(tabler);
                         }
                     }
@@ -98,10 +98,10 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
                         {
                             var tablero = new Tablero
                             {
-                                IdTablero = Convert.ToInt32(reader["id_tablero"]),
-                                NombreDeTablero = reader["nombre_tablero"].ToString()!,
-                                DescripcionDeTablero = reader["descripcion_tablero"].ToString(),
-                                IdUsuarioPropietario = Convert.ToInt32(reader["id_usuario_propietario"])
+                                IdTableroM = Convert.ToInt32(reader["id_tablero"]),
+                                NombreDeTableroM = reader["nombre_tablero"].ToString()!,
+                                DescripcionDeTableroM = reader["descripcion_tablero"].ToString(),
+                                IdUsuarioPropietarioM = Convert.ToInt32(reader["id_usuario_propietario"])
                             };
                             tableros.Add(tablero);
                         }
@@ -141,10 +141,10 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
                         while (reader.Read())
                         {
 
-                            tablero.IdTablero = Convert.ToInt32(reader["id_tablero"]);
-                            tablero.NombreDeTablero = reader["nombre_tablero"].ToString()!;
-                            tablero.DescripcionDeTablero = reader["descripcion_tablero"].ToString();
-                            tablero.IdUsuarioPropietario = Convert.ToInt32(reader["id_usuario_propietario"]);
+                            tablero.IdTableroM = Convert.ToInt32(reader["id_tablero"]);
+                            tablero.NombreDeTableroM = reader["nombre_tablero"].ToString()!;
+                            tablero.DescripcionDeTableroM = reader["descripcion_tablero"].ToString();
+                            tablero.IdUsuarioPropietarioM = Convert.ToInt32(reader["id_usuario_propietario"]);
                         }
                     }
 
@@ -228,9 +228,9 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
                 {
                     connection.Open();
                     var command = new SQLiteCommand(query, connection);
-                    command.Parameters.Add(new SQLiteParameter("@idPropietario", modificarTablero.IdUsuarioPropietario));
-                    command.Parameters.Add(new SQLiteParameter("@nombreTablero", modificarTablero.NombreDeTablero));
-                    command.Parameters.Add(new SQLiteParameter("@descripTablero", modificarTablero.DescripcionDeTablero));
+                    command.Parameters.Add(new SQLiteParameter("@idPropietario", modificarTablero.IdUsuarioPropietarioM));
+                    command.Parameters.Add(new SQLiteParameter("@nombreTablero", modificarTablero.NombreDeTableroM));
+                    command.Parameters.Add(new SQLiteParameter("@descripTablero", modificarTablero.DescripcionDeTableroM));
                     command.Parameters.Add(new SQLiteParameter("@idRecibe", idRecibe));
                     command.ExecuteNonQuery();
                 }

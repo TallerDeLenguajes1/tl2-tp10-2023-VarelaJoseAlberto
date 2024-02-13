@@ -1,11 +1,11 @@
 @model Usuario
 <h2>Confirmar Eliminación</h2>
 <div>
-    <p>¿Estás seguro de que deseas eliminar el usuario "@Model.NombreDeUsuario"?</p>
+    <p>¿Estás seguro de que deseas eliminar el usuario "@Model.NombreDeUsuarioM"?</p>
 </div>
 
 <form asp-controller="Usuario" asp-action="ConfirmarEliminar" method="post">
-    <input asp-for="@Model.IdUsuario" type="hidden" />
+    <input asp-for="@Model.IdUsuarioM" type="hidden" />
     <button type="submit" class="btn btn-danger">Eliminar</button>
     <a asp-controller="Usuario" asp-action="MostrarTodosUsuarios" class="btn btn-secondary">Cancelar</a>
 </form>

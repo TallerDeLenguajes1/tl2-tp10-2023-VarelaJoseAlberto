@@ -42,6 +42,6 @@ public class MiValidador
         {
             return new ValidationResult("El nombre 'admin' no está permitido");
         }
-        return ValidationResult.Success;
+        return ValidationResult.Success!;
     }
 }

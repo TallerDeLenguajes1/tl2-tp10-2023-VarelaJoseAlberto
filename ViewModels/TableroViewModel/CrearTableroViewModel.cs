@@ -11,7 +11,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.ViewModels
 
         [Required(ErrorMessage = "El nombre del tablero es requerido.")]
         [Display(Name = "Nombre del Tablero")]
-        public string NombreDeTablero { get => nombreDeTablero; set => nombreDeTablero = value; }
+        public string? NombreDeTablero { get => nombreDeTablero; set => nombreDeTablero = value; }
 
         [Display(Name = "Descripción del Tablero")]
         public string? DescripcionDeTablero { get => descripcionDeTablero; set => descripcionDeTablero = value; }

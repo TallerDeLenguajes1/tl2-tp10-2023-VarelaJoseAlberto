@@ -5,11 +5,11 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
 {
     public interface IUsuarioRepository
     {
-        public void CrearUsuario(Usuario usuario);
-        public void ModificarUsuario(int idRecibe, Usuario usuario);
-        public List<Usuario> TraerTodosUsuarios();
-        public Usuario TraerUsuarioPorId(int id);
-        public void EliminarUsuarioPorId(int id);
-        public Usuario ObtenerUsuarioPorCredenciales(string nombreUsuario, string contrasenia);
+        void CrearUsuario(Usuario usuario);
+        void ModificarUsuario(int idRecibe, Usuario usuario);
+        List<Usuario> TraerTodosUsuarios();
+        Usuario TraerUsuarioPorId(int id);
+        void EliminarUsuarioPorId(int id);
+        Usuario ObtenerUsuarioPorCredenciales(string nombreUsuario, string contrasenia);
     }
 }

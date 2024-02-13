@@ -58,9 +58,9 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
 
         private void LogearUsuario(Usuario user)
         {
-            HttpContext.Session.SetInt32("IdUsuario", user.IdUsuario);
-            HttpContext.Session.SetString("Usuario", user.NombreDeUsuario!);
-            HttpContext.Session.SetString("Rol", user.Rol.ToString());
+            HttpContext.Session.SetInt32("IdUsuario", user.IdUsuarioM);
+            HttpContext.Session.SetString("Usuario", user.NombreDeUsuarioM!);
+            HttpContext.Session.SetString("Rol", user.RolM.ToString());
         }
 
         [HttpGet]

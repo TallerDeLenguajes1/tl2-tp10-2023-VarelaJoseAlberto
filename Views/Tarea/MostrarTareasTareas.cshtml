@@ -20,27 +20,25 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var tarea in Model.TareasVM)
+        @foreach (var tarea in Model.ListaTareasVM!)
         {
             <tr>
-                <td>@tarea.IdTarea</td>
-                <td>@tarea.NombreTarea</td>
-                <td>@tarea.DescripcionTarea</td>
-                <td>@tarea.EstadoTarea</td>
-                <td><input type="color" value="@tarea.Color" disabled /></td>
-                <td>@tarea.IdTablero</td>
-                <td>@tarea.IdUsuarioAsignado
-
-                </td>
+                <td>@tarea.IdTareaVM</td>
+                <td>@tarea.NombreTareaVM</td>
+                <td>@tarea.DescripcionTareaVM</td>
+                <td>@tarea.EstadoTareaVM</td>
+                <td><input type="color" value="@tarea.ColorVM" disabled /></td>
+                <td>@tarea.IdTableroVM</td>
+                <td>@tarea.IdUsuarioAsignadoVM</td>
                 <td>
                     @if (Autorizacion.EsAdmin(ViewContext.HttpContext))
                     {
-                        <a asp-controller="Tarea" asp-action="ModificarTarea" asp-route-id="@tarea.IdTarea">Editar</a>
-                        <a asp-controller="Tarea" asp-action="EliminarTarea" asp-route-id="@tarea.IdTarea">Eliminar</a>
+                        <a asp-controller="Tarea" asp-action="ModificarTarea" asp-route-id="@tarea.IdTareaVM">Editar</a>
+                        <a asp-controller="Tarea" asp-action="EliminarTarea" asp-route-id="@tarea.IdTareaVM">Eliminar</a>
                     }
                     else
                     {
-                        <a asp-controller="Tarea" asp-action="ModificarTarea" asp-route-id="@tarea.IdTarea">Editar</a>
+                        <a asp-controller="Tarea" asp-action="ModificarTarea" asp-route-id="@tarea.IdTareaVM">Editar</a>
                     }
                 </td>
             </tr>

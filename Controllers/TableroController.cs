@@ -52,10 +52,10 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                         var tablero = tableroRepository.ListarTodosTableros();
                         var tableroVM = tablero.Select(u => new TableroViewModel
                         {
-                            IdTablero = u.IdTablero,
-                            IdUsuarioPropietario = u.IdUsuarioPropietario,
-                            NombreTablero = u.NombreDeTablero,
-                            Descripcion = u.DescripcionDeTablero
+                            IdTableroVM = u.IdTableroM,
+                            IdUsuarioPropietarioVM = u.IdUsuarioPropietarioM,
+                            NombreTableroVM = u.NombreDeTableroM,
+                            DescripcionVM = u.DescripcionDeTableroM
                         }).ToList();
                         var viewModel = new ListarTablerosViewModel(tableroVM);
                         return View(viewModel);
@@ -86,10 +86,10 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                     var tablero = tableroRepository.ListarTablerosDeUsuarioEspecifico(idUsuario);
                     var tableroVM = tablero.Select(u => new TableroViewModel
                     {
-                        IdTablero = u.IdTablero,
-                        IdUsuarioPropietario = u.IdUsuarioPropietario,
-                        NombreTablero = u.NombreDeTablero,
-                        Descripcion = u.DescripcionDeTablero
+                        IdTableroVM = u.IdTableroM,
+                        IdUsuarioPropietarioVM = u.IdUsuarioPropietarioM,
+                        NombreTableroVM = u.NombreDeTableroM,
+                        DescripcionVM = u.DescripcionDeTableroM
                     }).ToList();
                     var viewModel = new ListarTablerosViewModel(tableroVM);
                     return View(viewModel);
@@ -149,9 +149,9 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
 
                             var tablero = new Tablero
                             {
-                                NombreDeTablero = tableroViewModel.NombreDeTablero,
-                                DescripcionDeTablero = tableroViewModel.DescripcionDeTablero,
-                                IdUsuarioPropietario = tableroViewModel.IdUsuarioPropietario
+                                NombreDeTableroM = tableroViewModel.NombreDeTablero,
+                                DescripcionDeTableroM = tableroViewModel.DescripcionDeTablero,
+                                IdUsuarioPropietarioM = tableroViewModel.IdUsuarioPropietario
                             };
                             tableroRepository.CrearTablero(tablero);
                             return RedirectToAction("MostrarTodosTablero");
@@ -215,7 +215,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                 {
                     if (Autorizacion.EsAdmin(HttpContext))
                     {
-                        tableroRepository.EliminarTableroYTareas(tablero.IdTablero);
+                        tableroRepository.EliminarTableroYTareas(tablero.IdTableroM);
                         return RedirectToAction("MostrarTodosTablero");
                     }
                     else
@@ -251,9 +251,9 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                         }
                         var viewModel = new ModificarTableroViewModel
                         {
-                            NombreDeTablero = tablero.NombreDeTablero,
-                            DescripcionDeTablero = tablero.DescripcionDeTablero,
-                            IdUsuarioPropietario = tablero.IdUsuarioPropietario
+                            NombreDeTablero = tablero.NombreDeTableroM,
+                            DescripcionDeTablero = tablero.DescripcionDeTableroM,
+                            IdUsuarioPropietario = tablero.IdUsuarioPropietarioM
                         };
                         return View(viewModel);
                     }
@@ -288,16 +288,16 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
 
                             var tablero = new Tablero
                             {
-                                NombreDeTablero = viewModel.NombreDeTablero!,
-                                IdUsuarioPropietario = viewModel.IdUsuarioPropietario
+                                NombreDeTableroM = viewModel.NombreDeTablero!,
+                                IdUsuarioPropietarioM = viewModel.IdUsuarioPropietario
                             };
                             if (string.IsNullOrEmpty(viewModel.DescripcionDeTablero))
                             {
-                                tablero.DescripcionDeTablero = null; // Establecer explícitamente como null
+                                tablero.DescripcionDeTableroM = null; // Establecer explícitamente como null
                             }
                             else
                             {
-                                tablero.DescripcionDeTablero = viewModel.DescripcionDeTablero;
+                                tablero.DescripcionDeTableroM = viewModel.DescripcionDeTablero;
                             }
                             tableroRepository.ModificarTablero(viewModel.IdTablero, tablero);
                             return RedirectToAction("MostrarTodosTablero");

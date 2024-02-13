@@ -10,13 +10,13 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Models
     public class Usuario
     {
         private int idUsuarioM;
-        private string nombreDeUsuarioM;
-        private string contraseniaM;
+        private string? nombreDeUsuarioM;
+        private string? contraseniaM;
         private Rol rolM;
 
         public int IdUsuarioM { get => idUsuarioM; set => idUsuarioM = value; }
-        public string NombreDeUsuarioM { get => nombreDeUsuarioM; set => nombreDeUsuarioM = value; }
-        public string ContraseniaM { get => contraseniaM; set => contraseniaM = value; }
+        public string? NombreDeUsuarioM { get => nombreDeUsuarioM; set => nombreDeUsuarioM = value; }
+        public string? ContraseniaM { get => contraseniaM; set => contraseniaM = value; }
         public Rol RolM { get => rolM; set => rolM = value; }
 
         public Usuario()
@@ -26,7 +26,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Models
         public Usuario(UsuarioViewModel usuarioViewModel)
         {
             IdUsuarioM = usuarioViewModel.IdUsuarioVM;
-            NombreDeUsuariMo = usuarioViewModel.NombreDeUsuarioVM!;
+            NombreDeUsuarioM = usuarioViewModel.NombreDeUsuarioVM!;
             ContraseniaM = usuarioViewModel.ContraseniaVM!;
             RolM = usuarioViewModel.RolVM;
         }

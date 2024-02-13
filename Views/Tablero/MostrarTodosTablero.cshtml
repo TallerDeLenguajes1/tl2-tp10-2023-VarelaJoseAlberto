@@ -17,20 +17,20 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var tablero in Model.TablerosVM)
+        @foreach (var tablero in Model.ListaTablerosVM)
         {
             <tr>
-                <th scope="row" style="visibility: hidden;">@tablero.IdTablero </th>
-                <td>@tablero.NombreTablero</td>
-                <td>@tablero.Descripcion</td>
-                <td>@tablero.IdUsuarioPropietario</td>
+                <th scope="row" style="visibility: hidden;">@tablero.IdTableroVM </th>
+                <td>@tablero.NombreTableroVM</td>
+                <td>@tablero.DescripcionVM</td>
+                <td>@tablero.IdUsuarioPropietarioVM</td>
                 <td>
-                    <a asp-controller="Tablero" asp-action="ModificarTablero" asp-route-idTablero="@tablero.IdTablero">
+                    <a asp-controller="Tablero" asp-action="ModificarTablero" asp-route-idTablero="@tablero.IdTableroVM">
                         Editar</a>
-                    <a asp-controller="Tablero" asp-action="EliminarTablero" asp-route-idTablero="@tablero.IdTablero">
+                    <a asp-controller="Tablero" asp-action="EliminarTablero" asp-route-idTablero="@tablero.IdTableroVM">
                         Eliminar</a>
                     <a asp-controller="Tarea" asp-action="MostrarTareasTableroIdEspecifico"
-                        asp-route-idTablero="@tablero.IdTablero">
+                        asp-route-idTablero="@tablero.IdTableroVM">
                         Ver tareas</a>
 
                 </td>

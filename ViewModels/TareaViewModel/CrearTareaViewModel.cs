@@ -34,9 +34,9 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.ViewModels
             DescripcionTarea = tarea.DescripcionTareaM;
             EstadoTarea = (int)tarea.EstadoTareaM;
             ColorTarea = tarea.ColorM;
-            if (tarea.IdUsuarioAsignado.HasValue)
+            if (tarea.IdUsuarioAsignadoM.HasValue)
             {
-                IdUsuarioAsignado = (int)tarea.IdUsuarioAsignadoM; // O el valor por defecto que desees
+                IdUsuarioAsignado = (int)tarea.IdUsuarioAsignadoM!; // O el valor por defecto que desees
             }
             else
             {

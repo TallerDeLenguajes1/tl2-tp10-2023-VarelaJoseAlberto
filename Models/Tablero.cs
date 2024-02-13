@@ -6,13 +6,13 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Models
     {
         private int idTableroM;
         private int idUsuarioPropietarioM;
-        private string nombreDeTableroM;
+        private string? nombreDeTableroM;
         private string? descripcionDeTableroM;
 
 
         public int IdTableroM { get => idTableroM; set => idTableroM = value; }
         public int IdUsuarioPropietarioM { get => idUsuarioPropietarioM; set => idUsuarioPropietarioM = value; }
-        public string NombreDeTableroM { get => nombreDeTableroM; set => nombreDeTableroM = value; }
+        public string? NombreDeTableroM { get => nombreDeTableroM; set => nombreDeTableroM = value; }
         public string? DescripcionDeTableroM { get => descripcionDeTableroM; set => descripcionDeTableroM = value; }
 
         public Tablero()
@@ -22,10 +22,10 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Models
 
         public Tablero(TableroViewModel tableroViewModel)
         {
-            IdTableroM = tableroViewModel.IdTablero;
-            IdUsuarioPropietarioM = tableroViewModel.IdUsuarioPropietario;
-            NombreDeTableroM = tableroViewModel.NombreTablero!;
-            DescripcionDeTableroM = tableroViewModel.Descripcion;
+            IdTableroM = tableroViewModel.IdTableroVM;
+            IdUsuarioPropietarioM = tableroViewModel.IdUsuarioPropietarioVM;
+            NombreDeTableroM = tableroViewModel.NombreTableroVM!;
+            DescripcionDeTableroM = tableroViewModel.DescripcionVM;
         }
     }
 }

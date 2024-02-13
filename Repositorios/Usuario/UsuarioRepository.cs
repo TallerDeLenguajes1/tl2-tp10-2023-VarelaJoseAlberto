@@ -23,9 +23,9 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
                 {
                     connection.Open();
                     var command = new SQLiteCommand(query, connection);
-                    command.Parameters.Add(new SQLiteParameter("@nombre_de_usuario", nuevoUsuario.NombreDeUsuario));
-                    command.Parameters.Add(new SQLiteParameter("@contrasenia", nuevoUsuario.Contrasenia));
-                    command.Parameters.Add(new SQLiteParameter("@rol", (int)nuevoUsuario.Rol)); // Almacenar el valor del enum como entero
+                    command.Parameters.Add(new SQLiteParameter("@nombre_de_usuario", nuevoUsuario.NombreDeUsuarioM));
+                    command.Parameters.Add(new SQLiteParameter("@contrasenia", nuevoUsuario.ContraseniaM));
+                    command.Parameters.Add(new SQLiteParameter("@rol", (int)nuevoUsuario.RolM)); // Almacenar el valor del enum como entero
                     command.ExecuteNonQuery();
                 }
                 catch (Exception)
@@ -55,10 +55,10 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
                         while (reader.Read())
                         {
                             var user = new Usuario();
-                            user.IdUsuario = Convert.ToInt32(reader["id_usuario"]);
-                            user.NombreDeUsuario = reader["nombre_de_usuario"].ToString()!;
-                            user.Contrasenia = reader["contrasenia"].ToString()!;
-                            user.Rol = (Rol)Convert.ToInt32(reader["rol"]); // Convertir el entero almacenado en el enum
+                            user.IdUsuarioM = Convert.ToInt32(reader["id_usuario"]);
+                            user.NombreDeUsuarioM = reader["nombre_de_usuario"].ToString()!;
+                            user.ContraseniaM = reader["contrasenia"].ToString()!;
+                            user.RolM = (Rol)Convert.ToInt32(reader["rol"]); // Convertir el entero almacenado en el enum
                             listaDeUsuarios.Add(user);
                         }
                     }
@@ -95,10 +95,10 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
                     {
                         while (reader.Read())
                         {
-                            usuario.IdUsuario = Convert.ToInt32(reader["id_usuario"]);
-                            usuario.NombreDeUsuario = reader["nombre_de_usuario"].ToString()!;
-                            usuario.Contrasenia = reader["contrasenia"].ToString()!;
-                            usuario.Rol = (Rol)Convert.ToInt32(reader["rol"]); // Convertir el entero almacenado en el enum
+                            usuario.IdUsuarioM = Convert.ToInt32(reader["id_usuario"]);
+                            usuario.NombreDeUsuarioM = reader["nombre_de_usuario"].ToString()!;
+                            usuario.ContraseniaM = reader["contrasenia"].ToString()!;
+                            usuario.RolM = (Rol)Convert.ToInt32(reader["rol"]); // Convertir el entero almacenado en el enum
                         }
                     }
                 }
@@ -152,9 +152,9 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
                 {
                     connection.Open();
                     var command = new SQLiteCommand(query, connection);
-                    command.Parameters.Add(new SQLiteParameter("@nombre_de_usuario", nuevoUsuario.NombreDeUsuario));
-                    command.Parameters.Add(new SQLiteParameter("@contrasenia", nuevoUsuario.Contrasenia));
-                    command.Parameters.Add(new SQLiteParameter("@rol", (int)nuevoUsuario.Rol)); // Almacenar el valor del enum como entero
+                    command.Parameters.Add(new SQLiteParameter("@nombre_de_usuario", nuevoUsuario.NombreDeUsuarioM));
+                    command.Parameters.Add(new SQLiteParameter("@contrasenia", nuevoUsuario.ContraseniaM));
+                    command.Parameters.Add(new SQLiteParameter("@rol", (int)nuevoUsuario.RolM)); // Almacenar el valor del enum como entero
                     command.Parameters.Add(new SQLiteParameter("@id_usuario", idRecibe));
                     command.ExecuteNonQuery();
                 }
@@ -192,10 +192,10 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
                             {
                                 usuarioEncontrado = new Usuario
                                 {
-                                    IdUsuario = Convert.ToInt32(reader["id_usuario"]),
-                                    NombreDeUsuario = reader["nombre_de_usuario"].ToString()!,
-                                    Contrasenia = reader["contrasenia"].ToString()!,
-                                    Rol = (Rol)Convert.ToInt32(reader["rol"])
+                                    IdUsuarioM = Convert.ToInt32(reader["id_usuario"]),
+                                    NombreDeUsuarioM = reader["nombre_de_usuario"].ToString()!,
+                                    ContraseniaM = reader["contrasenia"].ToString()!,
+                                    RolM = (Rol)Convert.ToInt32(reader["rol"])
                                 };
                             }
                         }
