@@ -25,7 +25,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
                     var command = new SQLiteCommand(query, connection);
                     command.Parameters.Add(new SQLiteParameter("@idTablero", idTablero));
                     command.Parameters.Add(new SQLiteParameter("@nombreTarea", nuevaTarea.NombreTareaM));
-                    command.Parameters.Add(new SQLiteParameter("@estadoTarea", nuevaTarea.EstadoTareaM.ToString()));
+                    command.Parameters.Add(new SQLiteParameter("@estadoTarea", (int)nuevaTarea.EstadoTareaM));
                     command.Parameters.Add(new SQLiteParameter("@descripcionTarea", nuevaTarea.DescripcionTareaM));
                     command.Parameters.Add(new SQLiteParameter("@colorTarea", nuevaTarea.ColorM));
                     command.Parameters.Add(new SQLiteParameter("@idUsuarioAsignado", nuevaTarea.IdUsuarioAsignadoM));
@@ -283,7 +283,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
                     command.Parameters.Add(new SQLiteParameter("@idTablero", tareaModificada.IdTableroM));
                     command.Parameters.Add(new SQLiteParameter("@nombreTarea", tareaModificada.NombreTareaM));
                     command.Parameters.Add(new SQLiteParameter("@descripcionTarea", tareaModificada.DescripcionTareaM));
-                    command.Parameters.Add(new SQLiteParameter("@estadoTarea", tareaModificada.EstadoTareaM.ToString()));
+                    command.Parameters.Add(new SQLiteParameter("@estadoTarea", (int)tareaModificada.EstadoTareaM));
                     command.Parameters.Add(new SQLiteParameter("@colorTarea", tareaModificada.ColorM));
                     command.Parameters.Add(new SQLiteParameter("@idUsuarioAsignado", tareaModificada.IdUsuarioAsignadoM));
                     command.Parameters.Add(new SQLiteParameter("@idTarea", idTarea));
