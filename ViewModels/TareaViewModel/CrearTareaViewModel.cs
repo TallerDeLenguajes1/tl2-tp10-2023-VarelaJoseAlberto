@@ -20,14 +20,15 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.ViewModels
         [Display(Name = "Color de la Tarea")]
         public string? ColorTarea { get; set; }
 
-        [Required(ErrorMessage = "El ID del usuario asignado es requerido.")]
-        [Display(Name = "ID del Usuario Asignado")]
+
         public int? IdUsuarioAsignado { get; set; }
 
 
         public int IdTablero { get; set; }
 
         public List<Tablero>? Tableros { get; set; }
+
+        public List<Usuario>? ListadoUsuariosDisponibles { get; set; }
 
 
 

@@ -41,16 +41,21 @@
                 <label class="from-label" asp-for="IdTablero"> Seleccione el Tablero</label>
                 <select class="from-select" asp-for="IdTablero">
                     <option selected disabled>---Seleccionar---</option>
-                    @foreach (var tablero in Model.Tableros)
+                    @foreach (var tablero in Model.Tableros!)
                     {
                         <option value="@tablero.IdTableroM">@tablero.NombreDeTableroM</option>
                     }
                 </select>
             </div>
-
             <div class="mb-3">
-                <label asp-for="IdUsuarioAsignado" class="form-label">ID Usuario Asignado:</label>
-                <input type="number" class="form-control" asp-for="IdUsuarioAsignado" />
+                <label asp-for="IdUsuarioAsignado">Usuario Asignado:</label>
+                <select class="from-select" asp-for="IdUsuarioAsignado">
+                    <option selected disabled>-- Seleccionar --</option>
+                    @foreach (var usuario in Model.ListadoDeUsuarioDisponible!)
+                    {
+                        <option value="@usuario.IdUsuarioM">@usuario.NombreDeUsuarioM</option>
+                    }
+                </select>
                 <span asp-validation-for="IdUsuarioAsignado" class="text-danger"></span>
             </div>
             <button class="btn btn-success" type="submit">Guardar Cambios</button>

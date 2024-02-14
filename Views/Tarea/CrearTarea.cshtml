@@ -35,20 +35,28 @@
             </div>
 
             <div class="mb-3">
-                <label asp-for="@Model.IdUsuarioAsignado" class="form-label">ID Usuario Asignado:</label>
-                <input type="number" class="form-control" asp-for="@Model.IdUsuarioAsignado" />
+                <label asp-for="@Model.IdUsuarioAsignado">ID Usuario Asignado:</label>
+                <select class="from-select" asp-for="@Model.IdUsuarioAsignado">
+                    <option selected disabled>-- Seleccionar --</option>
+                    @foreach (var usuario in Model.ListadoUsuariosDisponibles!)
+                    {
+                        <option value="@usuario.IdUsuarioM">@usuario.NombreDeUsuarioM</option>
+                    }
+                </select>
+                <span asp-validation-for="@Model.IdUsuarioAsignado" class="text-danger"></span>
+                @* <input type="number" class="form-control" asp-for="@Model.IdUsuarioAsignado" /> *@
             </div>
 
             <div class="mb-3">
-                <label class="from-label" asp-for="IdTablero"> Seleccione el Tablero</label>
-                <select class="from-select" asp-for="IdTablero">
+                <label asp-for="@Model.IdTablero"> Seleccione el Tablero</label>
+                <select class="from-select" asp-for="@Model.IdTablero">
                     <option selected disabled>---Seleccionar---</option>
                     @foreach (var tablero in Model.Tableros!)
                     {
                         <option value="@tablero.IdTableroM">@tablero.NombreDeTableroM</option>
                     }
                 </select>
-                <span asp-validation-for="IdTablero" class="taxt-danger"></span>
+                <span asp-validation-for="@Model.IdTablero" class="text-danger"></span>
             </div>
 
             <div class="col-12">
