@@ -153,6 +153,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                     if (Autorizacion.EsAdmin(HttpContext) || Autorizacion.ObtenerRol(HttpContext) == "operador")
                     {
                         var viewModel = new CrearTareaViewModel(new Tarea());
+                        viewModel.Tableros = tableroRepository.ListarTodosTableros();
                         return View(viewModel);
                     }
                     return RedirectToAction("AccesoDenegado", "Usuario");
@@ -186,7 +187,8 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                                 NombreTareaM = tareaViewModel.NombreTarea!,
                                 DescripcionTareaM = tareaViewModel.DescripcionTarea,
                                 EstadoTareaM = (EstadoTarea)tareaViewModel.EstadoTarea,
-                                ColorM = tareaViewModel.ColorTarea
+                                ColorM = tareaViewModel.ColorTarea,
+                                IdTableroM = tareaViewModel.IdTablero
                                 // ,
                                 // IdUsuarioAsignado = tareaViewModel.IdUsuarioAsignado
                             };
@@ -200,9 +202,13 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                                 nuevaTarea.IdUsuarioAsignadoM = 0; // Por ejemplo, puedes asignar 0
                             }
                             tareaRepository.CrearTarea(tareaViewModel.IdTablero, nuevaTarea);
-                            return RedirectToAction("Index");
+                            return RedirectToAction("MostrarTareas");
                         }
-                        return View(tareaViewModel);
+                        else
+                        {
+                            return RedirectToAction("CrearTarea");
+                        }
+                        // return View(tareaViewModel);
                     }
                     else if (Autorizacion.ObtenerRol(HttpContext) == "operador")
                     {
@@ -226,7 +232,8 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                                 tareaRepository.CrearTarea(tableroIdDeUsuario.IdTableroM, nuevaTarea);
                                 return RedirectToAction("Index");
                             }
-                            return View(tareaViewModel);
+                            tareaViewModel.Tableros = tableroRepository.ListarTodosTableros();
+                            return View("CrearTarea", tareaViewModel);
                         }
                         // Si no es el tablero del usuario, redireccionar o mostrar mensaje de error
                         return RedirectToAction("AccesoDenegado", "Usuario");
@@ -262,10 +269,11 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                         {
                             NombreTarea = tarea.NombreTareaM,
                             DescripcionTarea = tarea.DescripcionTareaM,
-                            EstadoTarea = (int)tarea.EstadoTareaM,
+                            EstadoTarea = (EstadoTarea)(int)tarea.EstadoTareaM,
                             ColorTarea = tarea.ColorM,
                             // IdUsuarioAsignado = (int)tarea.IdUsuarioAsignado!,
-                            IdTablero = tarea.IdTableroM
+                            IdTablero = tarea.IdTableroM,
+                            Tableros = tableroRepository.ListarTodosTableros()
                         };
                         if (tarea.IdUsuarioAsignadoM.HasValue)
                         {
@@ -289,7 +297,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                         {
                             NombreTarea = tarea.NombreTareaM,
                             DescripcionTarea = tarea.DescripcionTareaM,
-                            EstadoTarea = (int)tarea.EstadoTareaM,
+                            EstadoTarea = (EstadoTarea)(int)tarea.EstadoTareaM,
 
                         };
                         return View(viewModel);
@@ -331,7 +339,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                             IdTableroM = tareaViewModel.IdTablero
                         };
                         tareaRepository.ModificarTarea(tareaViewModel.IdTarea, tarea);
-                        return RedirectToAction("Index");
+                        return RedirectToAction("MostrarTareas");
                     }
                     return RedirectToAction("Index", "Tarea");
                 }

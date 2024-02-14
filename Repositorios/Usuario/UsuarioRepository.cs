@@ -172,8 +172,9 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
 
         public Usuario ObtenerUsuarioPorCredenciales(string nombreUsuario, string contrasenia)
         {
-            Usuario usuarioEncontrado = new Usuario();
+            // Usuario usuarioEncontrado = new Usuario();
             string query = "SELECT * FROM Usuario WHERE nombre_de_usuario = @nombreUsuario AND contrasenia = @contrasenia";
+            Usuario? usuarioEncontrado = null;
 
             using (SQLiteConnection connection = new SQLiteConnection(connectionString))
             {
@@ -183,8 +184,8 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
 
                     using (SQLiteCommand command = new SQLiteCommand(query, connection))
                     {
-                        command.Parameters.AddWithValue("@nombreUsuario", nombreUsuario);
-                        command.Parameters.AddWithValue("@contrasenia", contrasenia);
+                        command.Parameters.Add(new SQLiteParameter("@nombreUsuario", nombreUsuario));
+                        command.Parameters.Add(new SQLiteParameter("@contrasenia", contrasenia));
 
                         using (SQLiteDataReader reader = command.ExecuteReader())
                         {
@@ -210,11 +211,11 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
                     connection.Close();
                 }
             }
-            if (usuarioEncontrado == null)
-            {
-                throw new Exception("Usuario no Existe");
-            }
-            return usuarioEncontrado;
+            // if (usuarioEncontrado == null)
+            // {
+            //     throw new Exception("Usuario no Existe");
+            // }
+            return usuarioEncontrado!;
         }
     }
 }

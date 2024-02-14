@@ -9,45 +9,49 @@
     <div class="col-md-6">
         <form asp-controller="Tarea" asp-action="ConfirmarModificarTarea" method="post">
 
-            <input type="hidden" asp-for="@Model.IdTarea" />
+            <input type="hidden" asp-for="IdTarea" />
 
             <div class="mb-3">
-                <label asp-for="@Model.NombreTarea" class="form-label">Nombre:</label>
-                <input type="text" class="form-control" asp-for="@Model.NombreTarea" />
-                <span asp-validation-for="@Model.NombreTarea" class="text-danger"></span>
+                <label asp-for="NombreTarea" class="form-label">Nombre:</label>
+                <input type="text" class="form-control" asp-for="NombreTarea" />
+                <span asp-validation-for="NombreTarea" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
-                <label asp-for="@Model.DescripcionTarea" class="form-label">Descripción:</label>
-                <input type="text" class="form-control" asp-for="@Model.DescripcionTarea"></textarea>
-                <span asp-validation-for="@Model.DescripcionTarea" class="text-danger"></span>
+                <label asp-for="DescripcionTarea" class="form-label">Descripción:</label>
+                <input type="text" class="form-control" asp-for="DescripcionTarea"></textarea>
+                <span asp-validation-for="DescripcionTarea" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
-                <label asp-for="@Model.EstadoTarea">Estado:</label>
-                <select class="form-select" asp-for="@Model.EstadoTarea"
-                    asp-items="@Html.GetEnumSelectList<EstadoTarea>()">
+                <label asp-for="EstadoTarea">Estado:</label>
+                <select class="form-select" asp-for="EstadoTarea" asp-items="@Html.GetEnumSelectList<EstadoTarea>()">
                     <option selected disabled> ---Seleccionar---</option>
                 </select>
-                <span asp-validation-for="@Model.EstadoTarea" class="text-danger"></span>
+                <span asp-validation-for="EstadoTarea" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
-                <label asp-for="@Model.ColorTarea" class="form-label">Color:</label>
-                <input asp-for="@Model.ColorTarea" type="color" />
-                <span asp-validation-for="@Model.ColorTarea" class="text-danger"></span>
+                <label asp-for="ColorTarea" class="form-label">Color:</label>
+                <input asp-for="ColorTarea" type="color" />
+                <span asp-validation-for="ColorTarea" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
-                <label asp-for="@Model.IdTablero" class="form-label">ID Tablero:</label>
-                <input type="number" class="form-control" asp-for="@Model.IdTablero" />
-                <span asp-validation-for="@Model.IdTablero" class="text-danger"></span>
+                <label class="from-label" asp-for="IdTablero"> Seleccione el Tablero</label>
+                <select class="from-select" asp-for="IdTablero">
+                    <option selected disabled>---Seleccionar---</option>
+                    @foreach (var tablero in Model.Tableros)
+                    {
+                        <option value="@tablero.IdTableroM">@tablero.NombreDeTableroM</option>
+                    }
+                </select>
             </div>
 
             <div class="mb-3">
-                <label asp-for="@Model.IdUsuarioAsignado" class="form-label">ID Usuario Asignado:</label>
-                <input type="number" class="form-control" asp-for="@Model.IdUsuarioAsignado" />
-                <span asp-validation-for="@Model.IdUsuarioAsignado" class="text-danger"></span>
+                <label asp-for="IdUsuarioAsignado" class="form-label">ID Usuario Asignado:</label>
+                <input type="number" class="form-control" asp-for="IdUsuarioAsignado" />
+                <span asp-validation-for="IdUsuarioAsignado" class="text-danger"></span>
             </div>
             <button class="btn btn-success" type="submit">Guardar Cambios</button>
             <a asp-controller="Tarea" asp-action="Index" class="btn btn-danger">Cancelar</a>

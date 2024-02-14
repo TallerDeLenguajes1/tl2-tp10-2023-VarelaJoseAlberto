@@ -26,7 +26,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
         {
             if (!ModelState.IsValid)
             {
-                ModelState.AddModelError(string.Empty, "Por favor, complete todos los campos.");
+                TempData["Mensaje"] = "Por favor, complete todos los campos.";
                 return View("Index", loginViewModel);
             }
             try
@@ -36,8 +36,8 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                 if (usuarioLogin == null)
                 {
                     _logger.LogWarning("Intento de acceso invalido - Usuario: " + loginViewModel.NombreDeUsuario + " - Clave ingresada: " + loginViewModel.Contrasenia);
-
                     TempData["Mensaje"] = "Credenciales inválidas. Intente nuevamente.";
+
                     return View("Index", loginViewModel);
                 }
                 else

@@ -6,13 +6,17 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.ViewModels
 
     public class LoginViewModel
     {
-        [Required(ErrorMessage = "Este campo es requerido.")]
-        [Display(Name = "Nombre de Usuario")]
+        [Required(ErrorMessage = "El campo Nombre de Usuario es obligatorio.")]
+        // [Display(Name = "Nombre de Usuario")]
         public string? NombreDeUsuario { get; set; }
+
+
+        [Required(ErrorMessage = "El campo Contraseña es obligatorio.")]
         [DataType(DataType.Password)]
-        [Required(ErrorMessage = "Este campo es requerido.")]
-        [PasswordPropertyText]
-        [Display(Name = "Contraseña")]
+        // [PasswordPropertyText]
+        // [Display(Name = "Contraseña")]
+        // [MinLength(8, ErrorMessage = "La Contraseña debe tener al menos 8 caracteres.")]
+
         public string? Contrasenia { get; set; }
     }
 }

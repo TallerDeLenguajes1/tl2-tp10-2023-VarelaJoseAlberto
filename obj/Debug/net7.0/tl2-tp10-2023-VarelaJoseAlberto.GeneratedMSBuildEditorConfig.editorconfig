@@ -9,117 +9,117 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = tl2_tp10_2023_VarelaJoseAlberto
 build_property.RootNamespace = tl2_tp10_2023_VarelaJoseAlberto
-build_property.ProjectDir = C:\Taller2\Tps\tl2-tp10-2023-VarelaJoseAlberto\
+build_property.ProjectDir = c:\Taller2\Tps\tl2-tp10-2023-VarelaJoseAlberto\
 build_property.RazorLangVersion = 7.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Taller2\Tps\tl2-tp10-2023-VarelaJoseAlberto
+build_property.MSBuildProjectDirectory = c:\Taller2\Tps\tl2-tp10-2023-VarelaJoseAlberto
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/Taller2/Tps/tl2-tp10-2023-VarelaJoseAlberto/Views/Home/Index.cshtml]
+[c:/Taller2/Tps/tl2-tp10-2023-VarelaJoseAlberto/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Taller2/Tps/tl2-tp10-2023-VarelaJoseAlberto/Views/Home/Privacy.cshtml]
+[c:/Taller2/Tps/tl2-tp10-2023-VarelaJoseAlberto/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Taller2/Tps/tl2-tp10-2023-VarelaJoseAlberto/Views/Login/Index.cshtml]
+[c:/Taller2/Tps/tl2-tp10-2023-VarelaJoseAlberto/Views/Login/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9naW5cSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Taller2/Tps/tl2-tp10-2023-VarelaJoseAlberto/Views/Shared/Error.cshtml]
+[c:/Taller2/Tps/tl2-tp10-2023-VarelaJoseAlberto/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Taller2/Tps/tl2-tp10-2023-VarelaJoseAlberto/Views/Shared/_ValidationScriptsPartial.cshtml]
+[c:/Taller2/Tps/tl2-tp10-2023-VarelaJoseAlberto/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Taller2/Tps/tl2-tp10-2023-VarelaJoseAlberto/Views/Tablero/AgregarTablero.cshtml]
+[c:/Taller2/Tps/tl2-tp10-2023-VarelaJoseAlberto/Views/Tablero/AgregarTablero.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGFibGVyb1xBZ3JlZ2FyVGFibGVyby5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Taller2/Tps/tl2-tp10-2023-VarelaJoseAlberto/Views/Tablero/Buscar.cshtml]
+[c:/Taller2/Tps/tl2-tp10-2023-VarelaJoseAlberto/Views/Tablero/Buscar.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGFibGVyb1xCdXNjYXIuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Taller2/Tps/tl2-tp10-2023-VarelaJoseAlberto/Views/Tablero/EliminarTablero.cshtml]
+[c:/Taller2/Tps/tl2-tp10-2023-VarelaJoseAlberto/Views/Tablero/EliminarTablero.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGFibGVyb1xFbGltaW5hclRhYmxlcm8uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Taller2/Tps/tl2-tp10-2023-VarelaJoseAlberto/Views/Tablero/Index.cshtml]
+[c:/Taller2/Tps/tl2-tp10-2023-VarelaJoseAlberto/Views/Tablero/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGFibGVyb1xJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Taller2/Tps/tl2-tp10-2023-VarelaJoseAlberto/Views/Tablero/ListarTablerosDeUsuarioEspecifico.cshtml]
+[c:/Taller2/Tps/tl2-tp10-2023-VarelaJoseAlberto/Views/Tablero/ListarTablerosDeUsuarioEspecifico.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGFibGVyb1xMaXN0YXJUYWJsZXJvc0RlVXN1YXJpb0VzcGVjaWZpY28uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Taller2/Tps/tl2-tp10-2023-VarelaJoseAlberto/Views/Tablero/ModificarTablero.cshtml]
+[c:/Taller2/Tps/tl2-tp10-2023-VarelaJoseAlberto/Views/Tablero/ModificarTablero.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGFibGVyb1xNb2RpZmljYXJUYWJsZXJvLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Taller2/Tps/tl2-tp10-2023-VarelaJoseAlberto/Views/Tablero/MostrarTodosTablero.cshtml]
+[c:/Taller2/Tps/tl2-tp10-2023-VarelaJoseAlberto/Views/Tablero/MostrarTodosTablero.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGFibGVyb1xNb3N0cmFyVG9kb3NUYWJsZXJvLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Taller2/Tps/tl2-tp10-2023-VarelaJoseAlberto/Views/Tarea/CrearTarea.cshtml]
+[c:/Taller2/Tps/tl2-tp10-2023-VarelaJoseAlberto/Views/Tarea/CrearTarea.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGFyZWFcQ3JlYXJUYXJlYS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Taller2/Tps/tl2-tp10-2023-VarelaJoseAlberto/Views/Tarea/EliminarTarea.cshtml]
+[c:/Taller2/Tps/tl2-tp10-2023-VarelaJoseAlberto/Views/Tarea/EliminarTarea.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGFyZWFcRWxpbWluYXJUYXJlYS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Taller2/Tps/tl2-tp10-2023-VarelaJoseAlberto/Views/Tarea/Index.cshtml]
+[c:/Taller2/Tps/tl2-tp10-2023-VarelaJoseAlberto/Views/Tarea/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGFyZWFcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Taller2/Tps/tl2-tp10-2023-VarelaJoseAlberto/Views/Tarea/ModificarTarea.cshtml]
+[c:/Taller2/Tps/tl2-tp10-2023-VarelaJoseAlberto/Views/Tarea/ModificarTarea.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGFyZWFcTW9kaWZpY2FyVGFyZWEuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Taller2/Tps/tl2-tp10-2023-VarelaJoseAlberto/Views/Tarea/MostrarTareas.cshtml]
+[c:/Taller2/Tps/tl2-tp10-2023-VarelaJoseAlberto/Views/Tarea/MostrarTareas.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGFyZWFcTW9zdHJhclRhcmVhcy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Taller2/Tps/tl2-tp10-2023-VarelaJoseAlberto/Views/Tarea/MostrarTareasTareas.cshtml]
+[c:/Taller2/Tps/tl2-tp10-2023-VarelaJoseAlberto/Views/Tarea/MostrarTareasTareas.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGFyZWFcTW9zdHJhclRhcmVhc1RhcmVhcy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Taller2/Tps/tl2-tp10-2023-VarelaJoseAlberto/Views/Usuario/AccesoDenegado.cshtml]
+[c:/Taller2/Tps/tl2-tp10-2023-VarelaJoseAlberto/Views/Usuario/AccesoDenegado.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXN1YXJpb1xBY2Nlc29EZW5lZ2Fkby5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Taller2/Tps/tl2-tp10-2023-VarelaJoseAlberto/Views/Usuario/AgregarUsuario.cshtml]
+[c:/Taller2/Tps/tl2-tp10-2023-VarelaJoseAlberto/Views/Usuario/AgregarUsuario.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXN1YXJpb1xBZ3JlZ2FyVXN1YXJpby5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Taller2/Tps/tl2-tp10-2023-VarelaJoseAlberto/Views/Usuario/EliminarUsuario.cshtml]
+[c:/Taller2/Tps/tl2-tp10-2023-VarelaJoseAlberto/Views/Usuario/EliminarUsuario.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXN1YXJpb1xFbGltaW5hclVzdWFyaW8uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Taller2/Tps/tl2-tp10-2023-VarelaJoseAlberto/Views/Usuario/Index.cshtml]
+[c:/Taller2/Tps/tl2-tp10-2023-VarelaJoseAlberto/Views/Usuario/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXN1YXJpb1xJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Taller2/Tps/tl2-tp10-2023-VarelaJoseAlberto/Views/Usuario/ModificarUsuario.cshtml]
+[c:/Taller2/Tps/tl2-tp10-2023-VarelaJoseAlberto/Views/Usuario/ModificarUsuario.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXN1YXJpb1xNb2RpZmljYXJVc3VhcmlvLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Taller2/Tps/tl2-tp10-2023-VarelaJoseAlberto/Views/Usuario/MostrarTodosUsuarios.cshtml]
+[c:/Taller2/Tps/tl2-tp10-2023-VarelaJoseAlberto/Views/Usuario/MostrarTodosUsuarios.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXN1YXJpb1xNb3N0cmFyVG9kb3NVc3Vhcmlvcy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Taller2/Tps/tl2-tp10-2023-VarelaJoseAlberto/Views/_ViewImports.cshtml]
+[c:/Taller2/Tps/tl2-tp10-2023-VarelaJoseAlberto/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Taller2/Tps/tl2-tp10-2023-VarelaJoseAlberto/Views/_ViewStart.cshtml]
+[c:/Taller2/Tps/tl2-tp10-2023-VarelaJoseAlberto/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Taller2/Tps/tl2-tp10-2023-VarelaJoseAlberto/Views/Shared/_Layout.cshtml]
+[c:/Taller2/Tps/tl2-tp10-2023-VarelaJoseAlberto/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-oh2yi1fu2m

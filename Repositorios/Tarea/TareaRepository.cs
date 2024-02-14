@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.Data.SQLite;
 using tl2_tp10_2023_VarelaJoseAlberto.Models;
 
@@ -17,8 +15,8 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
 
         public void CrearTarea(int idTablero, Tarea nuevaTarea)
         {
-            var query = "INSERT INTO Tarea (id_tablero, nombre_tarea, descripcion_tarea, estado_tarea, color_tarea, id_usuario_asignado) " +
-                        "VALUES (@idTablero, @nombreTarea, @descripcionTarea, @estadoTarea, @colorTarea, @idUsuarioAsignado);";
+            var query = "INSERT INTO Tarea (id_tablero, nombre_tarea, estado_tarea, descripcion_tarea, color_tarea, id_usuario_asignado) " +
+                        "VALUES (@idTablero, @nombreTarea, @estadoTarea, @descripcionTarea, @colorTarea, @idUsuarioAsignado);";
             using (SQLiteConnection connection = new SQLiteConnection(connectionString))
             {
                 try
@@ -27,8 +25,8 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
                     var command = new SQLiteCommand(query, connection);
                     command.Parameters.Add(new SQLiteParameter("@idTablero", idTablero));
                     command.Parameters.Add(new SQLiteParameter("@nombreTarea", nuevaTarea.NombreTareaM));
-                    command.Parameters.Add(new SQLiteParameter("@descripcionTarea", nuevaTarea.DescripcionTareaM));
                     command.Parameters.Add(new SQLiteParameter("@estadoTarea", nuevaTarea.EstadoTareaM.ToString()));
+                    command.Parameters.Add(new SQLiteParameter("@descripcionTarea", nuevaTarea.DescripcionTareaM));
                     command.Parameters.Add(new SQLiteParameter("@colorTarea", nuevaTarea.ColorM));
                     command.Parameters.Add(new SQLiteParameter("@idUsuarioAsignado", nuevaTarea.IdUsuarioAsignadoM));
                     command.ExecuteNonQuery();
@@ -273,7 +271,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
         public void ModificarTarea(int idTarea, Tarea tareaModificada)
         {
             var query = "UPDATE Tarea " +
-                        "SET nombre_tarea = @nombreTarea, descripcion_tarea = @descripcionTarea, estado_tarea = @estadoTarea, color_tarea = @colorTarea, id_usuario_asignado = @idUsuarioAsignado " +
+                        "SET id_tablero = @idTablero, nombre_tarea = @nombreTarea, descripcion_tarea = @descripcionTarea, estado_tarea = @estadoTarea, color_tarea = @colorTarea, id_usuario_asignado = @idUsuarioAsignado " +
                         "WHERE id_tarea = @idTarea;";
 
             using (SQLiteConnection connection = new SQLiteConnection(connectionString))
@@ -282,6 +280,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
                 {
                     connection.Open();
                     var command = new SQLiteCommand(query, connection);
+                    command.Parameters.Add(new SQLiteParameter("@idTablero", tareaModificada.IdTableroM));
                     command.Parameters.Add(new SQLiteParameter("@nombreTarea", tareaModificada.NombreTareaM));
                     command.Parameters.Add(new SQLiteParameter("@descripcionTarea", tareaModificada.DescripcionTareaM));
                     command.Parameters.Add(new SQLiteParameter("@estadoTarea", tareaModificada.EstadoTareaM.ToString()));

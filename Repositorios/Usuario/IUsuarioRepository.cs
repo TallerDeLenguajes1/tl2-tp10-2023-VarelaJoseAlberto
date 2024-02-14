@@ -1,4 +1,3 @@
-using System;
 using tl2_tp10_2023_VarelaJoseAlberto.Models;
 
 namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios

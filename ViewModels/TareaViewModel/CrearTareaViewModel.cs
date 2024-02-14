@@ -14,7 +14,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.ViewModels
 
         [Required(ErrorMessage = "El estado de la tarea es requerido.")]
         [Display(Name = "Estado de la Tarea")]
-        public int EstadoTarea { get; set; }
+        public EstadoTarea EstadoTarea { get; set; }
 
         [Required(ErrorMessage = "El color de la tarea es requerido.")]
         [Display(Name = "Color de la Tarea")]
@@ -24,15 +24,18 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.ViewModels
         [Display(Name = "ID del Usuario Asignado")]
         public int? IdUsuarioAsignado { get; set; }
 
-        [Required(ErrorMessage = "El ID del tablero es requerido.")]
-        [Display(Name = "ID del Tablero")]
+
         public int IdTablero { get; set; }
+
+        public List<Tablero>? Tableros { get; set; }
+
+
 
         public CrearTareaViewModel(Tarea tarea)
         {
             NombreTarea = tarea.NombreTareaM;
             DescripcionTarea = tarea.DescripcionTareaM;
-            EstadoTarea = (int)tarea.EstadoTareaM;
+            EstadoTarea = tarea.EstadoTareaM;
             ColorTarea = tarea.ColorM;
             if (tarea.IdUsuarioAsignadoM.HasValue)
             {
