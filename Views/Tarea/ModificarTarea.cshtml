@@ -8,63 +8,70 @@
 <div class="row justify-content-center mt-5">
     <div class="col-md-6">
         <form asp-controller="Tarea" asp-action="ConfirmarModificarTarea" method="post">
+            <fieldset>
+                <legend>Detalles de la tarea</legend>
+                <input type="hidden" asp-for="IdTarea" />
 
-            <input type="hidden" asp-for="IdTarea" />
+                <div class="mb-3">
+                    <label asp-for="NombreTarea" class="form-label">Nombre:</label>
+                    <input type="text" class="form-control" asp-for="NombreTarea" />
+                    <span asp-validation-for="NombreTarea" class="text-danger"></span>
+                </div>
 
-            <div class="mb-3">
-                <label asp-for="NombreTarea" class="form-label">Nombre:</label>
-                <input type="text" class="form-control" asp-for="NombreTarea" />
-                <span asp-validation-for="NombreTarea" class="text-danger"></span>
-            </div>
+                <div class="mb-3">
+                    <label asp-for="DescripcionTarea" class="form-label">Descripción:</label>
+                    <textarea class="form-control" asp-for="DescripcionTarea"></textarea>
+                    <span asp-validation-for="DescripcionTarea" class="text-danger"></span>
+                </div>
 
-            <div class="mb-3">
-                <label asp-for="DescripcionTarea" class="form-label">Descripción:</label>
-                <input type="text" class="form-control" asp-for="DescripcionTarea"></textarea>
-                <span asp-validation-for="DescripcionTarea" class="text-danger"></span>
-            </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="EstadoTarea">Estado:</label>
+                        <select class="form-select" asp-for="EstadoTarea"
+                            asp-items="@Html.GetEnumSelectList<EstadoTarea>()">
+                            <option value="" selected disabled>--- Seleccionar ---</option>
+                        </select>
+                        <span asp-validation-for="EstadoTarea" class="text-danger"></span>
+                    </div>
 
-            <div class="mb-3">
-                <label asp-for="EstadoTarea">Estado:</label>
-                <select class="form-select" asp-for="EstadoTarea" asp-items="@Html.GetEnumSelectList<EstadoTarea>()">
-                    <option selected disabled> ---Seleccionar---</option>
-                </select>
-                <span asp-validation-for="EstadoTarea" class="text-danger"></span>
-            </div>
+                    <div class="mb-3">
+                        <label asp-for="ColorTarea" class="form-label">Color:</label>
+                        <input asp-for="ColorTarea" type="color" />
+                        <span asp-validation-for="ColorTarea" class="text-danger"></span>
+                    </div>
+                </div>
 
-            <div class="mb-3">
-                <label asp-for="ColorTarea" class="form-label">Color:</label>
-                <input asp-for="ColorTarea" type="color" />
-                <span asp-validation-for="ColorTarea" class="text-danger"></span>
-            </div>
+                <div class="mb-3">
+                    <label class="from-label" asp-for="IdTablero"> Seleccione el Tablero</label>
+                    <select class="from-select" asp-for="IdTablero">
+                        <option value="" selected disabled>--- Seleccionar ---</option>
+                        @foreach (var tablero in Model.Tableros!)
+                        {
+                            <option value="@tablero.IdTableroM">@tablero.NombreDeTableroM</option>
+                        }
+                    </select>
+                </div>
 
-            <div class="mb-3">
-                <label class="from-label" asp-for="IdTablero"> Seleccione el Tablero</label>
-                <select class="from-select" asp-for="IdTablero">
-                    <option selected disabled>---Seleccionar---</option>
-                    @foreach (var tablero in Model.Tableros!)
-                    {
-                        <option value="@tablero.IdTableroM">@tablero.NombreDeTableroM</option>
-                    }
-                </select>
+                <div class="mb-3">
+                    <label asp-for="IdUsuarioAsignado" class="form-label">Usuario a Asignar</label>
+                    <select class="from-select" asp-for="IdUsuarioAsignado">
+                        <option value="" selected disabled>--- Seleccionar ---</option>
+                        @foreach (var usuario in Model.ListadoDeUsuarioDisponible!)
+                        {
+                            <option value="@usuario.IdUsuarioM">@usuario.NombreDeUsuarioM</option>
+                        }
+                    </select>
+                    <span asp-validation-for="IdUsuarioAsignado" class="text-danger"></span>
+                </div>
+            </fieldset>
+            <div class="col-12">
+                <button class="btn btn-success" type="submit">Guardar Cambios</button>
+                <a asp-controller="Tarea" asp-action="Index" class="btn btn-danger">Cancelar</a>
             </div>
-            <div class="mb-3">
-                <label asp-for="IdUsuarioAsignado">Usuario Asignado:</label>
-                <select class="from-select" asp-for="IdUsuarioAsignado">
-                    <option selected disabled>-- Seleccionar --</option>
-                    @foreach (var usuario in Model.ListadoDeUsuarioDisponible!)
-                    {
-                        <option value="@usuario.IdUsuarioM">@usuario.NombreDeUsuarioM</option>
-                    }
-                </select>
-                <span asp-validation-for="IdUsuarioAsignado" class="text-danger"></span>
-            </div>
-            <button class="btn btn-success" type="submit">Guardar Cambios</button>
-            <a asp-controller="Tarea" asp-action="Index" class="btn btn-danger">Cancelar</a>
         </form>
     </div>
 </div>
 
 @section Scripts {
-
     <partial name="_ValidationScriptsPartial" />
 }

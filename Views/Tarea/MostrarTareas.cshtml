@@ -1,47 +1,57 @@
-@* @model List<tl2_tp10_2023_VarelaJoseAlberto.Models.Tarea> *@
 @using tl2_tp10_2023_VarelaJoseAlberto.Repositorios
-@* @using tl2_tp10_2023_VarelaJoseAlberto.ViewModels *@
 @model tl2_tp10_2023_VarelaJoseAlberto.ViewModels.ListarTareaViewModel
-<div>
-    <a asp-controller="Tarea" asp-action="CrearTarea">Agregar Tareas</a>
-</div>
-<h1>Lista de Tareas</h1>
+<div class="container">
+    <div class="row justify-content-between mb-3">
+        <div class="col-auto">
+            <h1>Lista de Tareas</h1>
+        </div>
+        <div class="col-auto">
+            <a asp-controller="Tarea" asp-action="CrearTarea" class="btn btn-primary">Agregar Tareas</a>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Descripción</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">Color</th>
+                    <th scope="col">Id Tablero</th>
+                    <th scope="col">Id Usuario Asignado</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var tarea in Model.ListaTareasVM!)
+                {
+                    <tr>
+                        <td>@tarea.IdTareaVM</td>
+                        <td>@tarea.NombreTareaVM</td>
+                        <td>@tarea.DescripcionTareaVM</td>
+                        <td>@tarea.EstadoTareaVM</td>
+                        <td><input type="color" value="@tarea.ColorVM" disabled /></td>
+                        <td>@tarea.IdTableroVM</td>
+                        <td>@tarea.IdUsuarioAsignadoVM</td>
+                        <td>
+                            @if (Autorizacion.EsAdmin(ViewContext.HttpContext))
+                            {
+                                <a asp-controller="Tarea" asp-action="ModificarTarea" asp-route-idTarea="@tarea.IdTareaVM"
+                                    class="btn btn-sm btn-primary">Editar</a>
+                                <a asp-controller="Tarea" asp-action="EliminarTarea" asp-route-idTarea="@tarea.IdTareaVM"
+                                    class="btn btn-sm btn-danger">Eliminar</a>
+                            }
+                            else
+                            {
+                                <a asp-controller="Tarea" asp-action="ModificarTarea" asp-route-idTarea="@tarea.IdTareaVM"
+                                    class="btn btn-sm btn-primary">Editar</a>
 
-<table>
-    <thead>
-        <tr>
-            <th scope="col">Id</th>
-            <th scope="col">Nombre</th>
-            <th scope="col">Descripción</th>
-            <th scope="col">Estado</th>
-            <th scope="col">Color</th>
-            <th scope="col">Id Tablero</th>
-            <th scope="col">Id Usuario Asignado</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var tarea in Model.ListaTareasVM!)
-        {
-            <tr>
-                <td>@tarea.IdTareaVM</td>
-                <td>@tarea.NombreTareaVM</td>
-                <td>@tarea.DescripcionTareaVM</td>
-                <td>@tarea.EstadoTareaVM</td>
-                <td><input type="color" value="@tarea.ColorVM" disabled /></td>
-                <td>@tarea.IdTableroVM</td>
-                <td>@tarea.IdUsuarioAsignadoVM</td>
-                <td>
-                    @if (Autorizacion.EsAdmin(ViewContext.HttpContext))
-                    {
-                        <a asp-controller="Tarea" asp-action="ModificarTarea" asp-route-idTarea="@tarea.IdTareaVM">Editar</a>
-                        <a asp-controller="Tarea" asp-action="EliminarTarea" asp-route-idTarea="@tarea.IdTareaVM">Eliminar</a>
-                    }
-                    else
-                    {
-                        <a asp-controller="Tarea" asp-action="ModificarTarea" asp-route-idTarea="@tarea.IdTareaVM">Editar</a>
-                    }
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

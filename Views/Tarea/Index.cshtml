@@ -1,7 +1,7 @@
 @using tl2_tp10_2023_VarelaJoseAlberto.Repositorios
 @model tl2_tp10_2023_VarelaJoseAlberto.ViewModels.UsuarioViewModel
 <div class="text-center">
-    <h1 class="display-4">TP Nro 10 y 11</h1>
+    <h1 class="display-4">Opciones de Tareas</h1>
     <div class="container">
         <div class="row">
             @if (Autorizacion.ObtenerRol(ViewContext.HttpContext) == "admin")
@@ -20,7 +20,12 @@
                         <p>Mostrar Mis Tareas</p>
                     </a>
                 </div>
-
+                <div class="col-md-3">
+                    <a asp-controller="Tarea" asp-action="CrearTarea">
+                        <i class="fas fa-plus"></i>
+                        <p>Crear Nueva Tarea</p>
+                    </a>
+                </div>
             }
             else if (Autorizacion.ObtenerRol(ViewContext.HttpContext) == "operador")
             {
