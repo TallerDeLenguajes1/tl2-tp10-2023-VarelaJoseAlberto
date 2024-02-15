@@ -45,7 +45,7 @@
                     <label class="from-label" asp-for="IdTablero"> Seleccione el Tablero</label>
                     <select class="from-select" asp-for="IdTablero">
                         <option value="" selected disabled>--- Seleccionar ---</option>
-                        @foreach (var tablero in Model.Tableros!)
+                        @foreach (var tablero in Model.ListadoTableros!)
                         {
                             <option value="@tablero.IdTableroM">@tablero.NombreDeTableroM</option>
                         }

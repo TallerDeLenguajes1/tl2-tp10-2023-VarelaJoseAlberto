@@ -10,14 +10,16 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
     {
         // private readonly TableroRepository tableroRepository;
         private readonly ILogger<HomeController> _logger;
-        private readonly ITableroRepository tableroRepository;
+        private readonly ITableroRepository _tableroRepository;
+        private readonly IUsuarioRepository _usuarioRepository;
         private readonly ITareaRepository tareaRepository;
 
-        public TableroController(ITableroRepository tableRepository, ILogger<HomeController> logger, ITareaRepository taRepository)
+        public TableroController(ITableroRepository tableRepository, ILogger<HomeController> logger, ITareaRepository taRepository, IUsuarioRepository usuarioRepository)
         {
-            tableroRepository = tableRepository;
+            _tableroRepository = tableRepository;
             _logger = logger;
             tareaRepository = taRepository;
+            _usuarioRepository = usuarioRepository;
         }
 
         public IActionResult Index()
@@ -49,7 +51,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                 {
                     if (Autorizacion.EsAdmin(HttpContext))
                     {
-                        var tablero = tableroRepository.ListarTodosTableros();
+                        var tablero = _tableroRepository.ListarTodosTableros();
                         var tableroVM = tablero.Select(u => new TableroViewModel
                         {
                             IdTableroVM = u.IdTableroM,
@@ -83,7 +85,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
             {
                 if (Autorizacion.EstaAutentificado(HttpContext))
                 {
-                    var tablero = tableroRepository.ListarTablerosDeUsuarioEspecifico(idUsuario);
+                    var tablero = _tableroRepository.ListarTablerosDeUsuarioEspecifico(idUsuario);
                     var tableroVM = tablero.Select(u => new TableroViewModel
                     {
                         IdTableroVM = u.IdTableroM,
@@ -116,6 +118,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                     if (Autorizacion.EsAdmin(HttpContext))
                     {
                         var viewModel = new CrearTableroViewModel(new Tablero());
+                        viewModel.ListadoUsuarios = _usuarioRepository.TraerTodosUsuarios();
                         return View(viewModel);
                     }
                     else
@@ -153,10 +156,10 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                                 DescripcionDeTableroM = tableroViewModel.DescripcionDeTablero,
                                 IdUsuarioPropietarioM = tableroViewModel.IdUsuarioPropietario
                             };
-                            tableroRepository.CrearTablero(tablero);
+                            _tableroRepository.CrearTablero(tablero);
                             return RedirectToAction("MostrarTodosTablero");
                         }
-                        return View(tableroViewModel);
+                        return RedirectToAction("AgregarTAblero");
                     }
                     else
                     {
@@ -183,7 +186,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                 {
                     if (Autorizacion.EsAdmin(HttpContext))
                     {
-                        var tablero = tableroRepository.TreaerTableroPorId(idTablero);
+                        var tablero = _tableroRepository.TreaerTableroPorId(idTablero);
                         if (tablero == null)
                         {
                             return NotFound();
@@ -215,7 +218,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                 {
                     if (Autorizacion.EsAdmin(HttpContext))
                     {
-                        tableroRepository.EliminarTableroYTareas(tablero.IdTableroM);
+                        _tableroRepository.EliminarTableroYTareas(tablero.IdTableroM);
                         return RedirectToAction("MostrarTodosTablero");
                     }
                     else
@@ -244,7 +247,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                 {
                     if (Autorizacion.EsAdmin(HttpContext))
                     {
-                        var tablero = tableroRepository.TreaerTableroPorId(idTablero);
+                        var tablero = _tableroRepository.TreaerTableroPorId(idTablero);
                         if (tablero == null)
                         {
                             return NotFound();
@@ -253,7 +256,8 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                         {
                             NombreDeTablero = tablero.NombreDeTableroM,
                             DescripcionDeTablero = tablero.DescripcionDeTableroM,
-                            IdUsuarioPropietario = tablero.IdUsuarioPropietarioM
+                            IdUsuarioPropietario = tablero.IdUsuarioPropietarioM,
+                            ListadoUsuarios = _usuarioRepository.TraerTodosUsuarios()
                         };
                         return View(viewModel);
                     }
@@ -299,7 +303,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                             {
                                 tablero.DescripcionDeTableroM = viewModel.DescripcionDeTablero;
                             }
-                            tableroRepository.ModificarTablero(viewModel.IdTablero, tablero);
+                            _tableroRepository.ModificarTablero(viewModel.IdTablero, tablero);
                             return RedirectToAction("MostrarTodosTablero");
                         }
                         return View(viewModel);

@@ -75,7 +75,6 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
             }
         }
 
-
         [HttpGet]
         public IActionResult MostrarTareasUsuarioEspecifico(int idUsuario)
         {
@@ -110,7 +109,6 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                 return BadRequest();
             }
         }
-
 
         public IActionResult MostrarTareasTableroIdEspecifico(int IdTablero)
         {
@@ -191,19 +189,18 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                                 DescripcionTareaM = tareaViewModel.DescripcionTarea,
                                 EstadoTareaM = (EstadoTarea)tareaViewModel.EstadoTarea,
                                 ColorM = tareaViewModel.ColorTarea,
-                                IdTableroM = tareaViewModel.IdTablero
-                                // ,
-                                // IdUsuarioAsignado = tareaViewModel.IdUsuarioAsignado
+                                IdTableroM = tareaViewModel.IdTablero,
+                                IdUsuarioAsignadoM = tareaViewModel.IdUsuarioAsignado
                             };
-                            if (tareaViewModel.IdUsuarioAsignado.HasValue)
-                            {
-                                nuevaTarea.IdUsuarioAsignadoM = tareaViewModel.IdUsuarioAsignado.Value;
-                            }
-                            else
-                            {
-                                // Define un valor predeterminado o maneja el escenario de nulo según tu lógica
-                                nuevaTarea.IdUsuarioAsignadoM = 0; // Por ejemplo, puedes asignar 0
-                            }
+                            // if (tareaViewModel.IdUsuarioAsignado.HasValue)
+                            // {
+                            //     nuevaTarea.IdUsuarioAsignadoM = tareaViewModel.IdUsuarioAsignado.Value;
+                            // }
+                            // else
+                            // {
+                            //     // Define un valor predeterminado o maneja el escenario de nulo según tu lógica
+                            //     nuevaTarea.IdUsuarioAsignadoM = 0; // Por ejemplo, puedes asignar 0
+                            // }
                             _tareaRepository.CrearTarea(tareaViewModel.IdTablero, nuevaTarea);
                             return RedirectToAction("MostrarTareas");
                         }
@@ -274,9 +271,9 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                             DescripcionTarea = tarea.DescripcionTareaM,
                             EstadoTarea = (EstadoTarea)(int)tarea.EstadoTareaM,
                             ColorTarea = tarea.ColorM,
-                            // IdUsuarioAsignado = (int)tarea.IdUsuarioAsignado!,
+                            IdUsuarioAsignado = tarea.IdUsuarioAsignadoM,
                             IdTablero = tarea.IdTableroM,
-                            Tableros = _tableroRepository.ListarTodosTableros()
+                            ListadoTableros = _tableroRepository.ListarTodosTableros()
                         };
                         viewModel.ListadoDeUsuarioDisponible = _usuarioRepository.TraerTodosUsuarios();
                         return View(viewModel);

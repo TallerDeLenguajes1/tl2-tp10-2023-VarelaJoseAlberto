@@ -5,20 +5,15 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.ViewModels
 {
     public class CrearTableroViewModel
     {
-        private string? nombreDeTablero;
-        private string? descripcionDeTablero;
-        private int idUsuarioPropietario;
-
         [Required(ErrorMessage = "El nombre del tablero es requerido.")]
         [Display(Name = "Nombre del Tablero")]
-        public string? NombreDeTablero { get => nombreDeTablero; set => nombreDeTablero = value; }
+        public string? NombreDeTablero { get; set; }
 
         [Display(Name = "Descripción del Tablero")]
-        public string? DescripcionDeTablero { get => descripcionDeTablero; set => descripcionDeTablero = value; }
+        public string? DescripcionDeTablero { get; set; }
 
-        [Required(ErrorMessage = "El ID del usuario propietario es requerido.")]
-        [Display(Name = "ID del Usuario Propietario")]
-        public int IdUsuarioPropietario { get => idUsuarioPropietario; set => idUsuarioPropietario = value; }
+        public List<Usuario>? ListadoUsuarios { get; set; }
+        public int IdUsuarioPropietario { get; set; }
 
         public CrearTableroViewModel(Tablero tablero)
         {

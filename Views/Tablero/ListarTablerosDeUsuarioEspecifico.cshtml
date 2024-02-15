@@ -3,33 +3,46 @@
     ViewData["Title"] = "Tableros del Usuario";
 }
 
-<h1>Tableros del Usuario</h1>
+<!DOCTYPE html>
+<html lang="es">
 
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tableros del Usuario</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+</head>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th scope="col">Id Tablero</th>
-            <th scope="col">Nombre de Tablero</th>
-            <th scope="col">Descripcion</th>
-            <th scope="col">Opcion</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var tablero in Model.ListaTablerosVM)
-        {
-            <tr>
-                <th scope="row">
-                    @tablero.IdTableroVM
-                </th>
-                <td>@tablero.NombreTableroVM</td>
-                <td>@tablero.DescripcionVM</td>
-                <td>
-                    <a asp-controller="Tarea" asp-action="MostrarTareasTableroIdEspecifico"
-                        asp-route-idTablero="@tablero.IdTableroVM">
-                        Ver tareas</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<body>
+    <div class="container">
+        <h1 class="text-center mt-3">Tableros del Usuario</h1>
+        <div class="mt-4">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Id Tablero</th>
+                        <th scope="col">Nombre de Tablero</th>
+                        <th scope="col">Descripción</th>
+                        <th scope="col">Opción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var tablero in Model.ListaTablerosVM)
+                    {
+                        <tr>
+                            <td>@tablero.IdTableroVM</td>
+                            <td>@tablero.NombreTableroVM</td>
+                            <td>@tablero.DescripcionVM</td>
+                            <td>
+                                <a href="@Url.Action("MostrarTareasTableroIdEspecifico", "Tarea", new { idTablero = tablero.IdTableroVM })"
+                                    class="btn btn-primary">Ver tareas</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>

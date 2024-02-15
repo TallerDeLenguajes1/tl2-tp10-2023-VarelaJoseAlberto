@@ -38,3 +38,53 @@
         }
     </tbody>
 </table>
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todos los Tableros</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="text-center mt-3">Todos los Tableros</h1>
+        <div class="mb-3">
+            <a href="@Url.Action("AgregarTablero", "Tablero")" class="btn btn-primary">Agregar Tablero</a>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Nombre del Tablero</th>
+                    <th scope="col">Descripción</th>
+                    <th scope="col">Id del Usuario Propietario</th>
+                    <th scope="col">Operaciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var tablero in Model.ListaTablerosVM)
+                {
+                    <tr>
+                        <td>@tablero.NombreTableroVM</td>
+                        <td>@tablero.DescripcionVM</td>
+                        <td>@tablero.IdUsuarioPropietarioVM</td>
+                        <td>
+                            <a href="@Url.Action("ModificarTablero", "Tablero", new { idTablero = tablero.IdTableroVM })"
+                                class="btn btn-primary">Editar</a>
+                            <a href="@Url.Action("EliminarTablero", "Tablero", new { idTablero = tablero.IdTableroVM })"
+                                class="btn btn-danger">Eliminar</a>
+                            <a href="@Url.Action("MostrarTareasTableroIdEspecifico", "Tarea", new { idTablero = tablero.IdTableroVM })"
+                                class="btn btn-info">Ver tareas</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

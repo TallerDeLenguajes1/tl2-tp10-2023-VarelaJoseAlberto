@@ -14,8 +14,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.ViewModels
         [Display(Name = "Descripción del Tablero")]
         public string? DescripcionDeTablero { get; set; }
 
-        [Required(ErrorMessage = "El ID del usuario propietario es requerido.")]
-        [Display(Name = "ID del Usuario Propietario")]
+        public List<Usuario>? ListadoUsuarios { get; set; }
         public int IdUsuarioPropietario { get; set; }
 
         public ModificarTableroViewModel()

@@ -1,41 +1,60 @@
 @model tl2_tp10_2023_VarelaJoseAlberto.ViewModels.ModificarTableroViewModel
-<h1>Modificar Tablero</h1>
-<div>
-    <p>Estás modificando el Tablero "@Model.NombreDeTablero"?</p>
-</div>
-<div class="row justify-content-center mt-5">
-    <div class="col-md-6">
-        <form asp-controller="Tablero" asp-action="ConfirmarModificarTablero" method="post">
 
-            <input asp-for="@Model.IdTablero" />
+<!DOCTYPE html>
+<html lang="es">
 
-            <div class="mb-3">
-                <label class="form-label" asp-for="@Model.NombreDeTablero"></label>
-                <input class="form-control" asp-for="@Model.NombreDeTablero" />
-                <span asp-validation-for="@Model.NombreDeTablero" class="text-danger"></span>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modificar Tablero</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="text-center mt-3">Modificar Tablero</h1>
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-6">
+                <form asp-controller="Tablero" asp-action="ConfirmarModificarTablero" method="post">
+
+                    <input asp-for="IdTablero" type="hidden" />
+
+                    <div class="mb-3">
+                        <label class="form-label" asp-for="NombreDeTablero">Nombre del Tablero:</label>
+                        <input class="form-control" asp-for="NombreDeTablero" />
+                        <span asp-validation-for="NombreDeTablero" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label" asp-for="DescripcionDeTablero">Descripción del Tablero:</label>
+                        <input class="form-control" asp-for="DescripcionDeTablero" />
+                        <span asp-validation-for="DescripcionDeTablero" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label" asp-for="IdUsuarioPropietario">Propietario:</label>
+                        <select class="from-select" asp-for="IdUsuarioPropietario">
+                            <option value="" selected disabled>--- Seleccionar ---</option>
+                            @foreach (var tablero in Model.ListadoUsuarios!)
+                            {
+                                <option value="@tablero.IdUsuarioM">@tablero.NombreDeUsuarioM</option>
+                            }
+                        </select>
+                        <span asp-validation-for="IdUsuarioPropietario" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-success">Actualizar</button>
+                        <a asp-controller="Tablero" asp-action="MostrarTodosTablero"
+                            class="btn btn-danger ms-2">Cancelar</a>
+                    </div>
+
+                </form>
             </div>
-
-            <div class="mb-3">
-                <label class="form-label" asp-for="@Model.DescripcionDeTablero"></label>
-                <input class="form-control" asp-for="@Model.DescripcionDeTablero" />
-                <span asp-validation-for="@Model.DescripcionDeTablero" class="text-danger"></span>
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label" asp-for="@Model.IdUsuarioPropietario"></label>
-                <input class="form-control" asp-for="@Model.IdUsuarioPropietario" />
-                <span asp-validation-for="@Model.IdUsuarioPropietario" class="text-danger"></span>
-            </div>
-
-            <div class="col-12">
-                <button type="submit" class="btn btn-success">Actualizar</button>
-                <a asp-controller="Tablero" asp-action="MostrarTodosTablero" class="btn btn-danger">Cancelar</a>
-            </div>
-
-        </form>
+        </div>
     </div>
-</div>
-@section Scripts {
 
-    <partial name="_ValidationScriptsPartial" />
-}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

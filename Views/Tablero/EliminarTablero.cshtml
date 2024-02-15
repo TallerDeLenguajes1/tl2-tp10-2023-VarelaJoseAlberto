@@ -1,11 +1,29 @@
 @model Tablero
 
-<h2>Confirmar Eliminación</h2>
-<div>
-    <p>¿Estás seguro de que deseas eliminar el Tablero "@Model.NombreDeTableroM"?</p>
-</div>
-<form asp-controller="Tablero" asp-action="ConfirmarEliminar" method="post">
-    <input asp-for="@Model.IdTableroM" type="hidden" />
-    <button type="submit" class="btn btn-danger">Eliminar</button>
-    <a asp-controller="Tablero" asp-action="MostrarTodosTablero" class="btn btn-secondary">Cancelar</a>
-</form>
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmar Eliminación</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container">
+        <h2 class="text-center mt-3">Confirmar Eliminación</h2>
+        <div class="mt-4">
+            <p>¿Estás seguro de que deseas eliminar el Tablero "<strong>@Model.NombreDeTableroM</strong>"?</p>
+        </div>
+        <form asp-controller="Tablero" asp-action="ConfirmarEliminar" method="post" class="mt-4">
+            <input asp-for="@Model.IdTableroM" type="hidden" />
+            <div class="text-center">
+                <button type="submit" class="btn btn-danger me-3">Eliminar</button>
+                <a asp-controller="Tablero" asp-action="MostrarTodosTablero" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>

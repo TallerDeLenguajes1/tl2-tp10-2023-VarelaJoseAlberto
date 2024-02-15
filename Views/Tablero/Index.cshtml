@@ -1,8 +1,6 @@
 @using tl2_tp10_2023_VarelaJoseAlberto.Repositorios
 @model tl2_tp10_2023_VarelaJoseAlberto.ViewModels.UsuarioViewModel
 
-<!DOCTYPE html>
-<html>
 
 <head>
     <meta charset="utf-8" />
@@ -28,16 +26,6 @@
                         asp-route-idUsuario="@Autorizacion.ObtenerIdUsuario(ViewContext.HttpContext)">Mostrar mis
                         Tablero</a>
                 </li>
-                @* <li>
-            <a asp-controller="Tablero" asp-action="BuscarTableroPorID">Buscar Tablero Por ID</a>
-            </li> *@
-                @* <li>
-            <a asp-controller="Tablero" asp-action="BuscarTableroPorIdUser">Buscar Tableros Por Id Usuario
-            Especifico</a>
-            </li> *@
-                @* <li>
-            <a asp-controller="Tablero" asp-action="EliminarTablero">Eliminar Tablero</a>
-            </li> *@
             }
             else if (Autorizacion.ObtenerRol(ViewContext.HttpContext) == "operador")
             {
@@ -48,6 +36,37 @@
                 </li>
             }
         </ol>
+    </div>
+</body>
+
+</html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Opciones de Tablero</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container">
+        <h2 class="text-center mt-3">Opciones de Tablero</h2>
+        <div class="list-group mt-5">
+            @if (Autorizacion.EsAdmin(ViewContext.HttpContext))
+            {
+                <a href="@Url.Action("AgregarTablero", "Tablero")" class="list-group-item list-group-item-action">Crear
+                    Tablero</a>
+                <a href="@Url.Action("MostrarTodosTablero", "Tablero")"
+                    class="list-group-item list-group-item-action">Mostrar Todos los Tableros</a>
+                <a href="@Url.Action("ListarTablerosDeUsuarioEspecifico", "Tablero", new { idUsuario = Autorizacion.ObtenerIdUsuario(ViewContext.HttpContext) })"
+                    class="list-group-item list-group-item-action">Mostrar mis Tableros</a>
+            }
+            else if (Autorizacion.ObtenerRol(ViewContext.HttpContext) == "operador")
+            {
+                <a href="@Url.Action("ListarTablerosDeUsuarioEspecifico", "Tablero", new { idUsuario = Autorizacion.ObtenerIdUsuario(ViewContext.HttpContext) })"
+                    class="list-group-item list-group-item-action">Mostrar mis Tableros</a>
+            }
+        </div>
     </div>
 </body>
 
