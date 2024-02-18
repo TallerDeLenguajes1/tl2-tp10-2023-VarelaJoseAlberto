@@ -8,7 +8,6 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers;
 
 public class UsuarioController : Controller
 {
-    // private readonly UsuarioRepository usuarioRepository;
     private readonly IUsuarioRepository usuarioRepository;
     private readonly ILogger<HomeController> _logger;
 
@@ -17,8 +16,6 @@ public class UsuarioController : Controller
         usuarioRepository = usserRepository;
         _logger = logger;
     }
-
-
 
     public IActionResult Index()
     {
@@ -40,43 +37,8 @@ public class UsuarioController : Controller
         }
     }
 
-    public IActionResult MostrarTodosUsuarios()
-    {
-        try
-        {
-            if (Autorizacion.EstaAutentificado(HttpContext))
-            {
-                if (Autorizacion.EsAdmin(HttpContext))
-                {
-                    var usuarios = usuarioRepository.TraerTodosUsuarios();
-                    var usauarioVM = usuarios.Select(u => new UsuarioViewModel
-                    {
-                        IdUsuarioVM = u.IdUsuarioM,
-                        NombreDeUsuarioVM = u.NombreDeUsuarioM,
-                        RolVM = u.RolM
-                    }).ToList();
-                    var viewModel = new ListarUsuariosViewModel(usauarioVM);
-                    return View(viewModel);
-                }
-                else
-                {
-                    return View("AccesoDenegado");
-                }
-            }
-            else
-            {
-                return RedirectToAction("Index", "Login");
-            }
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex.ToString());
-            return BadRequest();
-        }
-    }
-
     [HttpGet]
-    public IActionResult AgregarUsuario()
+    public IActionResult CrearUsuario()
     {
         try
         {
@@ -105,7 +67,7 @@ public class UsuarioController : Controller
     }
 
     [HttpPost]
-    public IActionResult ConfirmarAgregarUsuario(CrearUsuarioViewModel usuarioViewModel)
+    public IActionResult ConfirmarCrearUsuario(CrearUsuarioViewModel usuarioViewModel)
     {
         try
         {
@@ -143,6 +105,7 @@ public class UsuarioController : Controller
         }
     }
 
+    [HttpGet]
     public IActionResult EliminarUsuario(int idUsuario)
     {
         try
@@ -265,6 +228,41 @@ public class UsuarioController : Controller
                         usuarioRepository.ModificarUsuario(viewModel.IdUsuario, usuario);
                         return RedirectToAction("MostrarTodosUsuarios");
                     }
+                    return View(viewModel);
+                }
+                else
+                {
+                    return View("AccesoDenegado");
+                }
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.ToString());
+            return BadRequest();
+        }
+    }
+
+    public IActionResult MostrarTodosUsuarios()
+    {
+        try
+        {
+            if (Autorizacion.EstaAutentificado(HttpContext))
+            {
+                if (Autorizacion.EsAdmin(HttpContext))
+                {
+                    var usuarios = usuarioRepository.TraerTodosUsuarios();
+                    var usauarioVM = usuarios.Select(u => new UsuarioViewModel
+                    {
+                        IdUsuarioVM = u.IdUsuarioM,
+                        NombreDeUsuarioVM = u.NombreDeUsuarioM,
+                        RolVM = u.RolM
+                    }).ToList();
+                    var viewModel = new ListarUsuariosViewModel(usauarioVM);
                     return View(viewModel);
                 }
                 else

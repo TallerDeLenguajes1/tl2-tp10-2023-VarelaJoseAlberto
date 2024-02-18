@@ -11,7 +11,6 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;

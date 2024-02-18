@@ -81,3 +81,4 @@ C:\Taller2\Tps\tl2-tp10-2023-VarelaJoseAlberto\bin\Debug\net7.0\System.Diagnosti
 C:\Taller2\Tps\tl2-tp10-2023-VarelaJoseAlberto\bin\Debug\net7.0\System.Text.Encodings.Web.dll
 C:\Taller2\Tps\tl2-tp10-2023-VarelaJoseAlberto\bin\Debug\net7.0\System.Text.Json.dll
 C:\Taller2\Tps\tl2-tp10-2023-VarelaJoseAlberto\bin\Debug\net7.0\runtimes\browser\lib\net7.0\System.Text.Encodings.Web.dll
+C:\Taller2\Tps\tl2-tp10-2023-VarelaJoseAlberto\obj\Debug\net7.0\scopedcss\Views\Shared\_NewVista.cshtml.rz.scp.css

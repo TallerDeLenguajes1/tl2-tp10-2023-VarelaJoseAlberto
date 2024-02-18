@@ -6,7 +6,6 @@ using tl2_tp10_2023_VarelaJoseAlberto.ViewModels;
 
 namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
 {
-
     public class TareaController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -14,11 +13,11 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
         private readonly ITableroRepository _tableroRepository;
         private readonly IUsuarioRepository _usuarioRepository;
 
-        public TareaController(ITareaRepository tareaRepository, ITableroRepository tableroRepository, ILogger<HomeController> logger, IUsuarioRepository usuarioRepository)
+        public TareaController(ILogger<HomeController> logger, ITareaRepository tareaRepository, ITableroRepository tableroRepository, IUsuarioRepository usuarioRepository)
         {
-            _tableroRepository = tableroRepository;
-            _tareaRepository = tareaRepository;
             _logger = logger;
+            _tareaRepository = tareaRepository;
+            _tableroRepository = tableroRepository;
             _usuarioRepository = usuarioRepository;
         }
 
@@ -36,114 +35,6 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
         }
 
         [HttpGet]
-        public IActionResult MostrarTareas()
-        {
-            try
-            {
-                if (Autorizacion.EstaAutentificado(HttpContext))
-                {
-                    if (Autorizacion.EsAdmin(HttpContext))
-                    {
-                        var todasLasTareas = _tareaRepository.ListarTodasLasTareas();
-                        var tareaVM = todasLasTareas.Select(u => new TareaViewModel
-                        {
-                            IdTableroVM = u.IdTableroM,
-                            IdTareaVM = u.IdTareaM,
-                            NombreTareaVM = u.NombreTareaM,
-                            ColorVM = u.ColorM,
-                            EstadoTareaVM = u.EstadoTareaM,
-                            DescripcionTareaVM = u.DescripcionTareaM,
-                            IdUsuarioAsignadoVM = u.IdUsuarioAsignadoM.HasValue ? u.IdUsuarioAsignadoM.Value : 0
-                        }).ToList();
-                        var viewModel = new ListarTareaViewModel(tareaVM);
-                        return View(viewModel);
-                    }
-                    else
-                    {
-                        return RedirectToAction("AccesoDenegado", "Usuario");
-                    }
-                }
-                else
-                {
-                    return RedirectToAction("Index", "Login");
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.ToString());
-                return BadRequest();
-            }
-        }
-
-        [HttpGet]
-        public IActionResult MostrarTareasUsuarioEspecifico(int idUsuario)
-        {
-            try
-            {
-                if (Autorizacion.EstaAutentificado(HttpContext))
-                {
-
-                    var todasLasTareas = _tareaRepository.ListarTareasDeUsuario(idUsuario);
-                    var tareaVM = todasLasTareas.Select(u => new TareaViewModel
-                    {
-                        IdTableroVM = u.IdTableroM,
-                        IdTareaVM = u.IdTareaM,
-                        NombreTareaVM = u.NombreTareaM,
-                        ColorVM = u.ColorM,
-                        EstadoTareaVM = u.EstadoTareaM,
-                        DescripcionTareaVM = u.DescripcionTareaM,
-                        IdUsuarioAsignadoVM = u.IdUsuarioAsignadoM.HasValue ? u.IdUsuarioAsignadoM.Value : 0
-                    }).ToList();
-                    var viewModel = new ListarTareaViewModel(tareaVM);
-                    return View("MostrarTareas", viewModel);
-
-                }
-                else
-                {
-                    return RedirectToAction("Index", "Login");
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.ToString());
-                return BadRequest();
-            }
-        }
-
-        public IActionResult MostrarTareasTableroIdEspecifico(int IdTablero)
-        {
-            try
-            {
-                if (Autorizacion.EstaAutentificado(HttpContext))
-                {
-                    var idTableroSeleccionado = IdTablero;
-                    var todasLasTareas = _tareaRepository.ListarTareasDeTablero(idTableroSeleccionado);
-                    var tareaVM = todasLasTareas.Select(u => new TareaViewModel
-                    {
-                        IdTableroVM = u.IdTableroM,
-                        IdTareaVM = u.IdTareaM,
-                        NombreTareaVM = u.NombreTareaM,
-                        ColorVM = u.ColorM,
-                        EstadoTareaVM = u.EstadoTareaM,
-                        DescripcionTareaVM = u.DescripcionTareaM,
-                        IdUsuarioAsignadoVM = u.IdUsuarioAsignadoM.HasValue ? u.IdUsuarioAsignadoM.Value : 0
-                    }).ToList();
-                    var viewModel = new ListarTareaViewModel(tareaVM);
-                    return View("MostrarTareas", viewModel);
-
-                }
-                else
-                {
-                    return RedirectToAction("Index", "Login");
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.ToString());
-                return BadRequest();
-            }
-        }
-
         public IActionResult CrearTarea()
         {
             try
@@ -187,20 +78,11 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                             {
                                 NombreTareaM = tareaViewModel.NombreTarea!,
                                 DescripcionTareaM = tareaViewModel.DescripcionTarea,
-                                EstadoTareaM = (EstadoTarea)tareaViewModel.EstadoTarea,
+                                EstadoTareaM = tareaViewModel.EstadoTarea,
                                 ColorM = tareaViewModel.ColorTarea,
                                 IdTableroM = tareaViewModel.IdTablero,
                                 IdUsuarioAsignadoM = tareaViewModel.IdUsuarioAsignado
                             };
-                            // if (tareaViewModel.IdUsuarioAsignado.HasValue)
-                            // {
-                            //     nuevaTarea.IdUsuarioAsignadoM = tareaViewModel.IdUsuarioAsignado.Value;
-                            // }
-                            // else
-                            // {
-                            //     // Define un valor predeterminado o maneja el escenario de nulo según tu lógica
-                            //     nuevaTarea.IdUsuarioAsignadoM = 0; // Por ejemplo, puedes asignar 0
-                            // }
                             _tareaRepository.CrearTarea(tareaViewModel.IdTablero, nuevaTarea);
                             return RedirectToAction("MostrarTareas");
                         }
@@ -208,7 +90,6 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                         {
                             return RedirectToAction("CrearTarea");
                         }
-                        // return View(tareaViewModel);
                     }
                     else if (Autorizacion.ObtenerRol(HttpContext) == "operador")
                     {
@@ -223,12 +104,9 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                                 {
                                     NombreTareaM = tareaViewModel.NombreTarea!,
                                     DescripcionTareaM = tareaViewModel.DescripcionTarea,
-                                    EstadoTareaM = (EstadoTarea)tareaViewModel.EstadoTarea,
+                                    EstadoTareaM = tareaViewModel.EstadoTarea,
                                     ColorM = tareaViewModel.ColorTarea
-                                    // ,
-                                    // IdUsuarioAsignado = tareaViewModel.IdUsuarioAsignado
                                 };
-
                                 _tareaRepository.CrearTarea(tableroIdDeUsuario.IdTableroM, nuevaTarea);
                                 return RedirectToAction("Index");
                             }
@@ -252,6 +130,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
             }
         }
 
+        [HttpGet]
         public IActionResult ModificarTarea(int idTarea)
         {
             try
@@ -273,9 +152,9 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                             ColorTarea = tarea.ColorM,
                             IdUsuarioAsignado = tarea.IdUsuarioAsignadoM,
                             IdTablero = tarea.IdTableroM,
-                            ListadoTableros = _tableroRepository.ListarTodosTableros()
+                            ListadoTableros = _tableroRepository.ListarTodosTableros(),
+                            ListadoDeUsuarioDisponible = _usuarioRepository.TraerTodosUsuarios()
                         };
-                        viewModel.ListadoDeUsuarioDisponible = _usuarioRepository.TraerTodosUsuarios();
                         return View(viewModel);
                     }
                     else if (Autorizacion.ObtenerRol(HttpContext) == "operador")
@@ -289,8 +168,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                         {
                             NombreTarea = tarea.NombreTareaM,
                             DescripcionTarea = tarea.DescripcionTareaM,
-                            EstadoTarea = (EstadoTarea)(int)tarea.EstadoTareaM,
-
+                            EstadoTarea = (EstadoTarea)(int)tarea.EstadoTareaM
                         };
                         return View(viewModel);
                     }
@@ -325,7 +203,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                             IdTareaM = tareaViewModel.IdTarea,
                             NombreTareaM = tareaViewModel.NombreTarea!,
                             DescripcionTareaM = tareaViewModel.DescripcionTarea,
-                            EstadoTareaM = (EstadoTarea)tareaViewModel.EstadoTarea,
+                            EstadoTareaM = tareaViewModel.EstadoTarea,
                             ColorM = tareaViewModel.ColorTarea,
                             IdUsuarioAsignadoM = tareaViewModel.IdUsuarioAsignado,
                             IdTableroM = tareaViewModel.IdTablero
@@ -347,7 +225,8 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
             }
         }
 
-        public IActionResult EliminarTarea(int id)
+        [HttpGet]
+        public IActionResult EliminarTarea(int idTarea)
         {
             try
             {
@@ -355,7 +234,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                 {
                     if (Autorizacion.EsAdmin(HttpContext))
                     {
-                        var tarea = _tareaRepository.ObtenerTareaPorId(id);
+                        var tarea = _tareaRepository.ObtenerTareaPorId(idTarea);
                         if (tarea == null)
                         {
                             return NotFound();
@@ -408,11 +287,116 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
             }
         }
 
+        [HttpGet]
+        public IActionResult MostrarTareas()
+        {
+            try
+            {
+                if (Autorizacion.EstaAutentificado(HttpContext))
+                {
+                    if (Autorizacion.EsAdmin(HttpContext))
+                    {
+                        var todasLasTareas = _tareaRepository.ListarTodasLasTareas();
+                        var tareaVM = todasLasTareas.Select(u => new TareaViewModel
+                        {
+                            IdTableroVM = u.IdTableroM,
+                            IdTareaVM = u.IdTareaM,
+                            NombreTareaVM = u.NombreTareaM,
+                            ColorVM = u.ColorM,
+                            EstadoTareaVM = u.EstadoTareaM,
+                            DescripcionTareaVM = u.DescripcionTareaM,
+                            IdUsuarioAsignadoVM = (int)u.IdUsuarioAsignadoM!
+                        }).ToList();
+                        var viewModel = new ListarTareaViewModel(tareaVM);
+                        return View(viewModel);
+                    }
+                    else
+                    {
+                        return RedirectToAction("AccesoDenegado", "Usuario");
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Login");
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.ToString());
+                return BadRequest();
+            }
+        }
+
+        [HttpGet]
+        public IActionResult MostrarTareasUsuarioEspecifico(int idUsuario)
+        {
+            try
+            {
+                if (Autorizacion.EstaAutentificado(HttpContext))
+                {
+                    var todasLasTareas = _tareaRepository.ListarTareasDeUsuario(idUsuario);
+                    var tareaVM = todasLasTareas.Select(u => new TareaViewModel
+                    {
+                        IdTableroVM = u.IdTableroM,
+                        IdTareaVM = u.IdTareaM,
+                        NombreTareaVM = u.NombreTareaM,
+                        ColorVM = u.ColorM,
+                        EstadoTareaVM = u.EstadoTareaM,
+                        DescripcionTareaVM = u.DescripcionTareaM,
+                        IdUsuarioAsignadoVM = (int)u.IdUsuarioAsignadoM!
+                    }).ToList();
+                    var viewModel = new ListarTareaViewModel(tareaVM);
+                    return View("MostrarTareas", viewModel);
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Login");
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.ToString());
+                return BadRequest();
+            }
+        }
+
+        public IActionResult MostrarTareasTableroIdEspecifico(int IdTablero)
+        {
+            try
+            {
+                if (Autorizacion.EstaAutentificado(HttpContext))
+                {
+                    var idTableroSeleccionado = IdTablero;
+                    var todasLasTareas = _tareaRepository.ListarTareasDeTablero(idTableroSeleccionado);
+                    var tareaVM = todasLasTareas.Select(u => new TareaViewModel
+                    {
+                        IdTableroVM = u.IdTableroM,
+                        IdTareaVM = u.IdTareaM,
+                        NombreTareaVM = u.NombreTareaM,
+                        ColorVM = u.ColorM,
+                        EstadoTareaVM = u.EstadoTareaM,
+                        DescripcionTareaVM = u.DescripcionTareaM,
+                        IdUsuarioAsignadoVM = (int)u.IdUsuarioAsignadoM!
+                    }).ToList();
+                    var viewModel = new ListarTareaViewModel(tareaVM);
+                    return View("MostrarTareas", viewModel);
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Login");
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.ToString());
+                return BadRequest();
+            }
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-
     }
 }

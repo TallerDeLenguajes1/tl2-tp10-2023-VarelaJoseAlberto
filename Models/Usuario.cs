@@ -8,14 +8,10 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Models
     }
     public class Usuario
     {
-        private int idUsuarioM;
-        private string? nombreDeUsuarioM;
-        private string? contraseniaM;
-        private Rol rolM;
-        public int IdUsuarioM { get => idUsuarioM; set => idUsuarioM = value; }
-        public string? NombreDeUsuarioM { get => nombreDeUsuarioM; set => nombreDeUsuarioM = value; }
-        public string? ContraseniaM { get => contraseniaM; set => contraseniaM = value; }
-        public Rol RolM { get => rolM; set => rolM = value; }
+        public int IdUsuarioM { get; set; }
+        public string? NombreDeUsuarioM { get; set; }
+        public string? ContraseniaM { get; set; }
+        public Rol RolM { get; set; }
         public Usuario()
         {
         }

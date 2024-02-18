@@ -8,12 +8,16 @@
                 <h2>Opciones de Usuario</h2>
                 <ul class="list-group">
                     <li class="list-group-item">
+                        <a asp-controller="Usuario" asp-action="CrearUsuario" class="btn btn-success">Crear Nuevo
+                            Usuario</a>
+                    </li>
+                    <li class="list-group-item">
                         <a asp-controller="Usuario" asp-action="MostrarTodosUsuarios" class="btn btn-primary">Mostrar
                             Todos los Usuarios</a>
                     </li>
                     <li class="list-group-item">
-                        <a asp-controller="Usuario" asp-action="AgregarUsuario" class="btn btn-success">Crear Nuevo
-                            Usuario</a>
+                        <a asp-controller="Usuario" asp-action="BuscarUsuario" class="btn btn-primary">Buscar Usuario
+                            por Nombre</a>
                     </li>
                 </ul>
             </div>

@@ -200,7 +200,6 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
                     connection.Open();
                     var command = new SQLiteCommand(query, connection);
                     command.Parameters.Add(new SQLiteParameter("@idTarea", idTarea));
-
                     using (SQLiteDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
@@ -220,11 +219,8 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
                             {
                                 tarea.IdUsuarioAsignadoM = Convert.ToInt32(reader["id_usuario_asignado"]);
                             }
-
-                            return tarea;
                         }
                     }
-
                 }
                 catch (Exception)
                 {
@@ -258,7 +254,6 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
                 catch (Exception)
                 {
                     throw new Exception("Hubo un problema al borrar la tarea");
-
                 }
                 finally
                 {

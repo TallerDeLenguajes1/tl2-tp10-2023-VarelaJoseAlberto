@@ -26,12 +26,12 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.ViewModels
         [Display(Name = "ID del Usuario Asignado")]
         public int? IdUsuarioAsignado { get; set; }
 
-        [Display(Name = "selecionar tablero")]
-        public List<Tablero>? ListadoTableros { get; set; }
+        // [Display(Name = "selecionar tablero")]
 
         public List<Usuario>? ListadoDeUsuarioDisponible { get; set; }
 
         public int IdTablero { get; set; }
+        public List<Tablero>? ListadoTableros { get; set; }
 
         public ModificarTareaViewModel()
         {

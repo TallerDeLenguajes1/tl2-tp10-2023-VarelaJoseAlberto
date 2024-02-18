@@ -1,19 +1,17 @@
 using tl2_tp10_2023_VarelaJoseAlberto.ViewModels;
-
 namespace tl2_tp10_2023_VarelaJoseAlberto.Models
 {
     public enum EstadoTarea
     {
         Ideas,
-        ToDo, //hacer
-        Doing, //haciendo
-        Review, //revisar
-        Done //hecho
+        Perdiente,  //ToDo
+        EnProceso, //Doing
+        Revisar, //Review
+        Realizada //Done
     }
 
     public class Tarea
     {
-
         public int IdTareaM { get; set; }
         public int IdTableroM { get; set; } // Propiedad para el idTablero
         public string? NombreTareaM { get; set; }
@@ -25,7 +23,6 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Models
         public Tarea()
         {
         }
-
 
         public Tarea(TareaViewModel tareaViewModel)
         {

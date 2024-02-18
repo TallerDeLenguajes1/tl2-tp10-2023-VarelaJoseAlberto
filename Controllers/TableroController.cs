@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using tl2_tp10_2023_VarelaJoseAlberto.Models;
 using tl2_tp10_2023_VarelaJoseAlberto.Repositorios;
@@ -8,17 +9,16 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
 
     public class TableroController : Controller
     {
-        // private readonly TableroRepository tableroRepository;
         private readonly ILogger<HomeController> _logger;
         private readonly ITableroRepository _tableroRepository;
         private readonly IUsuarioRepository _usuarioRepository;
-        private readonly ITareaRepository tareaRepository;
+        private readonly ITareaRepository _tareaRepository;
 
-        public TableroController(ITableroRepository tableRepository, ILogger<HomeController> logger, ITareaRepository taRepository, IUsuarioRepository usuarioRepository)
+        public TableroController(ILogger<HomeController> logger, ITableroRepository tableRepository, ITareaRepository tareaRepository, IUsuarioRepository usuarioRepository)
         {
-            _tableroRepository = tableRepository;
             _logger = logger;
-            tareaRepository = taRepository;
+            _tableroRepository = tableRepository;
+            _tareaRepository = tareaRepository;
             _usuarioRepository = usuarioRepository;
         }
 
@@ -43,73 +43,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
         }
 
         [HttpGet]
-        public IActionResult MostrarTodosTablero()
-        {
-            try
-            {
-                if (Autorizacion.EstaAutentificado(HttpContext))
-                {
-                    if (Autorizacion.EsAdmin(HttpContext))
-                    {
-                        var tablero = _tableroRepository.ListarTodosTableros();
-                        var tableroVM = tablero.Select(u => new TableroViewModel
-                        {
-                            IdTableroVM = u.IdTableroM,
-                            IdUsuarioPropietarioVM = u.IdUsuarioPropietarioM,
-                            NombreTableroVM = u.NombreDeTableroM,
-                            DescripcionVM = u.DescripcionDeTableroM
-                        }).ToList();
-                        var viewModel = new ListarTablerosViewModel(tableroVM);
-                        return View(viewModel);
-                    }
-                    else
-                    {
-                        return RedirectToAction("AccesoDenegado", "Usuario");
-                    }
-                }
-                else
-                {
-                    return RedirectToAction("Index", "Login");
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.ToString());
-                return BadRequest();
-            }
-        }
-
-        public IActionResult ListarTablerosDeUsuarioEspecifico(int idUsuario)
-        {
-            try
-            {
-                if (Autorizacion.EstaAutentificado(HttpContext))
-                {
-                    var tablero = _tableroRepository.ListarTablerosDeUsuarioEspecifico(idUsuario);
-                    var tableroVM = tablero.Select(u => new TableroViewModel
-                    {
-                        IdTableroVM = u.IdTableroM,
-                        IdUsuarioPropietarioVM = u.IdUsuarioPropietarioM,
-                        NombreTableroVM = u.NombreDeTableroM,
-                        DescripcionVM = u.DescripcionDeTableroM
-                    }).ToList();
-                    var viewModel = new ListarTablerosViewModel(tableroVM);
-                    return View(viewModel);
-                }
-                else
-                {
-                    return RedirectToAction("Index", "Login");
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.ToString());
-                return BadRequest();
-            }
-        }
-
-        [HttpGet]
-        public IActionResult AgregarTablero()
+        public IActionResult CrearTablero()
         {
             try
             {
@@ -139,7 +73,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
         }
 
         [HttpPost]
-        public IActionResult ConfirmarAgregarTablero(CrearTableroViewModel tableroViewModel)
+        public IActionResult ConfirmarCrearTablero(CrearTableroViewModel tableroViewModel)
         {
             try
             {
@@ -149,7 +83,6 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                     {
                         if (ModelState.IsValid)
                         {
-
                             var tablero = new Tablero
                             {
                                 NombreDeTableroM = tableroViewModel.NombreDeTablero,
@@ -159,7 +92,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                             _tableroRepository.CrearTablero(tablero);
                             return RedirectToAction("MostrarTodosTablero");
                         }
-                        return RedirectToAction("AgregarTAblero");
+                        return RedirectToAction("CrearTablero");
                     }
                     else
                     {
@@ -178,6 +111,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
             }
         }
 
+        [HttpGet]
         public IActionResult EliminarTablero(int idTablero)
         {
             try
@@ -210,6 +144,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
             }
         }
 
+        [HttpPost]
         public IActionResult ConfirmarEliminar(Tablero tablero)
         {
             try
@@ -289,7 +224,6 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                     {
                         if (ModelState.IsValid)
                         {
-
                             var tablero = new Tablero
                             {
                                 NombreDeTableroM = viewModel.NombreDeTablero!,
@@ -323,6 +257,79 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                 _logger.LogError(ex.ToString());
                 return BadRequest();
             }
+        }
+
+        [HttpGet]
+        public IActionResult MostrarTodosTablero()
+        {
+            try
+            {
+                if (Autorizacion.EstaAutentificado(HttpContext))
+                {
+                    if (Autorizacion.EsAdmin(HttpContext))
+                    {
+                        var tablero = _tableroRepository.ListarTodosTableros();
+                        var tableroVM = tablero.Select(u => new TableroViewModel
+                        {
+                            IdTableroVM = u.IdTableroM,
+                            IdUsuarioPropietarioVM = u.IdUsuarioPropietarioM,
+                            NombreTableroVM = u.NombreDeTableroM,
+                            DescripcionVM = u.DescripcionDeTableroM
+                        }).ToList();
+                        var viewModel = new ListarTablerosViewModel(tableroVM);
+                        return View(viewModel);
+                    }
+                    else
+                    {
+                        return RedirectToAction("AccesoDenegado", "Usuario");
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Login");
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.ToString());
+                return BadRequest();
+            }
+        }
+
+        [HttpGet]
+        public IActionResult ListarTablerosDeUsuarioEspecifico(int idUsuario)
+        {
+            try
+            {
+                if (Autorizacion.EstaAutentificado(HttpContext))
+                {
+                    var tablero = _tableroRepository.ListarTablerosDeUsuarioEspecifico(idUsuario);
+                    var tableroVM = tablero.Select(u => new TableroViewModel
+                    {
+                        IdTableroVM = u.IdTableroM,
+                        IdUsuarioPropietarioVM = u.IdUsuarioPropietarioM,
+                        NombreTableroVM = u.NombreDeTableroM,
+                        DescripcionVM = u.DescripcionDeTableroM
+                    }).ToList();
+                    var viewModel = new ListarTablerosViewModel(tableroVM);
+                    return View(viewModel);
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Login");
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.ToString());
+                return BadRequest();
+            }
+        }
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

@@ -53,7 +53,7 @@
                 </div>
 
                 <div class="mb-3">
-                    <label asp-for="IdUsuarioAsignado" class="form-label">Usuario a Asignar</label>
+                    <label class="form-label" asp-for="IdUsuarioAsignado">Usuario a Asignar</label>
                     <select class="from-select" asp-for="IdUsuarioAsignado">
                         <option value="" selected disabled>--- Seleccionar ---</option>
                         @foreach (var usuario in Model.ListadoDeUsuarioDisponible!)

@@ -7,9 +7,11 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Models
         public int IdUsuarioPropietarioM { get; set; }
         public string? NombreDeTableroM { get; set; }
         public string? DescripcionDeTableroM { get; set; }
+
         public Tablero()
         {
         }
+
         public Tablero(TableroViewModel tableroViewModel)
         {
             IdTableroM = tableroViewModel.IdTableroVM;

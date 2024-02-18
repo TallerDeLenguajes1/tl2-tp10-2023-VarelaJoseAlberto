@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using tl2_tp10_2023_VarelaJoseAlberto.Models;
 using tl2_tp10_2023_VarelaJoseAlberto.ViewModels;
 using tl2_tp10_2023_VarelaJoseAlberto.Repositorios;
+using System.Diagnostics;
 
 namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
 {
@@ -9,11 +10,11 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
     public class LoginController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly IUsuarioRepository usuarioRepository;
-        public LoginController(ILogger<HomeController> logger, IUsuarioRepository userRepository)
+        private readonly IUsuarioRepository _usuarioRepository;
+        public LoginController(ILogger<HomeController> logger, IUsuarioRepository usuarioRepository)
         {
             _logger = logger;
-            usuarioRepository = userRepository;
+            _usuarioRepository = usuarioRepository;
         }
 
         public IActionResult Index()
@@ -31,13 +32,12 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
             }
             try
             {
-                var usuarioLogin = usuarioRepository.ObtenerUsuarioPorCredenciales(loginViewModel.NombreDeUsuario!, loginViewModel.Contrasenia!);
+                var usuarioLogin = _usuarioRepository.ObtenerUsuarioPorCredenciales(loginViewModel.NombreDeUsuario!, loginViewModel.Contrasenia!);
                 // si el usuario no existe devuelvo al index
                 if (usuarioLogin == null)
                 {
                     _logger.LogWarning("Intento de acceso invalido - Usuario: " + loginViewModel.NombreDeUsuario + " - Clave ingresada: " + loginViewModel.Contrasenia);
                     TempData["Mensaje"] = "Credenciales inválidas. Intente nuevamente.";
-
                     return View("Index", loginViewModel);
                 }
                 else
@@ -70,6 +70,11 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
             TempData["Mensaje"] = "¡La sesión se cerró exitosamente! ¡Vuelve pronto!";
             return RedirectToAction("Index", "Login"); // Redirige a donde quieras tras cerrar sesión
         }
-    }
 
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+    }
 }
