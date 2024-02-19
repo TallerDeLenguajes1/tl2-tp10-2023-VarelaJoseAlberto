@@ -24,23 +24,34 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
 
         public IActionResult Index()
         {
-            if (Autorizacion.EstaAutentificado(HttpContext))
+            try
             {
-                if (Autorizacion.EsAdmin(HttpContext))
+                if (Autorizacion.EstaAutentificado(HttpContext))
                 {
-                    return View();
+                    if (Autorizacion.EsAdmin(HttpContext) || Autorizacion.ObtenerRol(HttpContext) == "operador")
+                    {
+                        _logger.LogInformation("Acceso exitoso al método Index del controlador de Tableros.");
+                        return View();
+                    }
+                    else
+                    {
+                        _logger.LogWarning("Intento de acceso denegado al método Index del controlador de Tableros debido a un rol no autorizado.");
+                        return RedirectToAction("AccesoDenegado", "Usuario");
+                    }
                 }
-                else if (Autorizacion.ObtenerRol(HttpContext) == "operador")
+                else
                 {
-                    return View();
+                    _logger.LogWarning("Intento de acceso sin autenticación al método Index del controlador de Tableros. Redirigiendo al login.");
+                    return RedirectToAction("Index", "Login");
                 }
-                return RedirectToAction("AccesoDenegado", "Usuario");
             }
-            else
+            catch (Exception ex)
             {
-                return RedirectToAction("Index", "Login");
+                _logger.LogError(ex, "Error al ejecutar el método Index del controlador de Tableros.");
+                return BadRequest();
             }
         }
+
 
         [HttpGet]
         public IActionResult CrearTablero()
@@ -51,23 +62,28 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                 {
                     if (Autorizacion.EsAdmin(HttpContext))
                     {
-                        var viewModel = new CrearTableroViewModel(new Tablero());
-                        viewModel.ListadoUsuarios = _usuarioRepository.TraerTodosUsuarios();
+                        var viewModel = new CrearTableroViewModel(new Tablero())
+                        {
+                            ListadoUsuarios = _usuarioRepository.TraerTodosUsuarios()
+                        };
+                        _logger.LogInformation("Acceso exitoso al método CrearTablero del controlador de Tableros.");
                         return View(viewModel);
                     }
                     else
                     {
+                        _logger.LogWarning("Intento de acceso denegado al método CrearTablero del controlador de Tableros debido a un rol no autorizado.");
                         return RedirectToAction("AccesoDenegado", "Usuario");
                     }
                 }
                 else
                 {
+                    _logger.LogWarning("Intento de acceso sin autenticación al método CrearTablero del controlador de Tableros. Redirigiendo al login.");
                     return RedirectToAction("Index", "Login");
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.ToString());
+                _logger.LogError(ex, "Error al ejecutar el método CrearTablero del controlador de Tableros.");
                 return BadRequest();
             }
         }
@@ -90,23 +106,27 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                                 IdUsuarioPropietarioM = tableroViewModel.IdUsuarioPropietario
                             };
                             _tableroRepository.CrearTablero(tablero);
+                            _logger.LogInformation("Se ha creado exitosamente un nuevo tablero.");
                             return RedirectToAction("MostrarTodosTablero");
                         }
+                        _logger.LogWarning("Intento de crear un tablero con datos no válidos.");
                         return RedirectToAction("CrearTablero");
                     }
                     else
                     {
+                        _logger.LogWarning("Intento de acceso denegado al método ConfirmarCrearTablero debido a un rol no autorizado.");
                         return RedirectToAction("AccesoDenegado", "Usuario");
                     }
                 }
                 else
                 {
+                    _logger.LogWarning("Intento de acceso sin autenticación al método ConfirmarCrearTablero. Redirigiendo al login.");
                     return RedirectToAction("Index", "Login");
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.ToString());
+                _logger.LogError(ex, "Error al ejecutar el método ConfirmarCrearTablero.");
                 return BadRequest();
             }
         }
@@ -123,23 +143,27 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                         var tablero = _tableroRepository.TreaerTableroPorId(idTablero);
                         if (tablero == null)
                         {
+                            _logger.LogWarning($"No se encontró ningún tablero con el ID: {idTablero}");
                             return NotFound();
                         }
+                        _logger.LogInformation($"Mostrando vista para eliminar el tablero con ID: {idTablero}");
                         return View(tablero);
                     }
                     else
                     {
+                        _logger.LogWarning("Intento de acceso denegado al método EliminarTablero debido a un rol no autorizado.");
                         return RedirectToAction("AccesoDenegado", "Usuario");
                     }
                 }
                 else
                 {
+                    _logger.LogWarning("Intento de acceso sin autenticación al método EliminarTablero. Redirigiendo al login.");
                     return RedirectToAction("Index", "Login");
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.ToString());
+                _logger.LogError(ex, "Error al ejecutar el método EliminarTablero.");
                 return BadRequest();
             }
         }
@@ -154,21 +178,24 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                     if (Autorizacion.EsAdmin(HttpContext))
                     {
                         _tableroRepository.EliminarTableroYTareas(tablero.IdTableroM);
+                        _logger.LogInformation($"Tablero con ID {tablero.IdTableroM} y sus tareas asociadas han sido eliminados.");
                         return RedirectToAction("MostrarTodosTablero");
                     }
                     else
                     {
+                        _logger.LogWarning("Intento de acceso denegado al método ConfirmarEliminar debido a un rol no autorizado.");
                         return RedirectToAction("AccesoDenegado", "Usuario");
                     }
                 }
                 else
                 {
+                    _logger.LogWarning("Intento de acceso sin autenticación al método ConfirmarEliminar. Redirigiendo al login.");
                     return RedirectToAction("Index", "Login");
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.ToString());
+                _logger.LogError(ex, "Error al ejecutar el método ConfirmarEliminar.");
                 return BadRequest();
             }
         }
@@ -185,6 +212,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                         var tablero = _tableroRepository.TreaerTableroPorId(idTablero);
                         if (tablero == null)
                         {
+                            _logger.LogWarning($"No se encontró ningún tablero con el ID: {idTablero}");
                             return NotFound();
                         }
                         var viewModel = new ModificarTableroViewModel
@@ -194,21 +222,24 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                             IdUsuarioPropietario = tablero.IdUsuarioPropietarioM,
                             ListadoUsuarios = _usuarioRepository.TraerTodosUsuarios()
                         };
+                        _logger.LogInformation($"Se ha cargado el tablero con ID: {idTablero} para su modificación.");
                         return View(viewModel);
                     }
                     else
                     {
+                        _logger.LogWarning("Intento de acceso denegado: Usuario sin permisos de administrador intentó acceder al método ModificarTablero.");
                         return RedirectToAction("AccesoDenegado", "Usuario");
                     }
                 }
                 else
                 {
+                    _logger.LogWarning("Intento de acceso sin autenticación: Alguien intentó acceder sin estar logueado al método ModificarTablero.");
                     return RedirectToAction("Index", "Login");
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.ToString());
+                _logger.LogError(ex, "Error al ejecutar el método ModificarTablero.");
                 return BadRequest();
             }
         }
@@ -238,26 +269,34 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                                 tablero.DescripcionDeTableroM = viewModel.DescripcionDeTablero;
                             }
                             _tableroRepository.ModificarTablero(viewModel.IdTablero, tablero);
+                            _logger.LogInformation($"Se ha modificado el tablero con ID: {viewModel.IdTablero}");
                             return RedirectToAction("MostrarTodosTablero");
                         }
-                        return View(viewModel);
+                        else
+                        {
+                            _logger.LogWarning("ModelState no es válido en ConfirmarModificarTablero.");
+                            return View(viewModel);
+                        }
                     }
                     else
                     {
+                        _logger.LogWarning("Intento de acceso denegado: Usuario sin permisos de administrador intentó acceder al método ConfirmarModificarTablero.");
                         return RedirectToAction("AccesoDenegado", "Usuario");
                     }
                 }
                 else
                 {
+                    _logger.LogWarning("Intento de acceso sin autenticación: Alguien intentó acceder sin estar logueado al método ConfirmarModificarTablero.");
                     return RedirectToAction("Index", "Login");
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.ToString());
+                _logger.LogError(ex, "Error al ejecutar el método ConfirmarModificarTablero.");
                 return BadRequest();
             }
         }
+
 
         [HttpGet]
         public IActionResult MostrarTodosTablero()
@@ -268,30 +307,33 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                 {
                     if (Autorizacion.EsAdmin(HttpContext))
                     {
-                        var tablero = _tableroRepository.ListarTodosTableros();
-                        var tableroVM = tablero.Select(u => new TableroViewModel
+                        var tableros = _tableroRepository.ListarTodosTableros();
+                        var tablerosVM = tableros.Select(tablero => new TableroViewModel
                         {
-                            IdTableroVM = u.IdTableroM,
-                            IdUsuarioPropietarioVM = u.IdUsuarioPropietarioM,
-                            NombreTableroVM = u.NombreDeTableroM,
-                            DescripcionVM = u.DescripcionDeTableroM
+                            IdTableroVM = tablero.IdTableroM,
+                            IdUsuarioPropietarioVM = tablero.IdUsuarioPropietarioM,
+                            NombreTableroVM = tablero.NombreDeTableroM,
+                            DescripcionVM = tablero.DescripcionDeTableroM
                         }).ToList();
-                        var viewModel = new ListarTablerosViewModel(tableroVM);
+                        var viewModel = new ListarTablerosViewModel(tablerosVM);
+                        _logger.LogInformation("Mostrando todos los tableros.");
                         return View(viewModel);
                     }
                     else
                     {
+                        _logger.LogWarning("Intento de acceso denegado: Usuario sin permisos de administrador intentó acceder al método MostrarTodosTablero.");
                         return RedirectToAction("AccesoDenegado", "Usuario");
                     }
                 }
                 else
                 {
+                    _logger.LogWarning("Intento de acceso sin autenticación: Alguien intentó acceder sin estar logueado al método MostrarTodosTablero.");
                     return RedirectToAction("Index", "Login");
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.ToString());
+                _logger.LogError(ex, "Error al ejecutar el método MostrarTodosTablero.");
                 return BadRequest();
             }
         }
@@ -303,28 +345,31 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
             {
                 if (Autorizacion.EstaAutentificado(HttpContext))
                 {
-                    var tablero = _tableroRepository.ListarTablerosDeUsuarioEspecifico(idUsuario);
-                    var tableroVM = tablero.Select(u => new TableroViewModel
+                    var tableros = _tableroRepository.ListarTablerosDeUsuarioEspecifico(idUsuario);
+                    var tablerosVM = tableros.Select(tablero => new TableroViewModel
                     {
-                        IdTableroVM = u.IdTableroM,
-                        IdUsuarioPropietarioVM = u.IdUsuarioPropietarioM,
-                        NombreTableroVM = u.NombreDeTableroM,
-                        DescripcionVM = u.DescripcionDeTableroM
+                        IdTableroVM = tablero.IdTableroM,
+                        IdUsuarioPropietarioVM = tablero.IdUsuarioPropietarioM,
+                        NombreTableroVM = tablero.NombreDeTableroM,
+                        DescripcionVM = tablero.DescripcionDeTableroM
                     }).ToList();
-                    var viewModel = new ListarTablerosViewModel(tableroVM);
+                    var viewModel = new ListarTablerosViewModel(tablerosVM);
+                    _logger.LogInformation($"Mostrando tableros del usuario con ID: {idUsuario}.");
                     return View(viewModel);
                 }
                 else
                 {
+                    _logger.LogWarning("Intento de acceso sin autenticación: Alguien intentó acceder sin estar logueado al método ListarTablerosDeUsuarioEspecifico.");
                     return RedirectToAction("Index", "Login");
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.ToString());
+                _logger.LogError(ex, "Error al ejecutar el método ListarTablerosDeUsuarioEspecifico.");
                 return BadRequest();
             }
         }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
