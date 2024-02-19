@@ -28,7 +28,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Models
         {
             IdTareaM = tareaViewModel.IdTareaVM;
             IdTableroM = tareaViewModel.IdTableroVM;
-            NombreTareaM = tareaViewModel.NombreTareaVM!;
+            NombreTareaM = tareaViewModel.NombreTareaVM;
             EstadoTareaM = tareaViewModel.EstadoTareaVM;
             IdUsuarioAsignadoM = tareaViewModel.IdUsuarioAsignadoVM;
             DescripcionTareaM = tareaViewModel.DescripcionTareaVM;

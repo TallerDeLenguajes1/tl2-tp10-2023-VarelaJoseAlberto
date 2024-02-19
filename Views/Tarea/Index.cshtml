@@ -1,42 +1,55 @@
 @using tl2_tp10_2023_VarelaJoseAlberto.Repositorios
 @model tl2_tp10_2023_VarelaJoseAlberto.ViewModels.UsuarioViewModel
-<div class="text-center">
-    <h1 class="display-4">Opciones de Tareas</h1>
-    <div class="container">
-        <div class="row">
-            @if (Autorizacion.ObtenerRol(ViewContext.HttpContext) == "admin")
-            {
-                <div class="col-md-3">
-                    <a asp-controller="Tarea" asp-action="MostrarTareas">
-                        <i class="fas fa-user"></i>
-                        <p>Mostrar todas las Tareas</p>
-                    </a>
-                </div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 
-                <div class="col-md-3">
-                    <a asp-controller="Tarea" asp-action="MostrarTareasUsuarioEspecifico"
-                        asp-route-idUsuario="@Autorizacion.ObtenerIdUsuario(ViewContext.HttpContext)">
-                        <i class="fas fa-clipboard-list"></i>
-                        <p>Mostrar Mis Tareas</p>
-                    </a>
-                </div>
-                <div class="col-md-3">
-                    <a asp-controller="Tarea" asp-action="CrearTarea">
-                        <i class="fas fa-plus"></i>
-                        <p>Crear Nueva Tarea</p>
-                    </a>
-                </div>
-            }
-            else if (Autorizacion.ObtenerRol(ViewContext.HttpContext) == "operador")
-            {
-                <div class="col-md-3">
-                    <a asp-controller="Tarea" asp-action="MostrarTareasUsuarioEspecifico"
-                        asp-route-idUsuario="@Autorizacion.ObtenerIdUsuario(ViewContext.HttpContext)">
-                        <i class="fas fa-clipboard-list"></i>
-                        <p>Mostrar Mis Tareas</p>
-                    </a>
-                </div>
-            }
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h1 class="text-center mt-5 mb-4">Opciones de Tareas</h1>
         </div>
     </div>
-</div>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card text-center mb-4">
+                <div class="card-body btn-group-vertical" role="group">
+                    @if (Autorizacion.ObtenerRol(ViewContext.HttpContext) == "admin")
+                    {
+                        <a asp-controller="Tarea" asp-action="CrearTarea" class="btn btn-success btn-block mb-3">
+                            <i class="fas fa-plus fa-3x mb-3"></i>
+                            <h5 class="card-title">Crear Nueva Tarea</h5>
+                        </a>
+
+                        <a asp-controller="Tarea" asp-action="MostrarTareas" class="btn btn-primary btn-block mb-3">
+                            <i class="fas fa-tasks fa-3x mb-3"></i>
+                            <h5 class="card-title">Mostrar todas las Tareas</h5>
+                        </a>
+
+                        <a asp-controller="Tarea" asp-action="MostrarTareasUsuarioEspecifico"
+                            asp-route-idUsuario="@Autorizacion.ObtenerIdUsuario(ViewContext.HttpContext)"
+                            class="btn btn-primary btn-block mb-3">
+                            <i class="fas fa-list fa-3x mb-3"></i>
+                            <h5 class="card-title">Mostrar Mis Tareas</h5>
+                        </a>
+
+                        <form asp-controller="Usuario" asp-action="BuscarTareasPorNombre" method="get">
+                            <div class="input-group mb-3">
+                                <input type="text" name="nombre" class="form-control" placeholder="Nombre de la tarea"
+                                    aria-label="Nombre de la tarea" aria-describedby="button-addon2">
+                                <button class="btn btn-primary" type="submit" id="button-addon2"><i
+                                        class="fas fa-search"></i></button>
+                            </div>
+                        </form>
+                    }
+                    else if (Autorizacion.ObtenerRol(ViewContext.HttpContext) == "operador")
+                    {
+                        <a asp-controller="Tarea" asp-action="MostrarTareasUsuarioEspecifico"
+                            asp-route-idUsuario="@Autorizacion.ObtenerIdUsuario(ViewContext.HttpContext)"
+                            class="btn btn-primary btn-block mb-3">
+                            <i class="fas fa-list fa-3x mb-3"></i>
+                            <h5 class="card-title">Mostrar Mis Tareas</h5>
+                        </a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>

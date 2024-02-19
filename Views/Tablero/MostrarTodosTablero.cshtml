@@ -1,92 +1,67 @@
-@using tl2_tp10_2023_VarelaJoseAlberto.Repositorios
 @using tl2_tp10_2023_VarelaJoseAlberto.ViewModels
 @model tl2_tp10_2023_VarelaJoseAlberto.ViewModels.ListarTablerosViewModel
-<h1>Todos Los Tableros</h1>
-<div>
-    <a asp-controller="Tablero" asp-action="CrearTablero">Agregar Tablero</a>
-</div>
-
-<table class="table">
-    <thead>
-        <tr>
-            @* <th scope="col" style="visibility: hidden;">Id Tablero</th> *@
-            <th scope="col">Id Tablero</th>
-            <th scope="col">Nombre de Tablero</th>
-            <th scope="col">Descripcion</th>
-            <th scope="col">Id del Usuario Propietario</th>
-            <th scope="col">Ops</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var tablero in Model.ListaTablerosVM)
-        {
-            <tr>
-                <td>@tablero.IdTableroVM</td>
-                @* <th scope="row" style="visibility: hidden;">@tablero.IdTableroVM </th> *@
-                <td>@tablero.NombreTableroVM</td>
-                <td>@tablero.DescripcionVM</td>
-                <td>@tablero.IdUsuarioPropietarioVM</td>
-                <td>
-                    <a asp-controller="Tablero" asp-action="ModificarTablero" asp-route-idTablero="@tablero.IdTableroVM">
-                        Editar</a>
-                    <a asp-controller="Tablero" asp-action="EliminarTablero" asp-route-idTablero="@tablero.IdTableroVM">
-                        Eliminar</a>
-                    <a asp-controller="Tarea" asp-action="MostrarTareasTableroIdEspecifico"
-                        asp-route-idTablero="@tablero.IdTableroVM">
-                        Ver tareas</a>
-
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-<!DOCTYPE html>
-<html lang="es">
-
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Todos los Tableros</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
-</head>
-
-<body>
-    <div class="container">
-        <h1 class="text-center mt-3">Todos los Tableros</h1>
-        <div class="mb-3">
-            <a href="@Url.Action("CrearTablero", "Tablero")" class="btn btn-primary">Agregar Tablero</a>
-        </div>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">Nombre del Tablero</th>
-                    <th scope="col">Descripción</th>
-                    <th scope="col">Id del Usuario Propietario</th>
-                    <th scope="col">Operaciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var tablero in Model.ListaTablerosVM)
-                {
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="mb-3 d-flex justify-content-between align-items-center">
+                <div>
+                    <a asp-controller="Tablero" asp-action="CrearTablero" class="btn btn-success"> <i
+                            class="fas fa-user-plus me-1"></i>Crear Tablero</a>
+                </div>
+                <div>
+                    <a asp-controller="Tablero" asp-action="MostrarTodosTablero" class="btn btn-secondary">
+                        <i class="fas fa-list me-1"></i> Mostrar Todos los Tableros
+                    </a>
+                </div>
+                <div class="input-group w-50">
+                    <form asp-controller="Tablero" asp-action="BuscarTableroPorNombre" method="get">
+                        <div class="input-group">
+                            <input type="text" name="nombre" class="form-control" placeholder="Nombre del Tablero"
+                                aria-label="Nombre del Tablero" aria-describedby="button-addon2">
+                            <button class="btn btn-primary" type="submit" id="button-addon2"><i
+                                    class="fas fa-search"></i></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <table class="table table-striped">
+                <thead>
                     <tr>
-                        <td>@tablero.NombreTableroVM</td>
-                        <td>@tablero.DescripcionVM</td>
-                        <td>@tablero.IdUsuarioPropietarioVM</td>
-                        <td>
-                            <a href="@Url.Action("ModificarTablero", "Tablero", new { idTablero = tablero.IdTableroVM })"
-                                class="btn btn-primary">Editar</a>
-                            <a href="@Url.Action("EliminarTablero", "Tablero", new { idTablero = tablero.IdTableroVM })"
-                                class="btn btn-danger">Eliminar</a>
-                            <a href="@Url.Action("MostrarTareasTableroIdEspecifico", "Tarea", new { idTablero = tablero.IdTableroVM })"
-                                class="btn btn-info">Ver tareas</a>
-                        </td>
+                        @* <th scope="col" style="visibility: hidden;">Id Tablero</th> *@
+                        <th scope="col">Id Tablero</th>
+                        <th scope="col">Nombre de Tablero</th>
+                        <th scope="col">Descripcion</th>
+                        <th scope="col">Id del Usuario Propietario</th>
+                        <th scope="col">Opciones</th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach (var tablero in Model.ListaTablerosVM)
+                    {
+                        <tr>
+                            @* <th scope="row" style="visibility: hidden;">@tablero.IdTableroVM </th> *@
+                            <td>@tablero.IdTableroVM</td>
+                            <td>@tablero.NombreTableroVM</td>
+                            <td>@tablero.DescripcionVM</td>
+                            <td>@tablero.IdUsuarioPropietarioVM</td>
+                            <td>
+                                <div class="btn-group" role="group" aria-label="Opciones">
+                                    <a asp-controller="Tablero" asp-action="ModificarTablero" class="btn btn-primary"
+                                        asp-route-idTablero="@tablero.IdTableroVM">
+                                        <i class="fas fa-edit me-1"></i>Editar</a>
+                                    <a asp-controller="Tablero" asp-action="EliminarTablero" class="btn btn-danger"
+                                        asp-route-idTablero="@tablero.IdTableroVM">
+                                        <i class="fas fa-trash-alt me-1"></i>Eliminar</a>
+                                    <a asp-controller="Tarea" asp-action="MostrarTareasTableroIdEspecifico"
+                                        class="btn btn-info" asp-route-idTablero="@tablero.IdTableroVM">
+                                        <i class="far fa-eye me-1"></i>Ver tareas</a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-</body>
-
-</html>
+</div>

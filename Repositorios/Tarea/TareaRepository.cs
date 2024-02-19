@@ -5,7 +5,6 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
 {
     public class TareaRepository : ITareaRepository
     {
-        // private string cadenaConexion = "Data Source=DB/kanban.db;Cache=Shared";
         private readonly string connectionString;
 
         public TareaRepository(string CadenaConexion)
@@ -29,7 +28,9 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
                     command.Parameters.Add(new SQLiteParameter("@descripcionTarea", nuevaTarea.DescripcionTareaM));
                     command.Parameters.Add(new SQLiteParameter("@colorTarea", nuevaTarea.ColorM));
                     command.Parameters.Add(new SQLiteParameter("@idUsuarioAsignado", nuevaTarea.IdUsuarioAsignadoM));
+
                     command.ExecuteNonQuery();
+
                 }
                 catch (Exception)
                 {
@@ -42,7 +43,6 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
 
             }
         }
-
 
         public List<Tarea> ListarTodasLasTareas()
         {
@@ -65,17 +65,10 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
                                 NombreTareaM = reader["nombre_tarea"].ToString()!,
                                 DescripcionTareaM = reader["descripcion_tarea"].ToString(),
                                 ColorM = reader["color_tarea"].ToString(),
-                                EstadoTareaM = (EstadoTarea)Enum.Parse(typeof(EstadoTarea), reader["estado_tarea"].ToString()!)
+                                EstadoTareaM = (EstadoTarea)Enum.Parse(typeof(EstadoTarea), reader["estado_tarea"].ToString()!),
+                                IdUsuarioAsignadoM = (reader["id_usuario_asignado"] == DBNull.Value) ? null : Convert.ToInt32(reader["id_usuario_asignado"])
                             };
-                            // Verificar si IdUsuarioAsignado es nulo en la base de datos
-                            if (reader.IsDBNull(reader.GetOrdinal("id_usuario_asignado")))
-                            {
-                                tarea.IdUsuarioAsignadoM = null; // Asignar null si es nulo en la base de datos
-                            }
-                            else
-                            {
-                                tarea.IdUsuarioAsignadoM = Convert.ToInt32(reader["id_usuario_asignado"]);
-                            }
+
                             listaDeTareas.Add(tarea);
                         }
                     }
@@ -95,7 +88,6 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
             }
             return listaDeTareas;
         }
-
 
         public List<Tarea> ListarTareasDeUsuario(int idUsuario)
         {
@@ -142,7 +134,6 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
             return listaDeTareas;
         }
 
-
         public List<Tarea> ListarTareasDeTablero(int idRecibe)
         {
             var query = "SELECT * FROM Tarea WHERE id_tablero = @idRecibe";
@@ -166,7 +157,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
                                 DescripcionTareaM = reader["descripcion_tarea"].ToString(),
                                 ColorM = reader["color_tarea"].ToString(),
                                 EstadoTareaM = (EstadoTarea)Enum.Parse(typeof(EstadoTarea), reader["estado_tarea"].ToString()!),
-                                IdUsuarioAsignadoM = Convert.ToInt32(reader["id_usuario_asignado"])
+                                IdUsuarioAsignadoM = (reader["id_usuario_asignado"] == DBNull.Value) ? null : Convert.ToInt32(reader["id_usuario_asignado"])
                             };
                             listaDeTareas.Add(tarea);
                         }
@@ -187,7 +178,6 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
             }
             return listaDeTareas;
         }
-
 
         public Tarea ObtenerTareaPorId(int idTarea)
         {
@@ -210,15 +200,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
                             tarea.DescripcionTareaM = reader["descripcion_tarea"].ToString();
                             tarea.ColorM = reader["color_tarea"].ToString();
                             tarea.EstadoTareaM = (EstadoTarea)Enum.Parse(typeof(EstadoTarea), reader["estado_tarea"].ToString()!);
-                            // Verificar si IdUsuarioAsignado es nulo en la base de datos
-                            if (reader.IsDBNull(reader.GetOrdinal("id_usuario_asignado")))
-                            {
-                                tarea.IdUsuarioAsignadoM = null; // Asignar null si es nulo en la base de datos
-                            }
-                            else
-                            {
-                                tarea.IdUsuarioAsignadoM = Convert.ToInt32(reader["id_usuario_asignado"]);
-                            }
+                            tarea.IdUsuarioAsignadoM = (reader["id_usuario_asignado"] == DBNull.Value) ? null : Convert.ToInt32(reader["id_usuario_asignado"]);
                         }
                     }
                 }
@@ -237,7 +219,6 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
             }
             return tarea;
         }
-
 
         public void EliminarTarea(int idTarea)
         {
@@ -262,13 +243,10 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
             }
         }
 
-
         public void ModificarTarea(int idTarea, Tarea tareaModificada)
         {
-            var query = "UPDATE Tarea " +
-                        "SET id_tablero = @idTablero, nombre_tarea = @nombreTarea, descripcion_tarea = @descripcionTarea, estado_tarea = @estadoTarea, color_tarea = @colorTarea, id_usuario_asignado = @idUsuarioAsignado " +
-                        "WHERE id_tarea = @idTarea;";
-
+            var query = "UPDATE Tarea SET id_tablero = @idTablero, nombre_tarea = @nombreTarea, descripcion_tarea = @descripcionTarea," +
+            " estado_tarea = @estadoTarea, color_tarea = @colorTarea, id_usuario_asignado = @idUsuarioAsignado WHERE id_tarea = @idTarea;";
             using (SQLiteConnection connection = new SQLiteConnection(connectionString))
             {
                 try
@@ -293,10 +271,8 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
                 {
                     connection.Close();
                 }
-
             }
         }
-
 
         public void AsignarUsuarioATarea(int idUsuario, int idTarea)
         {
@@ -326,6 +302,47 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
             }
         }
 
-    }
+        public List<Tarea> BuscarTareasPorNombre(string nombre)
+        {
+            var query = "SELECT * FROM Tarea WHERE nombre_tarea LIKE @nombre";
+            List<Tarea> listaDeTareas = new List<Tarea>();
 
+            using (SQLiteConnection connection = new SQLiteConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    var command = new SQLiteCommand(query, connection);
+                    command.Parameters.Add(new SQLiteParameter("@nombre", "%" + nombre + "%"));
+
+                    using (SQLiteDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var tarea = new Tarea
+                            {
+                                IdTareaM = Convert.ToInt32(reader["id_tarea"]),
+                                NombreTareaM = reader["nombre_tarea"].ToString()!,
+                                DescripcionTareaM = reader["descripcion_tarea"].ToString(),
+                                EstadoTareaM = (EstadoTarea)Convert.ToInt32(reader["estado_tarea"]),
+                                ColorM = reader["color_tarea"].ToString(),
+                                IdUsuarioAsignadoM = Convert.ToInt32(reader["id_usuario_asignado"]),
+                                IdTableroM = Convert.ToInt32(reader["id_tablero"])
+                            };
+                            listaDeTareas.Add(tarea);
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+                    throw new Exception("Hubo un problema al buscar tareas por nombre en la base de datos");
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+            return listaDeTareas;
+        }
+    }
 }

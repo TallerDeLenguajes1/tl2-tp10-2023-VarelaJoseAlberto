@@ -4,7 +4,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Models
     public class Tablero
     {
         public int IdTableroM { get; set; }
-        public int IdUsuarioPropietarioM { get; set; }
+        public int? IdUsuarioPropietarioM { get; set; }
         public string? NombreDeTableroM { get; set; }
         public string? DescripcionDeTableroM { get; set; }
 

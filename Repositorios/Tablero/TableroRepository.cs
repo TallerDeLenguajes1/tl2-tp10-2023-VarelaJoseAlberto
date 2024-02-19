@@ -38,7 +38,6 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
             }
         }
 
-
         public List<Tablero> ListarTodosTableros()
         {
             var query = "SELECT * FROM Tablero";
@@ -79,7 +78,6 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
             }
             return listaDeTablero;
         }
-
 
         public List<Tablero> ListarTablerosDeUsuarioEspecifico(int idRecibe)
         {
@@ -125,7 +123,6 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
             return tableros;
         }
 
-
         public Tablero TreaerTableroPorId(int idRecibe)
         {
             var query = "SELECT * FROM Tablero WHERE id_tablero = @idTablero;";
@@ -164,7 +161,6 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
             return tablero;
         }
 
-
         public void EliminarTableroPorId(int idRecibe)
         {
             var query = "DELETE FROM Tablero WHERE id_tablero = @idRecibe";
@@ -187,7 +183,6 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
                 }
             }
         }
-
 
         public void EliminarTableroYTareas(int idTablero)
         {
@@ -214,10 +209,10 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
             }
         }
 
-
         public void ModificarTablero(int idRecibe, Tablero modificarTablero)
         {
-            var query = "UPDATE Tablero SET id_usuario_propietario = @idPropietario, nombre_tablero = @nombreTablero, descripcion_tablero = @descripTablero WHERE id_tablero = @idRecibe;";
+            var query = "UPDATE Tablero SET id_usuario_propietario = @idPropietario, nombre_tablero = @nombreTablero, descripcion_tablero = @descripTablero" +
+             "WHERE id_tablero = @idRecibe; ";
             using (SQLiteConnection connection = new SQLiteConnection(connectionString))
             {
                 try
@@ -241,5 +236,44 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
             }
         }
 
+        public List<Tablero> BuscarTablerosPorNombre(string nombre)
+        {
+            var query = "SELECT * FROM Tablero WHERE nombre_tablero LIKE @nombre";
+            List<Tablero> listaDeTableros = new List<Tablero>();
+
+            using (SQLiteConnection connection = new SQLiteConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    var command = new SQLiteCommand(query, connection);
+                    command.Parameters.Add(new SQLiteParameter("@nombre", "%" + nombre + "%"));
+
+                    using (SQLiteDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var tablero = new Tablero
+                            {
+                                IdTableroM = Convert.ToInt32(reader["id_tablero"]),
+                                NombreDeTableroM = reader["nombre_tablero"].ToString()!,
+                                DescripcionDeTableroM = reader["descripcion_tablero"].ToString(),
+                                IdUsuarioPropietarioM = Convert.ToInt32(reader["id_usuario_propietario"])
+                            };
+                            listaDeTableros.Add(tablero);
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+                    throw new Exception("Hubo un problema al buscar tableros por nombre en la base de datos");
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+            return listaDeTableros;
+        }
     }
 }

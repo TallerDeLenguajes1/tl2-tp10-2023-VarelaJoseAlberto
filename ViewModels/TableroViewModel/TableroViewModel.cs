@@ -4,21 +4,15 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.ViewModels
 {
     public class TableroViewModel
     {
-        private int idTableroVM;
-        private int idUsuarioPropietarioVM;
-        private string? nombreTableroVM;
-        private string? descripcionVM;
-
-
-        public int IdTableroVM { get => idTableroVM; set => idTableroVM = value; }
-        public int IdUsuarioPropietarioVM { get => idUsuarioPropietarioVM; set => idUsuarioPropietarioVM = value; }
-        public string? NombreTableroVM { get => nombreTableroVM; set => nombreTableroVM = value; }
-        public string? DescripcionVM { get => descripcionVM; set => descripcionVM = value; }
+        public int IdTableroVM { get; set; }
+        public int? IdUsuarioPropietarioVM { get; set; }
+        public string? NombreTableroVM { get; set; }
+        public string? DescripcionVM { get; set; }
 
         public TableroViewModel(Tablero tablero)
         {
             IdTableroVM = tablero.IdTableroM;
-            IdUsuarioPropietarioVM = tablero.IdUsuarioPropietarioM;
+            IdUsuarioPropietarioVM = (int)tablero.IdUsuarioPropietarioM!;
             NombreTableroVM = tablero.NombreDeTableroM;
             DescripcionVM = tablero.DescripcionDeTableroM!;
         }

@@ -324,7 +324,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
         }
 
         [HttpGet]
-        public IActionResult MostrarTareas()
+        public IActionResult MostrarTareas(string nombreBusqueda)
         {
             try
             {
@@ -335,8 +335,16 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                 }
                 if (Autorizacion.EsAdmin(HttpContext))
                 {
-                    var todasLasTareas = _tareaRepository.ListarTodasLasTareas();
-                    var tareaVM = todasLasTareas.Select(u => new TareaViewModel
+                    List<Tarea> tareas;
+                    if (string.IsNullOrEmpty(nombreBusqueda))
+                    {
+                        tareas = _tareaRepository.ListarTodasLasTareas();
+                    }
+                    else
+                    {
+                        tareas = _tareaRepository.BuscarTareasPorNombre(nombreBusqueda);
+                    }
+                    var tareaVM = tareas.Select(u => new TareaViewModel
                     {
                         IdTableroVM = u.IdTableroM,
                         IdTareaVM = u.IdTareaM,
@@ -344,11 +352,12 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                         ColorVM = u.ColorM,
                         EstadoTareaVM = u.EstadoTareaM,
                         DescripcionTareaVM = u.DescripcionTareaM,
-                        IdUsuarioAsignadoVM = (int)u.IdUsuarioAsignadoM!
+                        // IdUsuarioAsignadoVM = (int)u.IdUsuarioAsignadoM!
+                        IdUsuarioAsignadoVM = u.IdUsuarioAsignadoM.HasValue ? u.IdUsuarioAsignadoM.Value : 0
                     }).ToList();
                     var viewModel = new ListarTareaViewModel(tareaVM);
                     _logger.LogInformation("Se mostraron todas las tareas correctamente.");
-                    return View(viewModel);
+                    return View("MostrarTareas", viewModel);
                 }
                 else
                 {
@@ -379,7 +388,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                         ColorVM = u.ColorM,
                         EstadoTareaVM = u.EstadoTareaM,
                         DescripcionTareaVM = u.DescripcionTareaM,
-                        IdUsuarioAsignadoVM = (int)u.IdUsuarioAsignadoM!
+                        IdUsuarioAsignadoVM = u.IdUsuarioAsignadoM.HasValue ? u.IdUsuarioAsignadoM.Value : 0
                     }).ToList();
                     var viewModel = new ListarTareaViewModel(tareaVM);
                     _logger.LogInformation($"Se mostraron todas las tareas del usuario con ID {idUsuario} correctamente.");
@@ -414,7 +423,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                         ColorVM = u.ColorM,
                         EstadoTareaVM = u.EstadoTareaM,
                         DescripcionTareaVM = u.DescripcionTareaM,
-                        IdUsuarioAsignadoVM = (int)u.IdUsuarioAsignadoM!
+                        IdUsuarioAsignadoVM = u.IdUsuarioAsignadoM.HasValue ? u.IdUsuarioAsignadoM.Value : 0
                     }).ToList();
                     var viewModel = new ListarTareaViewModel(tareaVM);
                     _logger.LogInformation($"Se mostraron todas las tareas del tablero con ID {IdTablero} correctamente.");
@@ -429,6 +438,36 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error al ejecutar MostrarTareasTableroIdEspecifico del controlador Tarea.");
+                return BadRequest();
+            }
+        }
+
+        [HttpGet]
+        public IActionResult BuscarTareasPorNombre(string nombre)
+        {
+            try
+            {
+                if (Autorizacion.EstaAutentificado(HttpContext))
+                {
+                    if (Autorizacion.EsAdmin(HttpContext))
+                    {
+                        return MostrarTareas(nombre);
+                    }
+                    else
+                    {
+                        _logger.LogWarning("Intento de acceso denegado: Usuario sin permisos de administrador intentó acceder al método BuscarTareasPorNombre del controlador de tarea.");
+                        return View("AccesoDenegado");
+                    }
+                }
+                else
+                {
+                    _logger.LogWarning("Intento de acceso sin loguearse: Alguien intentó acceder sin estar logueado al método BuscarTareasPorNombre del controlador de tarea.");
+                    return RedirectToAction("Index", "Login");
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al buscar tableros por nombre");
                 return BadRequest();
             }
         }

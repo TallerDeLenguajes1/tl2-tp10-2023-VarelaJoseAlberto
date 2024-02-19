@@ -219,7 +219,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                         {
                             NombreDeTablero = tablero.NombreDeTableroM,
                             DescripcionDeTablero = tablero.DescripcionDeTableroM,
-                            IdUsuarioPropietario = tablero.IdUsuarioPropietarioM,
+                            IdUsuarioPropietario = (int)tablero.IdUsuarioPropietarioM!,
                             ListadoUsuarios = _usuarioRepository.TraerTodosUsuarios()
                         };
                         _logger.LogInformation($"Se ha cargado el tablero con ID: {idTablero} para su modificación.");
@@ -297,9 +297,8 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
             }
         }
 
-
         [HttpGet]
-        public IActionResult MostrarTodosTablero()
+        public IActionResult MostrarTodosTablero(string nombreBusqueda)
         {
             try
             {
@@ -307,17 +306,25 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                 {
                     if (Autorizacion.EsAdmin(HttpContext))
                     {
-                        var tableros = _tableroRepository.ListarTodosTableros();
+                        List<Tablero> tableros;
+                        if (string.IsNullOrEmpty(nombreBusqueda))
+                        {
+                            tableros = _tableroRepository.ListarTodosTableros();
+                        }
+                        else
+                        {
+                            tableros = _tableroRepository.BuscarTablerosPorNombre(nombreBusqueda);
+                        }
                         var tablerosVM = tableros.Select(tablero => new TableroViewModel
                         {
                             IdTableroVM = tablero.IdTableroM,
-                            IdUsuarioPropietarioVM = tablero.IdUsuarioPropietarioM,
+                            IdUsuarioPropietarioVM = tablero.IdUsuarioPropietarioM.HasValue ? tablero.IdUsuarioPropietarioM.Value : 0,
                             NombreTableroVM = tablero.NombreDeTableroM,
                             DescripcionVM = tablero.DescripcionDeTableroM
                         }).ToList();
                         var viewModel = new ListarTablerosViewModel(tablerosVM);
                         _logger.LogInformation("Mostrando todos los tableros.");
-                        return View(viewModel);
+                        return View("MostrarTodosTablero", viewModel);
                     }
                     else
                     {
@@ -370,6 +377,35 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
             }
         }
 
+        [HttpGet]
+        public IActionResult BuscarTableroPorNombre(string nombre)
+        {
+            try
+            {
+                if (Autorizacion.EstaAutentificado(HttpContext))
+                {
+                    if (Autorizacion.EsAdmin(HttpContext))
+                    {
+                        return MostrarTodosTablero(nombre);
+                    }
+                    else
+                    {
+                        _logger.LogWarning("Intento de acceso denegado: Usuario sin permisos de administrador intentó acceder al método BuscarTableroPorNombre del controlador de tableros.");
+                        return View("AccesoDenegado");
+                    }
+                }
+                else
+                {
+                    _logger.LogWarning("Intento de acceso sin loguearse: Alguien intentó acceder sin estar logueado al método BuscarTableroPorNombre del controlador de tableros.");
+                    return RedirectToAction("Index", "Login");
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al buscar tableros por nombre");
+                return BadRequest();
+            }
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

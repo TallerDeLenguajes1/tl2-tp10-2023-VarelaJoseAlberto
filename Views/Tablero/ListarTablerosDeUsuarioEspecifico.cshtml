@@ -3,27 +3,38 @@
     ViewData["Title"] = "Tableros del Usuario";
 }
 
-<!DOCTYPE html>
-<html lang="es">
-
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tableros del Usuario</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
-</head>
-
-<body>
-    <div class="container">
-        <h1 class="text-center mt-3">Tableros del Usuario</h1>
-        <div class="mt-4">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="mb-3 d-flex justify-content-between align-items-center">
+                <div>
+                    <a asp-controller="Tablero" asp-action="CrearTablero" class="btn btn-primary"> <i
+                            class="fas fa-user-plus me-1"></i>Crear Tablero</a>
+                </div>
+                <div>
+                    <a asp-controller="Tablero" asp-action="MostrarTodosTablero" class="btn btn-secondary">
+                        <i class="fas fa-list me-1"></i> Mostrar Todos los Usuarios
+                    </a>
+                </div>
+                <div class="input-group w-50">
+                    <form asp-controller="Tablero" asp-action="BuscarTableroPorNombre" method="get">
+                        <div class="input-group mb-3">
+                            <input type="text" name="tablero" class="form-control" placeholder="Nombre del Tablero"
+                                aria-label="Nombre del Tablero" aria-describedby="button-addon2">
+                            <button class="btn btn-primary" type="submit" id="button-addon2"><i
+                                    class="fas fa-search"></i></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
             <table class="table table-striped">
                 <thead>
                     <tr>
                         <th scope="col">Id Tablero</th>
                         <th scope="col">Nombre de Tablero</th>
                         <th scope="col">Descripción</th>
-                        <th scope="col">Opción</th>
+                        <th scope="col">Opciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -34,8 +45,17 @@
                             <td>@tablero.NombreTableroVM</td>
                             <td>@tablero.DescripcionVM</td>
                             <td>
-                                <a href="@Url.Action("MostrarTareasTableroIdEspecifico", "Tarea", new { idTablero = tablero.IdTableroVM })"
-                                    class="btn btn-primary">Ver tareas</a>
+                                <div class="btn-group" role="group" aria-label="Opciones">
+                                    <a asp-controller="Tablero" asp-action="ModificarTablero" class="btn btn-info"
+                                        asp-route-idTablero="@tablero.IdTableroVM">
+                                        <i class="fas fa-edit me-1"></i>Editar</a>
+                                    <a asp-controller="Tablero" asp-action="EliminarTablero"
+                                        asp-route-idTablero="@tablero.IdTableroVM">
+                                        <i class="fas fa-trash-alt me-1"></i>Eliminar</a>
+                                    <a asp-controller="Tarea" asp-action="MostrarTareasTableroIdEspecifico"
+                                        asp-route-idTablero="@tablero.IdTableroVM">
+                                        <i class="bi bi-eye me-1"></i>Ver tareas</a>
+                                </div>
                             </td>
                         </tr>
                     }
@@ -43,6 +63,4 @@
             </table>
         </div>
     </div>
-</body>
-
-</html>
+</div>

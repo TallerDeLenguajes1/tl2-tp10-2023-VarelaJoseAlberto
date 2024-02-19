@@ -8,8 +8,8 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
         void ModificarTablero(int idTablero, Tablero modificarTablero);
         Tablero TreaerTableroPorId(int idTablero);
         List<Tablero> ListarTodosTableros();
-        // lista los tableros de un usuario especifico en la tabla tablero de la BD y recibe un id usuario para comparar con el id_usuario_propietario de la BD
         List<Tablero> ListarTablerosDeUsuarioEspecifico(int idUsuario);
+        List<Tablero> BuscarTablerosPorNombre(string tablero);
         void EliminarTableroPorId(int idTablero);
         void EliminarTableroYTareas(int idTablero);
     }

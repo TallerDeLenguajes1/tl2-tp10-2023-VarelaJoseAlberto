@@ -14,8 +14,10 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.ViewModels
         [Display(Name = "Descripción del Tablero")]
         public string? DescripcionDeTablero { get; set; }
 
-        public List<Usuario>? ListadoUsuarios { get; set; }
+        [Required(ErrorMessage = "El nombre del propietario del tablero es requerido.")]
+        [Display(Name = "nombre del propietario del Tablero")]
         public int IdUsuarioPropietario { get; set; }
+        public List<Usuario>? ListadoUsuarios { get; set; }
 
         public ModificarTableroViewModel()
         {
@@ -24,7 +26,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.ViewModels
         {
             NombreDeTablero = tablero.NombreDeTableroM;
             DescripcionDeTablero = tablero.DescripcionDeTableroM;
-            IdUsuarioPropietario = tablero.IdUsuarioPropietarioM;
+            IdUsuarioPropietario = (int)tablero.IdUsuarioPropietarioM!;
         }
     }
 }

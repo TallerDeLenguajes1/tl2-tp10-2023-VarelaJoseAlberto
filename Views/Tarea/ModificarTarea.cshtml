@@ -1,77 +1,80 @@
 @model tl2_tp10_2023_VarelaJoseAlberto.ViewModels.ModificarTareaViewModel
+@{
+    ViewData["Title"] = "Confirmar Modificación";
+}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h2 class="text-center mb-4">Confirmar Modificación</h2>
+            <div>
+                <p>Estás modificando la Tarea "@Model.NombreTarea"?</p>
+            </div>
+            <form asp-controller="Tarea" asp-action="ConfirmarModificarTarea" method="post">
+                <fieldset>
+                    <legend>Detalles de la tarea</legend>
+                    <input type="hidden" asp-for="IdTarea" />
 
-<h1>Modificar Tarea</h1>
-<h2>Confirmar Modificacion</h2>
-<div>
-    <p>Estás modificando la Tarea "@Model.NombreTarea"?</p>
-</div>
-<div class="row justify-content-center mt-5">
-    <div class="col-md-6">
-        <form asp-controller="Tarea" asp-action="ConfirmarModificarTarea" method="post">
-            <fieldset>
-                <legend>Detalles de la tarea</legend>
-                <input type="hidden" asp-for="IdTarea" />
+                    <div class="mb-3">
+                        <label asp-for="NombreTarea" class="form-label">Nombre de la Tarea</label>
+                        <input type="text" class="form-control" asp-for="NombreTarea" />
+                        <span asp-validation-for="NombreTarea" class="text-danger"></span>
+                    </div>
 
-                <div class="mb-3">
-                    <label asp-for="NombreTarea" class="form-label">Nombre:</label>
-                    <input type="text" class="form-control" asp-for="NombreTarea" />
-                    <span asp-validation-for="NombreTarea" class="text-danger"></span>
-                </div>
+                    <div class="mb-3">
+                        <label asp-for="DescripcionTarea" class="form-label">Descripción de la Tarea</label>
+                        <textarea class="form-control" asp-for="DescripcionTarea"></textarea>
+                        <span asp-validation-for="DescripcionTarea" class="text-danger"></span>
+                    </div>
 
-                <div class="mb-3">
-                    <label asp-for="DescripcionTarea" class="form-label">Descripción:</label>
-                    <textarea class="form-control" asp-for="DescripcionTarea"></textarea>
-                    <span asp-validation-for="DescripcionTarea" class="text-danger"></span>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label asp-for="EstadoTarea">Estado:</label>
+                    <div class="input-group mb-3">
+                        <label class="input-group-text" asp-for="EstadoTarea">Estado</label>
                         <select class="form-select" asp-for="EstadoTarea"
                             asp-items="@Html.GetEnumSelectList<EstadoTarea>()">
-                            <option value="" selected disabled>--- Seleccionar ---</option>
+                            <option value="" selected disabled> ---Seleccionar--- </option>
                         </select>
                         <span asp-validation-for="EstadoTarea" class="text-danger"></span>
                     </div>
 
+                    <div class="input-group mb-3">
+                        <label asp-for="IdUsuarioAsignado" class="input-group-text">Usuario Asignado</label>
+                        <select asp-for="IdUsuarioAsignado" class="form-select">
+                            <option value="" selected> --- Sin asignar ---</option>
+                            @foreach (var usuario in Model.ListadoDeUsuarioDisponible!)
+                            {
+                                <option value="@usuario.IdUsuarioM">@usuario.NombreDeUsuarioM</option>
+                            }
+                        </select>
+                        <span asp-validation-for="IdUsuarioAsignado" class="text-danger"></span>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <label asp-for="IdTablero" class="input-group-text">Tablero</label>
+                        <select class="form-select" asp-for="IdTablero">
+                            <option value="" selected disabled> ---Seleccionar--- </option>
+                            @foreach (var tablero in Model.ListadoTableros!)
+                            {
+                                <option value="@tablero.IdTableroM">@tablero.NombreDeTableroM</option>
+                            }
+                        </select>
+                        <span asp-validation-for="IdTablero" class="text-danger"></span>
+                    </div>
+
                     <div class="mb-3">
-                        <label asp-for="ColorTarea" class="form-label">Color:</label>
-                        <input asp-for="ColorTarea" type="color" />
+                        <label asp-for="ColorTarea" class="form-label" class="input-group-text">Color</label>
+                        <input type="color" class="form-control form-control-color" asp-for="ColorTarea" value="#563d7c"
+                            title="Selecciona un color">
                         <span asp-validation-for="ColorTarea" class="text-danger"></span>
                     </div>
-                </div>
 
-                <div class="mb-3">
-                    <label class="from-label" asp-for="IdTablero"> Seleccione el Tablero</label>
-                    <select class="from-select" asp-for="IdTablero">
-                        <option value="" selected disabled>--- Seleccionar ---</option>
-                        @foreach (var tablero in Model.ListadoTableros!)
-                        {
-                            <option value="@tablero.IdTableroM">@tablero.NombreDeTableroM</option>
-                        }
-                    </select>
+                </fieldset>
+                <div class="col-12">
+                    <button class="btn btn-success" type="submit">Actualizar</button>
+                    <a asp-controller="Tarea" asp-action="Index" class="btn btn-danger">Cancelar</a>
                 </div>
-
-                <div class="mb-3">
-                    <label class="form-label" asp-for="IdUsuarioAsignado">Usuario a Asignar</label>
-                    <select class="from-select" asp-for="IdUsuarioAsignado">
-                        <option value="" selected disabled>--- Seleccionar ---</option>
-                        @foreach (var usuario in Model.ListadoDeUsuarioDisponible!)
-                        {
-                            <option value="@usuario.IdUsuarioM">@usuario.NombreDeUsuarioM</option>
-                        }
-                    </select>
-                    <span asp-validation-for="IdUsuarioAsignado" class="text-danger"></span>
-                </div>
-            </fieldset>
-            <div class="col-12">
-                <button class="btn btn-success" type="submit">Guardar Cambios</button>
-                <a asp-controller="Tarea" asp-action="Index" class="btn btn-danger">Cancelar</a>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
-</div>
 
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-}
+    @section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+    }
