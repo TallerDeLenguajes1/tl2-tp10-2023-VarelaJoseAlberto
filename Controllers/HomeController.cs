@@ -10,32 +10,38 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
-
         }
 
         public IActionResult Index()
         {
-            if (Autorizacion.EstaAutentificado(HttpContext))
+            try
             {
-                if (Autorizacion.EsAdmin(HttpContext))
+                if (Autorizacion.EstaAutentificado(HttpContext))
                 {
-                    return View();
+                    if (Autorizacion.EsAdmin(HttpContext))
+                    {
+                        _logger.LogInformation("Accediendo al método Index del controlador Home.");
+                        return View();
+                    }
+                    else
+                    {
+                        _logger.LogInformation("Usuario no autorizado intentó acceder al método Index del controlador Home y fue redirigido al tablero.");
+                        return RedirectToAction("Index", "Tablero");
+                    }
                 }
-                else // verificación de otro rol necesario
+                else
                 {
-                    // int idUsuario = (int)HttpContext.Session.GetInt32("IdUsuario"); // 0 es un valor por defecto si no se encuentra el ID de usuario
-                    // return RedirectToAction("ListarTablerosDeUsuarioEspecifico", "Tablero", new { idUsuario = idUsuario });
-                    return RedirectToAction("Index", "Tablero");
+                    _logger.LogInformation("Intento de acceso sin autenticación al método Index del controlador Home. Redirigiendo al login.");
+                    return RedirectToAction("Index", "Login");
                 }
             }
-            else
+            catch (Exception ex)
             {
-                // si intenta ingresar forzadamente regresa al home
-                return RedirectToAction("Index", "Login");
+                _logger.LogError(ex, "Error al acceder al método Index del controlador Home.");
+                return BadRequest();
             }
         }
 

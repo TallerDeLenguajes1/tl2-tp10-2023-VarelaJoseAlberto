@@ -31,7 +31,6 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
             }
         }
 
-
         [HttpPost]
         public IActionResult Index(LoginViewModel loginViewModel)
         {
