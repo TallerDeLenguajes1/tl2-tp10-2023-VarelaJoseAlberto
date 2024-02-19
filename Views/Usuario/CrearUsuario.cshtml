@@ -1,38 +1,37 @@
 @model tl2_tp10_2023_VarelaJoseAlberto.ViewModels.CrearUsuarioViewModel
 @{
     ViewData["Title"] = "Crear Usuario";
-    @* Layout = "~/Views/Shared/_NewVista.cshtml"; *@
-    Layout = null;
 }
-<h1>Crear Nuevo Usuario</h1>
-<div class="row justify-content-center mt-5">
-    <div class="col-md-6">
-        <form asp-controller="Usuario" asp-action="ConfirmarCrearUsuario" method="post">
-            <div class="mb-3">
-                <label asp-for="@Model.NombreDeUsuario"></label>
-                <input asp-for="@Model.NombreDeUsuario" class="form-control" />
-                <span asp-validation-for="@Model.NombreDeUsuario" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="@Model.Contrasenia"></label>
-                <input asp-for="@Model.Contrasenia" class="form-control" />
-                <span asp-validation-for="@Model.Contrasenia" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="@Model.Rol"></label>
-                <select asp-for="@Model.Rol" class="form-select" asp-items="@Html.GetEnumSelectList<Rol>()">
-                    <option selected disabled> ---Seleccionar--- </option>
-                </select>
-                <span asp-validation-for="@Model.Rol" class="text-danger"></span>
-            </div>
-            <div class="col-12">
-                <button type="submit" class="btn btn-primary">Agregar Usuario</button>
-                <a asp-controller="Usuario" asp-action="Index" class="btn btn-danger" type="submit">Cancelar</a>
-            </div>
-        </form>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h1 class="text-center mb-4">Crear Nuevo Usuario</h1>
+            <form asp-controller="Usuario" asp-action="ConfirmarCrearUsuario" method="post">
+                <div class="mb-3">
+                    <label asp-for="@Model.NombreDeUsuario" class="form-label">Nombre de Usuario</label>
+                    <input type="text" asp-for="@Model.NombreDeUsuario" class="form-control" />
+                    <span asp-validation-for="@Model.NombreDeUsuario" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="@Model.Contrasenia">Contraseña</label>
+                    <input type="text" asp-for="@Model.Contrasenia" class="form-control" />
+                    <span asp-validation-for="@Model.Contrasenia" class="text-danger"></span>
+                </div>
+                <div class="input-group mb-3">
+                    <label asp-for="@Model.Rol" class="input-group-text">Rol</label>
+                    <select asp-for="@Model.Rol" class="form-select" asp-items="@Html.GetEnumSelectList<Rol>()">
+                        <option value="" selected disabled> ---Seleccionar--- </option>
+                    </select>
+                    <span asp-validation-for="@Model.Rol" class="text-danger"></span>
+                </div>
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Agregar Usuario</button>
+                    <a asp-controller="Usuario" asp-action="Index" class="btn btn-danger">Cancelar</a>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 @section Scripts {
-
     <partial name="_ValidationScriptsPartial" />
 }

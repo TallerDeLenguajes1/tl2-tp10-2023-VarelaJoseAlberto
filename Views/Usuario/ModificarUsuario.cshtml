@@ -1,37 +1,41 @@
 @model tl2_tp10_2023_VarelaJoseAlberto.ViewModels.ModificarUsuarioViewModel
-<h2>Confirmar Modificacion</h2>
-<div>
-    <p>Estás modificando usuario "@Model.NombreDeUsuario"?</p>
-</div>
-<div class="row justify-content-center mt-5">
-    <div class="col-md-6">
-        <form asp-controller="Usuario" asp-action="ConfirmarModificarUsuario" method="post">
-            <input asp-for="IdUsuario" type="hidden" />
-            <div class="mb-3">
-                <label class="form-label" asp-for="NombreDeUsuario"></label>
-                <input asp-for="NombreDeUsuario" class="form-control" />
-                <span asp-validation-for="NombreDeUsuario" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label class="form-label" asp-for="Contrasenia"></label>
-                <input asp-for="Contrasenia" class="form-control" />
-                <span asp-validation-for="Contrasenia" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="Rol"></label>
-                <select asp-for="Rol" class="form-select" asp-items="@Html.GetEnumSelectList<Rol>()">
-                    <option selected disabled> ---Seleccionar--- </option>
-                </select>
-                <span asp-validation-for="Rol" class="text-danger"></span>
-            </div>
-            <div class="col-12">
-                <button type="submit" class="btn btn-success">Actualizar</button>
-                <a asp-controller="Usuario" asp-action="MostrarTodosUsuarios" class="btn btn-danger">Cancelar</a>
-            </div>
-        </form>
-    </div>
-</div>
-@section Scripts {
-
-    <partial name="_ValidationScriptsPartial" />
+@{
+    ViewData["Title"] = "Confirmar Modificación";
 }
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h2 class="text-center mb-4">Confirmar Modificación</h2>
+            <div>
+                <p>¿Estás seguro de que quieres modificar el usuario <strong>"@Model.NombreDeUsuario"</strong>?</p>
+            </div>
+            <form asp-controller="Usuario" asp-action="ConfirmarModificarUsuario" method="post">
+                <input asp-for="IdUsuario" type="hidden" />
+                <div class="mb-3">
+                    <label class="form-label" asp-for="NombreDeUsuario">Nombre de Usuario</label>
+                    <input type="text" asp-for="NombreDeUsuario" class="form-control" />
+                    <span asp-validation-for="NombreDeUsuario" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" asp-for="Contrasenia">Contraseña</label>
+                    <input type="text" asp-for="Contrasenia" class="form-control" />
+                    <span asp-validation-for="Contrasenia" class="text-danger"></span>
+                </div>
+                <div class="input-group mb-3">
+                    <label asp-for="Rol" class="input-group-text">Rol</label>
+                    <select asp-for="Rol" class="form-select" asp-items="@Html.GetEnumSelectList<Rol>()">
+                        <option value="" selected disabled> ---Seleccionar--- </option>
+                    </select>
+                    <span asp-validation-for="Rol" class="text-danger"></span>
+                </div>
+                <div class="col-12">
+                    <button type="submit" class="btn btn-success">Actualizar</button>
+                    <a asp-controller="Usuario" asp-action="MostrarTodosUsuarios" class="btn btn-danger">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    @section Scripts {
+
+        <partial name="_ValidationScriptsPartial" />
+    }

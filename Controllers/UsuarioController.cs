@@ -8,12 +8,12 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers;
 
 public class UsuarioController : Controller
 {
-    private readonly IUsuarioRepository usuarioRepository;
+    private readonly IUsuarioRepository _usuarioRepository;
     private readonly ILogger<HomeController> _logger;
 
-    public UsuarioController(IUsuarioRepository usserRepository, ILogger<HomeController> logger)
+    public UsuarioController(IUsuarioRepository usuarioRepository, ILogger<HomeController> logger)
     {
-        usuarioRepository = usserRepository;
+        _usuarioRepository = usuarioRepository;
         _logger = logger;
     }
 
@@ -23,16 +23,18 @@ public class UsuarioController : Controller
         {
             if (Autorizacion.EsAdmin(HttpContext))
             {
+                _logger.LogInformation("El usuario con permisos de administrador accedió al Index del controller Usuario.");
                 return View();
             }
             else
             {
+                _logger.LogWarning("Intento de acceso denegado: Usuario sin permisos de administrador intentó acceder al Index del controlador de usuarios.");
                 return View("AccesoDenegado");
             }
         }
         else
         {
-            // si intenta ingresar forzadamente regresa al usuario
+            _logger.LogWarning("Intento de acceso sin loguearse: Alguien intentó acceder sin estar logueado al Index del controlador de usuarios.");
             return RedirectToAction("Index", "Login");
         }
     }
@@ -47,21 +49,24 @@ public class UsuarioController : Controller
                 if (Autorizacion.EsAdmin(HttpContext))
                 {
                     var viewModel = new CrearUsuarioViewModel(new Usuario());
+                    _logger.LogInformation("El usuario con permisos de administrador accedió a crear un usuario.");
                     return View(viewModel);
                 }
                 else
                 {
+                    _logger.LogWarning("Intento de acceso denegado: Usuario sin permisos de administrador intentó acceder al metodo CrearUsuario del controlador de usuarios.");
                     return View("AccesoDenegado");
                 }
             }
             else
             {
+                _logger.LogWarning("Intento de acceso sin loguearse: Alguien intentó acceder sin estar logueado al Index del controllador de usuarios.");
                 return RedirectToAction("Index", "Login");
             }
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex.ToString());
+            _logger.LogError(ex, "Error al Crear al Usuario");
             return BadRequest();
         }
     }
@@ -83,24 +88,27 @@ public class UsuarioController : Controller
                             ContraseniaM = usuarioViewModel.Contrasenia!,
                             RolM = usuarioViewModel.Rol
                         };
-                        usuarioRepository.CrearUsuario(usuario);
+                        _usuarioRepository.CrearUsuario(usuario);
+                        _logger.LogInformation("Se ha creado un nuevo usuario por el administrador.");
                         return RedirectToAction("MostrarTodosUsuarios");
                     }
                     return View(usuarioViewModel);
                 }
                 else
                 {
+                    _logger.LogWarning("Intento de acceso denegado: Usuario sin permisos de administrador intentó acceder al método ConfirmarCrearUsuario del controlador de usuarios.");
                     return View("AccesoDenegado");
                 }
             }
             else
             {
+                _logger.LogWarning("Intento de acceso sin loguearse: Alguien intentó acceder sin estar logueado al método ConfirmarCrearUsuario del controlador de usuarios.");
                 return RedirectToAction("Index", "Login");
             }
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex.ToString());
+            _logger.LogError(ex, "Error al Confirmar la Crearcion del Usuario");
             return BadRequest();
         }
     }
@@ -114,7 +122,7 @@ public class UsuarioController : Controller
             {
                 if (Autorizacion.EsAdmin(HttpContext))
                 {
-                    var usuario = usuarioRepository.TraerUsuarioPorId(idUsuario);
+                    var usuario = _usuarioRepository.TraerUsuarioPorId(idUsuario);
                     if (usuario == null)
                     {
                         return NotFound();
@@ -123,17 +131,19 @@ public class UsuarioController : Controller
                 }
                 else
                 {
+                    _logger.LogWarning("Intento de acceso denegado: Usuario sin permisos de administrador intentó acceder al método EliminarUsuario del controlador de usuarios.");
                     return View("AccesoDenegado");
                 }
             }
             else
             {
+                _logger.LogWarning("Intento de acceso sin loguearse: Alguien intentó acceder sin estar logueado al Index del controllador de usuarios.");
                 return RedirectToAction("Index", "Login");
             }
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex.ToString());
+            _logger.LogError(ex, "Error al Eliminar el Usuario");
             return BadRequest();
         }
     }
@@ -147,22 +157,24 @@ public class UsuarioController : Controller
             {
                 if (Autorizacion.EsAdmin(HttpContext))
                 {
-                    usuarioRepository.EliminarUsuarioPorId(user.IdUsuarioM);
+                    _usuarioRepository.EliminarUsuarioPorId(user.IdUsuarioM);
                     return RedirectToAction("MostrarTodosUsuarios");
                 }
                 else
                 {
+                    _logger.LogInformation($"Se ha eliminado el usuario con ID: {user.IdUsuarioM}");
                     return View("AccesoDenegado");
                 }
             }
             else
             {
+                _logger.LogWarning("Intento de acceso sin loguearse: Alguien intentó acceder sin estar logueado al método ConfirmarEliminar del controlador de usuarios.");
                 return RedirectToAction("Index", "Login");
             }
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex.ToString());
+            _logger.LogError(ex, "Error al Confirmar la Eliminacion del Usuario");
             return BadRequest();
         }
     }
@@ -176,23 +188,23 @@ public class UsuarioController : Controller
             {
                 if (Autorizacion.EsAdmin(HttpContext))
                 {
-                    var usuario = usuarioRepository.TraerUsuarioPorId(idUsuario);
+                    var usuario = _usuarioRepository.TraerUsuarioPorId(idUsuario);
                     if (usuario == null)
                     {
+                        _logger.LogWarning($"No se encontró ningún usuario con el ID: {idUsuario}");
                         View("Error");
                     }
-
                     var viewModel = new ModificarUsuarioViewModel
                     {
                         NombreDeUsuario = usuario!.NombreDeUsuarioM,
                         Contrasenia = usuario.ContraseniaM,
                         Rol = usuario.RolM
                     };
-
                     return View(viewModel);
                 }
                 else
                 {
+                    _logger.LogWarning("Intento de acceso sin loguearse: Alguien intentó acceder sin estar logueado al método ModificarUsuario del controlador de usuarios.");
                     return View("AccesoDenegado");
                 }
             }
@@ -203,7 +215,7 @@ public class UsuarioController : Controller
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex.ToString());
+            _logger.LogError(ex, "Error al Modificar el Usuario");
             return BadRequest();
         }
     }
@@ -225,29 +237,32 @@ public class UsuarioController : Controller
                             ContraseniaM = viewModel.Contrasenia!,
                             RolM = viewModel.Rol
                         };
-                        usuarioRepository.ModificarUsuario(viewModel.IdUsuario, usuario);
+                        _usuarioRepository.ModificarUsuario(viewModel.IdUsuario, usuario);
+                        _logger.LogInformation($"Se ha modificado el usuario con ID: {viewModel.IdUsuario}");
                         return RedirectToAction("MostrarTodosUsuarios");
                     }
                     return View(viewModel);
                 }
                 else
                 {
+                    _logger.LogWarning("Intento de acceso denegado: Usuario sin permisos de administrador intentó acceder al método ConfirmarModificarUsuario del controlador de usuarios.");
                     return View("AccesoDenegado");
                 }
             }
             else
             {
+                _logger.LogWarning("Intento de acceso sin loguearse: Alguien intentó acceder sin estar logueado al método ConfirmarModificarUsuario del controlador de usuarios.");
                 return RedirectToAction("Index", "Login");
             }
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex.ToString());
+            _logger.LogError(ex, "Error al Confirmar La Modificacion del Usuario");
             return BadRequest();
         }
     }
 
-    public IActionResult MostrarTodosUsuarios()
+    public IActionResult MostrarTodosUsuarios(string nombreBusqueda)
     {
         try
         {
@@ -255,29 +270,73 @@ public class UsuarioController : Controller
             {
                 if (Autorizacion.EsAdmin(HttpContext))
                 {
-                    var usuarios = usuarioRepository.TraerTodosUsuarios();
+                    List<Usuario> usuarios;
+
+                    if (string.IsNullOrEmpty(nombreBusqueda))
+                    {
+                        usuarios = _usuarioRepository.TraerTodosUsuarios();
+                    }
+                    else
+                    {
+                        usuarios = _usuarioRepository.BuscarUsuarioPorNombre(nombreBusqueda);
+                    }
+
                     var usauarioVM = usuarios.Select(u => new UsuarioViewModel
                     {
                         IdUsuarioVM = u.IdUsuarioM,
                         NombreDeUsuarioVM = u.NombreDeUsuarioM,
+                        ContraseniaVM = u.ContraseniaM,
                         RolVM = u.RolM
                     }).ToList();
+                    _logger.LogInformation("Mostrando todos los usuarios");
                     var viewModel = new ListarUsuariosViewModel(usauarioVM);
-                    return View(viewModel);
+                    return View("MostrarTodosUsuarios", viewModel);
                 }
                 else
                 {
+                    _logger.LogWarning("Intento de acceso denegado: Usuario sin permisos de administrador intentó acceder al método MostrarTodosUsuarios del controlador de usuarios.");
                     return View("AccesoDenegado");
                 }
             }
             else
             {
+                _logger.LogWarning("Intento de acceso sin loguearse: Alguien intentó acceder sin estar logueado al método MostrarTodosUsuarios del controlador de usuarios.");
                 return RedirectToAction("Index", "Login");
             }
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex.ToString());
+            _logger.LogError(ex, "Error al mostrar todos los usuarios");
+            return BadRequest();
+        }
+    }
+
+    [HttpGet]
+    public IActionResult BuscarUsuarioPorNombre(string nombre)
+    {
+        try
+        {
+            if (Autorizacion.EstaAutentificado(HttpContext))
+            {
+                if (Autorizacion.EsAdmin(HttpContext))
+                {
+                    return MostrarTodosUsuarios(nombre);
+                }
+                else
+                {
+                    _logger.LogWarning("Intento de acceso denegado: Usuario sin permisos de administrador intentó acceder al método BuscarUsuarioPorNombre del controlador de usuarios.");
+                    return View("AccesoDenegado");
+                }
+            }
+            else
+            {
+                _logger.LogWarning("Intento de acceso sin loguearse: Alguien intentó acceder sin estar logueado al método BuscarUsuarioPorNombre del controlador de usuarios.");
+                return RedirectToAction("Index", "Login");
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error al buscar usuario por nombre");
             return BadRequest();
         }
     }
@@ -286,25 +345,25 @@ public class UsuarioController : Controller
     {
         try
         {
-            if (Autorizacion.EstaAutentificado(HttpContext))
+            if (!Autorizacion.EstaAutentificado(HttpContext))
             {
-                if (Autorizacion.EsAdmin(HttpContext))
-                {
-                    return View();
-                }
-                else
-                {
-                    return View("AccesoDenegado");
-                }
+                _logger.LogWarning("Intento de acceso sin loguearse: Alguien intentó acceder a la página de acceso denegado sin estar logueado.");
+                return RedirectToAction("Index", "Login");
+            }
+            else if (!Autorizacion.EsAdmin(HttpContext))
+            {
+                _logger.LogWarning("Intento de acceso denegado: Usuario sin permisos de administrador intentó acceder a la página de acceso denegado.");
+                return View("AccesoDenegado");
             }
             else
             {
-                return RedirectToAction("Index", "Login");
+                _logger.LogWarning("Intento de acceso denegado: Administrador intentó acceder a la página de acceso denegado.");
+                return View();
             }
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex.ToString());
+            _logger.LogError(ex, "Error al mostrar la página de acceso denegado");
             return BadRequest();
         }
     }
@@ -314,5 +373,4 @@ public class UsuarioController : Controller
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
-
 }

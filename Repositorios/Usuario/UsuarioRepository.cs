@@ -217,5 +217,46 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
             // }
             return usuarioEncontrado!;
         }
+
+        public List<Usuario> BuscarUsuarioPorNombre(string nombre)
+        {
+            var query = "SELECT * FROM Usuario WHERE nombre_de_usuario LIKE @nombre";
+            List<Usuario> listaDeUsuarios = new List<Usuario>();
+
+            using (SQLiteConnection connection = new SQLiteConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    var command = new SQLiteCommand(query, connection);
+                    command.Parameters.Add(new SQLiteParameter("@nombre", "%" + nombre + "%"));
+
+                    using (SQLiteDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var usuario = new Usuario
+                            {
+                                IdUsuarioM = Convert.ToInt32(reader["id_usuario"]),
+                                NombreDeUsuarioM = reader["nombre_de_usuario"].ToString()!,
+                                ContraseniaM = reader["contrasenia"].ToString()!,
+                                RolM = (Rol)Convert.ToInt32(reader["rol"])
+                            };
+                            listaDeUsuarios.Add(usuario);
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+                    throw new Exception("Hubo un problema al buscar usuarios por nombre en la base de datos");
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+            return listaDeUsuarios;
+        }
+
     }
 }
