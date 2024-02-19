@@ -125,8 +125,10 @@ public class UsuarioController : Controller
                     var usuario = _usuarioRepository.TraerUsuarioPorId(idUsuario);
                     if (usuario == null)
                     {
+                        _logger.LogWarning($"Se intentó acceder a la vista de eliminar el usuario con ID {idUsuario}, pero el usuario no existe en la base de datos.");
                         return NotFound();
                     }
+                    _logger.LogInformation($"Accediendo a la vista de eliminar el usuario con ID: {idUsuario}");
                     return View(usuario);
                 }
                 else
@@ -158,11 +160,12 @@ public class UsuarioController : Controller
                 if (Autorizacion.EsAdmin(HttpContext))
                 {
                     _usuarioRepository.EliminarUsuarioPorId(user.IdUsuarioM);
+                    _logger.LogInformation($"Se ha eliminado el usuario con ID: {user.IdUsuarioM}");
                     return RedirectToAction("MostrarTodosUsuarios");
                 }
                 else
                 {
-                    _logger.LogInformation($"Se ha eliminado el usuario con ID: {user.IdUsuarioM}");
+                    _logger.LogWarning("Intento de acceso denegado: Usuario sin permisos de administrador intentó acceder al método ConfirmarEliminar del controlador de usuarios.");
                     return View("AccesoDenegado");
                 }
             }
@@ -192,7 +195,7 @@ public class UsuarioController : Controller
                     if (usuario == null)
                     {
                         _logger.LogWarning($"No se encontró ningún usuario con el ID: {idUsuario}");
-                        View("Error");
+                        return NotFound();
                     }
                     var viewModel = new ModificarUsuarioViewModel
                     {
@@ -200,6 +203,7 @@ public class UsuarioController : Controller
                         Contrasenia = usuario.ContraseniaM,
                         Rol = usuario.RolM
                     };
+                    _logger.LogInformation($"Accediendo a la vista de modificar usuario para el usuario con ID: {idUsuario}");
                     return View(viewModel);
                 }
                 else
@@ -210,6 +214,7 @@ public class UsuarioController : Controller
             }
             else
             {
+                _logger.LogWarning("Intento de acceso sin loguearse: Alguien intentó acceder sin estar logueado al método ModificarUsuario del controlador de usuarios.");
                 return RedirectToAction("Index", "Login");
             }
         }
@@ -241,6 +246,7 @@ public class UsuarioController : Controller
                         _logger.LogInformation($"Se ha modificado el usuario con ID: {viewModel.IdUsuario}");
                         return RedirectToAction("MostrarTodosUsuarios");
                     }
+                    _logger.LogWarning("ModelState no es válido en ConfirmarModificarUsuario");
                     return View(viewModel);
                 }
                 else
@@ -288,8 +294,8 @@ public class UsuarioController : Controller
                         ContraseniaVM = u.ContraseniaM,
                         RolVM = u.RolM
                     }).ToList();
-                    _logger.LogInformation("Mostrando todos los usuarios");
                     var viewModel = new ListarUsuariosViewModel(usauarioVM);
+                    _logger.LogInformation("Mostrando todos los usuarios");
                     return View("MostrarTodosUsuarios", viewModel);
                 }
                 else
