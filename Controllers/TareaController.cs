@@ -53,10 +53,10 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                     var rol = Autorizacion.ObtenerRol(HttpContext);
                     if (Autorizacion.EsAdmin(HttpContext) || rol == "operador")
                     {
-                        var viewModel = new CrearTareaViewModel(new Tarea())
+                        var viewModel = new CrearTareaViewModel()
                         {
                             ListadoUsuariosDisponibles = _usuarioRepository.TraerTodosUsuarios(),
-                            Tableros = _tableroRepository.ListarTodosTableros()
+                            ListadoTableros = _tableroRepository.ListarTodosTableros()
                         };
                         _logger.LogInformation($"Accediendo al método CrearTarea del controlador Tarea con el rol '{rol}'.");
                         return View(viewModel);
@@ -76,7 +76,39 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                 return BadRequest();
             }
         }
-
+        [HttpGet]
+        public IActionResult CrearTareaXId(int idTablero)
+        {
+            try
+            {
+                if (Autorizacion.EstaAutentificado(HttpContext))
+                {
+                    var rol = Autorizacion.ObtenerRol(HttpContext);
+                    if (Autorizacion.EsAdmin(HttpContext) || rol == "operador")
+                    {
+                        var viewModel = new CrearTareaViewModel(new Tarea())
+                        {
+                            ListadoUsuariosDisponibles = _usuarioRepository.TraerTodosUsuarios(),
+                            IdTablero = idTablero
+                        };
+                        _logger.LogInformation($"Accediendo al método CrearTarea del controlador Tarea con el rol '{rol}'.");
+                        return View(viewModel);
+                    }
+                    _logger.LogInformation("Intento de acceso denegado al método CrearTarea del controlador Tarea. Redirigiendo a AccesoDenegado.");
+                    return RedirectToAction("AccesoDenegado", "Usuario");
+                }
+                else
+                {
+                    _logger.LogInformation("Intento de acceso sin autenticación al método CrearTarea del controlador Tarea. Redirigiendo al login.");
+                    return RedirectToAction("Index", "Login");
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al acceder al método CrearTarea del controlador Tarea.");
+                return BadRequest();
+            }
+        }
         [HttpPost]
         public IActionResult ConfirmarCrearTarea(CrearTareaViewModel tareaViewModel)
         {
@@ -132,7 +164,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                         else
                         {
                             _logger.LogWarning("El modelo de datos proporcionado no es válido al intentar crear una nueva tarea por el operador. Redirigiendo al formulario de creación de tarea.");
-                            tareaViewModel.Tableros = _tableroRepository.ListarTodosTableros();
+                            tareaViewModel.ListadoTableros = _tableroRepository.ListarTodosTableros();
                             return View("CrearTarea", tareaViewModel);
                         }
                     }
@@ -352,8 +384,9 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                         ColorVM = u.ColorM,
                         EstadoTareaVM = u.EstadoTareaM,
                         DescripcionTareaVM = u.DescripcionTareaM,
-                        // IdUsuarioAsignadoVM = (int)u.IdUsuarioAsignadoM!
-                        IdUsuarioAsignadoVM = u.IdUsuarioAsignadoM.HasValue ? u.IdUsuarioAsignadoM.Value : 0
+                        IdUsuarioAsignadoVM = u.IdUsuarioAsignadoM.HasValue ? u.IdUsuarioAsignadoM.Value : 0,
+                        NombreUsuarioAsignadoVM = u.NombreUsuarioAsignadoM,
+                        NombreDelTableroPerteneceVM = u.NombreDelTableroPerteneceM
                     }).ToList();
                     var viewModel = new ListarTareaViewModel(tareaVM);
                     _logger.LogInformation("Se mostraron todas las tareas correctamente.");
@@ -413,8 +446,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
             {
                 if (Autorizacion.EstaAutentificado(HttpContext))
                 {
-                    var idTableroSeleccionado = IdTablero;
-                    var todasLasTareas = _tareaRepository.ListarTareasDeTablero(idTableroSeleccionado);
+                    var todasLasTareas = _tareaRepository.ListarTareasDeTablero(IdTablero);
                     var tareaVM = todasLasTareas.Select(u => new TareaViewModel
                     {
                         IdTableroVM = u.IdTableroM,
@@ -423,11 +455,12 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                         ColorVM = u.ColorM,
                         EstadoTareaVM = u.EstadoTareaM,
                         DescripcionTareaVM = u.DescripcionTareaM,
-                        IdUsuarioAsignadoVM = u.IdUsuarioAsignadoM.HasValue ? u.IdUsuarioAsignadoM.Value : 0
+                        IdUsuarioAsignadoVM = u.IdUsuarioAsignadoM.HasValue ? u.IdUsuarioAsignadoM.Value : 0,
+                        NombreUsuarioAsignadoVM = u.NombreUsuarioAsignadoM
                     }).ToList();
                     var viewModel = new ListarTareaViewModel(tareaVM);
                     _logger.LogInformation($"Se mostraron todas las tareas del tablero con ID {IdTablero} correctamente.");
-                    return View("MostrarTareas", viewModel);
+                    return View("MostrarTareasTableroIdEspecifico", viewModel);
                 }
                 else
                 {

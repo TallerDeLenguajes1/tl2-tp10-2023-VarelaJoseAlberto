@@ -12,13 +12,11 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly ITableroRepository _tableroRepository;
         private readonly IUsuarioRepository _usuarioRepository;
-        private readonly ITareaRepository _tareaRepository;
 
-        public TableroController(ILogger<HomeController> logger, ITableroRepository tableRepository, ITareaRepository tareaRepository, IUsuarioRepository usuarioRepository)
+        public TableroController(ILogger<HomeController> logger, ITableroRepository tableRepository, IUsuarioRepository usuarioRepository)
         {
             _logger = logger;
             _tableroRepository = tableRepository;
-            _tareaRepository = tareaRepository;
             _usuarioRepository = usuarioRepository;
         }
 
@@ -51,7 +49,6 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                 return BadRequest();
             }
         }
-
 
         [HttpGet]
         public IActionResult CrearTablero()
@@ -217,7 +214,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                         }
                         var viewModel = new ModificarTableroViewModel
                         {
-                            NombreDeTablero = tablero.NombreDeTableroM,
+                            NombreDeTablero = tablero.NombreDeTableroM!,
                             DescripcionDeTablero = tablero.DescripcionDeTableroM,
                             IdUsuarioPropietario = (int)tablero.IdUsuarioPropietarioM!,
                             ListadoUsuarios = _usuarioRepository.TraerTodosUsuarios()
@@ -318,9 +315,10 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                         var tablerosVM = tableros.Select(tablero => new TableroViewModel
                         {
                             IdTableroVM = tablero.IdTableroM,
-                            IdUsuarioPropietarioVM = tablero.IdUsuarioPropietarioM.HasValue ? tablero.IdUsuarioPropietarioM.Value : 0,
-                            NombreTableroVM = tablero.NombreDeTableroM,
-                            DescripcionVM = tablero.DescripcionDeTableroM
+                            IdUsuarioPropietarioVM = tablero.IdUsuarioPropietarioM,
+                            NombreTableroVM = tablero.NombreDeTableroM!,
+                            DescripcionVM = tablero.DescripcionDeTableroM,
+                            NombreDePropietarioVM = tablero.NombreDePropietarioM!
                         }).ToList();
                         var viewModel = new ListarTablerosViewModel(tablerosVM);
                         _logger.LogInformation("Mostrando todos los tableros.");
@@ -357,8 +355,9 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                     {
                         IdTableroVM = tablero.IdTableroM,
                         IdUsuarioPropietarioVM = tablero.IdUsuarioPropietarioM,
-                        NombreTableroVM = tablero.NombreDeTableroM,
-                        DescripcionVM = tablero.DescripcionDeTableroM
+                        NombreTableroVM = tablero.NombreDeTableroM!,
+                        DescripcionVM = tablero.DescripcionDeTableroM,
+                        NombreDePropietarioVM = tablero.NombreDePropietarioM!
                     }).ToList();
                     var viewModel = new ListarTablerosViewModel(tablerosVM);
                     _logger.LogInformation($"Mostrando tableros del usuario con ID: {idUsuario}.");
@@ -391,7 +390,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                     else
                     {
                         _logger.LogWarning("Intento de acceso denegado: Usuario sin permisos de administrador intentó acceder al método BuscarTableroPorNombre del controlador de tableros.");
-                        return View("AccesoDenegado");
+                        return View("AccesoDenegado", "Usuario");
                     }
                 }
                 else

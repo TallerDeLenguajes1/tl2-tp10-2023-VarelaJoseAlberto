@@ -5,7 +5,6 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
 {
     public class TableroRepository : ITableroRepository
     {
-        // private string cadenaConexion = "Data Source=DB/kanban.db;Cache=Shared";
         private readonly string connectionString;
 
         public TableroRepository(string CadenaConexion)
@@ -40,7 +39,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
 
         public List<Tablero> ListarTodosTableros()
         {
-            var query = "SELECT * FROM Tablero";
+            var query = "SELECT * FROM Tablero INNER JOIN Usuario ON Tablero.id_usuario_propietario = Usuario.id_usuario";
             List<Tablero> listaDeTablero = new List<Tablero>();
             using (SQLiteConnection connection = new SQLiteConnection(connectionString))
             {
@@ -57,7 +56,8 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
                                 IdTableroM = Convert.ToInt32(reader["id_tablero"]),
                                 NombreDeTableroM = reader["nombre_tablero"].ToString()!,
                                 DescripcionDeTableroM = reader["descripcion_tablero"].ToString(),
-                                IdUsuarioPropietarioM = Convert.ToInt32(reader["id_usuario_propietario"])
+                                IdUsuarioPropietarioM = Convert.ToInt32(reader["id_usuario_propietario"]),
+                                NombreDePropietarioM = reader["nombre_de_usuario"].ToString()!
                             };
                             listaDeTablero.Add(tabler);
                         }
@@ -81,9 +81,9 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
 
         public List<Tablero> ListarTablerosDeUsuarioEspecifico(int idRecibe)
         {
-            var query = "SELECT * FROM Tablero WHERE id_usuario_propietario = @idUsuario;";
+            var query = "SELECT * FROM Tablero INNER JOIN Usuario ON Tablero.id_usuario_propietario = Usuario.id_usuario " +
+            "WHERE id_usuario_propietario = @idUsuario;";
             List<Tablero> tableros = new List<Tablero>();
-
             using (SQLiteConnection connection = new SQLiteConnection(connectionString))
             {
                 try
@@ -91,7 +91,6 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
                     connection.Open();
                     var command = new SQLiteCommand(query, connection);
                     command.Parameters.Add(new SQLiteParameter("@idUsuario", idRecibe));
-
                     using (SQLiteDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
@@ -101,7 +100,8 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
                                 IdTableroM = Convert.ToInt32(reader["id_tablero"]),
                                 NombreDeTableroM = reader["nombre_tablero"].ToString()!,
                                 DescripcionDeTableroM = reader["descripcion_tablero"].ToString(),
-                                IdUsuarioPropietarioM = Convert.ToInt32(reader["id_usuario_propietario"])
+                                IdUsuarioPropietarioM = Convert.ToInt32(reader["id_usuario_propietario"]),
+                                NombreDePropietarioM = reader["nombre_de_usuario"].ToString()!
                             };
                             tableros.Add(tablero);
                         }
@@ -125,7 +125,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
 
         public Tablero TreaerTableroPorId(int idRecibe)
         {
-            var query = "SELECT * FROM Tablero WHERE id_tablero = @idTablero;";
+            var query = "SELECT * FROM Tablero INNER JOIN Usuario ON Tablero.id_usuario_propietario = Usuario.id_usuario WHERE id_tablero = @idTablero;";
             var tablero = new Tablero();
             using (SQLiteConnection connection = new SQLiteConnection(connectionString))
             {
@@ -142,6 +142,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
                             tablero.NombreDeTableroM = reader["nombre_tablero"].ToString()!;
                             tablero.DescripcionDeTableroM = reader["descripcion_tablero"].ToString();
                             tablero.IdUsuarioPropietarioM = Convert.ToInt32(reader["id_usuario_propietario"]);
+                            tablero.NombreDePropietarioM = reader["nombre_de_usuario"].ToString()!;
                         }
                     }
                 }
@@ -161,16 +162,16 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
             return tablero;
         }
 
-        public void EliminarTableroPorId(int idRecibe)
+        public void EliminarTableroPorId(int idTablero)
         {
-            var query = "DELETE FROM Tablero WHERE id_tablero = @idRecibe";
+            var query = "DELETE FROM Tablero WHERE id_tablero = @idTablero";
             using (SQLiteConnection connection = new SQLiteConnection(connectionString))
             {
                 try
                 {
                     connection.Open();
                     var command = new SQLiteCommand(query, connection);
-                    command.Parameters.Add(new SQLiteParameter("@idRecibe", idRecibe));
+                    command.Parameters.Add(new SQLiteParameter("@idTablero", idTablero));
                     command.ExecuteNonQuery();
                 }
                 catch (Exception)
@@ -204,15 +205,14 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
                     command.Parameters.AddWithValue("@idTablero", idTablero);
                     command.ExecuteNonQuery();
                 }
-
                 connection.Close();
             }
         }
 
         public void ModificarTablero(int idRecibe, Tablero modificarTablero)
         {
-            var query = "UPDATE Tablero SET id_usuario_propietario = @idPropietario, nombre_tablero = @nombreTablero, descripcion_tablero = @descripTablero" +
-             "WHERE id_tablero = @idRecibe; ";
+            var query = "UPDATE Tablero SET id_usuario_propietario = @idPropietario, nombre_tablero = @nombreTablero, " +
+            "descripcion_tablero = @descripTablero WHERE id_tablero = @idRecibe;";
             using (SQLiteConnection connection = new SQLiteConnection(connectionString))
             {
                 try
@@ -238,7 +238,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
 
         public List<Tablero> BuscarTablerosPorNombre(string nombre)
         {
-            var query = "SELECT * FROM Tablero WHERE nombre_tablero LIKE @nombre";
+            var query = "SELECT * FROM Tablero INNER JOIN Usuario ON Tablero.id_usuario_propietario = Usuario.id_usuario WHERE nombre_tablero LIKE @nombre";
             List<Tablero> listaDeTableros = new List<Tablero>();
 
             using (SQLiteConnection connection = new SQLiteConnection(connectionString))
@@ -258,7 +258,8 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
                                 IdTableroM = Convert.ToInt32(reader["id_tablero"]),
                                 NombreDeTableroM = reader["nombre_tablero"].ToString()!,
                                 DescripcionDeTableroM = reader["descripcion_tablero"].ToString(),
-                                IdUsuarioPropietarioM = Convert.ToInt32(reader["id_usuario_propietario"])
+                                IdUsuarioPropietarioM = Convert.ToInt32(reader["id_usuario_propietario"]),
+                                NombreDePropietarioM = reader["nombre_de_usuario"].ToString()!
                             };
                             listaDeTableros.Add(tablero);
                         }

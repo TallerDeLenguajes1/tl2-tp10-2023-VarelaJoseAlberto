@@ -9,7 +9,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
         Tablero TreaerTableroPorId(int idTablero);
         List<Tablero> ListarTodosTableros();
         List<Tablero> ListarTablerosDeUsuarioEspecifico(int idUsuario);
-        List<Tablero> BuscarTablerosPorNombre(string tablero);
+        List<Tablero> BuscarTablerosPorNombre(string nombre);
         void EliminarTableroPorId(int idTablero);
         void EliminarTableroYTareas(int idTablero);
     }

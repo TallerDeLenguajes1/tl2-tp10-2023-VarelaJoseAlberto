@@ -46,7 +46,8 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
 
         public List<Tarea> ListarTodasLasTareas()
         {
-            var query = "SELECT * FROM Tarea";
+            var query = "SELECT * FROM Tarea left JOIN Usuario ON Tarea.id_usuario_asignado = Usuario.id_usuario " +
+            "left JOIN Tablero ON Tarea.id_tablero = Tablero.id_tablero;";
             List<Tarea> listaDeTareas = new List<Tarea>();
             using (SQLiteConnection connection = new SQLiteConnection(connectionString))
             {
@@ -66,9 +67,10 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
                                 DescripcionTareaM = reader["descripcion_tarea"].ToString(),
                                 ColorM = reader["color_tarea"].ToString(),
                                 EstadoTareaM = (EstadoTarea)Enum.Parse(typeof(EstadoTarea), reader["estado_tarea"].ToString()!),
-                                IdUsuarioAsignadoM = (reader["id_usuario_asignado"] == DBNull.Value) ? null : Convert.ToInt32(reader["id_usuario_asignado"])
+                                IdUsuarioAsignadoM = (reader["id_usuario_asignado"] == DBNull.Value) ? null : Convert.ToInt32(reader["id_usuario_asignado"]),
+                                NombreUsuarioAsignadoM = reader["nombre_de_usuario"].ToString(),
+                                NombreDelTableroPerteneceM = reader["nombre_tablero"].ToString()
                             };
-
                             listaDeTareas.Add(tarea);
                         }
                     }
@@ -134,9 +136,10 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
             return listaDeTareas;
         }
 
-        public List<Tarea> ListarTareasDeTablero(int idRecibe)
+        public List<Tarea> ListarTareasDeTablero(int idTablero)
         {
-            var query = "SELECT * FROM Tarea WHERE id_tablero = @idRecibe";
+            var query = "SELECT * FROM Tarea left JOIN Usuario ON Tarea.id_usuario_asignado = Usuario.id_usuario " +
+                    "left JOIN Tablero ON Tarea.id_tablero = Tablero.id_tablero WHERE tarea.id_tablero = @idTablero;";
             List<Tarea> listaDeTareas = new List<Tarea>();
             using (SQLiteConnection connection = new SQLiteConnection(connectionString))
             {
@@ -144,7 +147,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
                 {
                     connection.Open();
                     var command = new SQLiteCommand(query, connection);
-                    command.Parameters.Add(new SQLiteParameter("@idRecibe", idRecibe));
+                    command.Parameters.Add(new SQLiteParameter("@idTablero", idTablero));
                     using (SQLiteDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
@@ -157,7 +160,8 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
                                 DescripcionTareaM = reader["descripcion_tarea"].ToString(),
                                 ColorM = reader["color_tarea"].ToString(),
                                 EstadoTareaM = (EstadoTarea)Enum.Parse(typeof(EstadoTarea), reader["estado_tarea"].ToString()!),
-                                IdUsuarioAsignadoM = (reader["id_usuario_asignado"] == DBNull.Value) ? null : Convert.ToInt32(reader["id_usuario_asignado"])
+                                IdUsuarioAsignadoM = (reader["id_usuario_asignado"] == DBNull.Value) ? null : Convert.ToInt32(reader["id_usuario_asignado"]),
+                                NombreUsuarioAsignadoM = reader["nombre_de_usuario"].ToString()
                             };
                             listaDeTareas.Add(tarea);
                         }
@@ -304,7 +308,8 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
 
         public List<Tarea> BuscarTareasPorNombre(string nombre)
         {
-            var query = "SELECT * FROM Tarea WHERE nombre_tarea LIKE @nombre";
+            var query = "SELECT * FROM Tarea LEFT JOIN Usuario ON Tarea.id_usuario_asignado = Usuario.id_usuario" +
+            " LEFT JOIN Tablero ON Tarea.id_tablero = Tablero.id_tablero WHERE Tarea.nombre_tarea LIKE @nombre";
             List<Tarea> listaDeTareas = new List<Tarea>();
 
             using (SQLiteConnection connection = new SQLiteConnection(connectionString))
@@ -322,13 +327,16 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
                             var tarea = new Tarea
                             {
                                 IdTareaM = Convert.ToInt32(reader["id_tarea"]),
+                                IdTableroM = Convert.ToInt32(reader["id_tablero"]),
                                 NombreTareaM = reader["nombre_tarea"].ToString()!,
                                 DescripcionTareaM = reader["descripcion_tarea"].ToString(),
-                                EstadoTareaM = (EstadoTarea)Convert.ToInt32(reader["estado_tarea"]),
                                 ColorM = reader["color_tarea"].ToString(),
-                                IdUsuarioAsignadoM = Convert.ToInt32(reader["id_usuario_asignado"]),
-                                IdTableroM = Convert.ToInt32(reader["id_tablero"])
+                                EstadoTareaM = (EstadoTarea)Enum.Parse(typeof(EstadoTarea), reader["estado_tarea"].ToString()!),
+                                IdUsuarioAsignadoM = (reader["id_usuario_asignado"] == DBNull.Value) ? null : Convert.ToInt32(reader["id_usuario_asignado"]),
+                                NombreUsuarioAsignadoM = reader["nombre_de_usuario"].ToString(),
+                                NombreDelTableroPerteneceM = reader["nombre_tablero"].ToString()
                             };
+
                             listaDeTareas.Add(tarea);
                         }
                     }

@@ -5,15 +5,6 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="mb-3 d-flex justify-content-between align-items-center">
-                <div>
-                    <a asp-controller="Tarea" asp-action="CrearTarea" asp-route-idTablero="" class="btn btn-success"><i
-                            class="fas fa-user-plus me-1"></i>Agregar Tareas</a>
-                </div>
-                <div>
-                    <a asp-controller="Tarea" asp-action="MostrarTareas" class="btn btn-secondary">
-                        <i class="fas fa-list me-1"></i> Mostrar Todas las Tareas
-                    </a>
-                </div>
                 <div class="input-group w-50">
                     <form asp-controller="Tarea" asp-action="BuscarTareasPorNombre" method="get">
                         <div class="input-group">
@@ -34,7 +25,6 @@
                             <th scope="col">Descripción</th>
                             <th scope="col">Estado</th>
                             <th scope="col">Color</th>
-                            <th scope="col">Nombre del tablero</th>
                             <th scope="col">Usuario Asignado</th>
                             <th scope="col">Opciones</th>
                         </tr>
@@ -50,7 +40,6 @@
                                     <td>@tarea.DescripcionTareaVM</td>
                                     <td>@tarea.EstadoTareaVM</td>
                                     <td><input type="color" value="@tarea.ColorVM" disabled /></td>
-                                    <td>@tarea.NombreDelTableroPerteneceVM</td>
                                     <td>@if (tarea.IdUsuarioAsignadoVM == 0)
                                         {
                                             <span class="text-danger"><strong>No asignado</strong></span>

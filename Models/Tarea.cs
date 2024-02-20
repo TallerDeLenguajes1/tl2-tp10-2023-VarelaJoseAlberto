@@ -13,13 +13,14 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Models
     public class Tarea
     {
         public int IdTareaM { get; set; }
-        public int IdTableroM { get; set; } // Propiedad para el idTablero
+        public int IdTableroM { get; set; }
         public string? NombreTareaM { get; set; }
         public EstadoTarea EstadoTareaM { get; set; }
         public int? IdUsuarioAsignadoM { get; set; }
         public string? DescripcionTareaM { get; set; }
         public string? ColorM { get; set; }
-
+        public string? NombreUsuarioAsignadoM { get; set; }
+        public string? NombreDelTableroPerteneceM { get; set; }
         public Tarea()
         {
         }
@@ -33,6 +34,8 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Models
             IdUsuarioAsignadoM = tareaViewModel.IdUsuarioAsignadoVM;
             DescripcionTareaM = tareaViewModel.DescripcionTareaVM;
             ColorM = tareaViewModel.ColorVM;
+            NombreUsuarioAsignadoM = tareaViewModel.NombreUsuarioAsignadoVM;
+            NombreDelTableroPerteneceM = tareaViewModel.NombreDelTableroPerteneceVM;
         }
     }
 }

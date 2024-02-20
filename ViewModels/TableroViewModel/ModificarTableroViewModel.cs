@@ -19,12 +19,11 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.ViewModels
         public int IdUsuarioPropietario { get; set; }
         public List<Usuario>? ListadoUsuarios { get; set; }
 
-        public ModificarTableroViewModel()
-        {
-        }
+        public ModificarTableroViewModel() { }
+
         public ModificarTableroViewModel(Tablero tablero)
         {
-            NombreDeTablero = tablero.NombreDeTableroM;
+            NombreDeTablero = tablero.NombreDeTableroM!;
             DescripcionDeTablero = tablero.DescripcionDeTableroM;
             IdUsuarioPropietario = (int)tablero.IdUsuarioPropietarioM!;
         }

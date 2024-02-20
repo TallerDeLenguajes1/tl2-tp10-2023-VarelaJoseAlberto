@@ -21,7 +21,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.ViewModels
         public string? ColorTarea { get; set; }
 
         public int IdTablero { get; set; }
-        public List<Tablero>? Tableros { get; set; }
+        public List<Tablero>? ListadoTableros { get; set; }
 
         public int? IdUsuarioAsignado { get; set; }
         public List<Usuario>? ListadoUsuariosDisponibles { get; set; }
