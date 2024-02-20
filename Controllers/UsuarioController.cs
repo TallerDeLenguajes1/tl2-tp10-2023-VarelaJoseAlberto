@@ -9,12 +9,16 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers;
 public class UsuarioController : Controller
 {
     private readonly IUsuarioRepository _usuarioRepository;
+    private readonly ITableroRepository _tableroRepository;
+    private readonly ITareaRepository _tareaRepository;
     private readonly ILogger<HomeController> _logger;
 
-    public UsuarioController(IUsuarioRepository usuarioRepository, ILogger<HomeController> logger)
+    public UsuarioController(IUsuarioRepository usuarioRepository, ILogger<HomeController> logger, ITableroRepository tableroRepository, ITareaRepository tareaRepository)
     {
         _usuarioRepository = usuarioRepository;
         _logger = logger;
+        _tableroRepository = tableroRepository;
+        _tareaRepository = tareaRepository;
     }
 
     public IActionResult Index()
@@ -128,8 +132,19 @@ public class UsuarioController : Controller
                         _logger.LogWarning($"Se intentó acceder a la vista de eliminar el usuario con ID {idUsuario}, pero el usuario no existe en la base de datos.");
                         return NotFound();
                     }
-                    _logger.LogInformation($"Accediendo a la vista de eliminar el usuario con ID: {idUsuario}");
-                    return View(usuario);
+
+                    var tablerosAsociados = _tableroRepository.BuscarTablerosPorPropietario(idUsuario);
+                    var listaDeUsuario = _usuarioRepository.TraerTodosUsuarios();
+                    if (tablerosAsociados.Any())
+                    {
+                        TempData["IdUsuarioEliminar"] = idUsuario;
+                        return View("SleccionarNuevoPropietario", (listaDeUsuario, idUsuario));
+                    }
+                    else
+                    {
+                        _logger.LogInformation($"Accediendo a la vista de eliminar el usuario con ID: {idUsuario}");
+                        return View(usuario);
+                    }
                 }
                 else
                 {
@@ -159,8 +174,55 @@ public class UsuarioController : Controller
             {
                 if (Autorizacion.EsAdmin(HttpContext))
                 {
+                    var tareasAsociadas = _tareaRepository.ListarTareasDeUsuario(user.IdUsuarioM);
+                    foreach (var tarea in tareasAsociadas)
+                    {
+                        tarea.IdUsuarioAsignadoM = null;
+                        _tareaRepository.CambiarPropietarioTarea(tarea);
+                    }
                     _usuarioRepository.EliminarUsuarioPorId(user.IdUsuarioM);
-                    _logger.LogInformation($"Se ha eliminado el usuario con ID: {user.IdUsuarioM}");
+                    return RedirectToAction("MostrarTodosUsuarios");
+                }
+                else
+                {
+                    return View("AccesoDenegado");
+                }
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.ToString());
+            return BadRequest();
+        }
+    }
+
+    [HttpPost]
+    public IActionResult ConfirmarEliminarUsuarioConTablerosAsigYTareas(int nuevoPropietario, int idUsuarioEliminar)
+    {
+        try
+        {
+            if (Autorizacion.EstaAutentificado(HttpContext))
+            {
+                if (Autorizacion.EsAdmin(HttpContext))
+                {
+                    var tablerosAsociados = _tableroRepository.BuscarTablerosPorPropietario(idUsuarioEliminar);
+                    foreach (var tablero in tablerosAsociados)
+                    {
+                        tablero.IdUsuarioPropietarioM = nuevoPropietario;
+                        _tableroRepository.CambiarPropietarioTableros(tablero);
+                    }
+                    var tareasAsociadas = _tareaRepository.ListarTareasDeUsuario(idUsuarioEliminar);
+                    foreach (var tarea in tareasAsociadas)
+                    {
+                        tarea.IdUsuarioAsignadoM = null;
+                        _tareaRepository.CambiarPropietarioTarea(tarea);
+                    }
+                    _usuarioRepository.EliminarUsuarioPorId(idUsuarioEliminar);
+                    _logger.LogInformation($"Se ha cambiado el propietario de los tableros del usuario con ID {idUsuarioEliminar} al usuario con ID {nuevoPropietario}");
                     return RedirectToAction("MostrarTodosUsuarios");
                 }
                 else

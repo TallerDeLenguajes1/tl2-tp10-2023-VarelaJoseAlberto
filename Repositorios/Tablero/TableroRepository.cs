@@ -6,7 +6,6 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
     public class TableroRepository : ITableroRepository
     {
         private readonly string connectionString;
-
         public TableroRepository(string CadenaConexion)
         {
             connectionString = CadenaConexion;
@@ -123,6 +122,72 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
             return tableros;
         }
 
+        public void CambiarPropietarioTableros(Tablero tablero)
+        {
+            var query = "UPDATE Tablero SET nombre_tablero = @nombre, descripcion_tablero = @descripcion, " +
+            "id_usuario_propietario = @idUsuarioPropietario WHERE id_tablero = @idTablero";
+            using (SQLiteConnection connection = new SQLiteConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    var command = new SQLiteCommand(query, connection);
+                    command.Parameters.AddWithValue("@nombre", tablero.NombreDeTableroM);
+                    command.Parameters.AddWithValue("@descripcion", tablero.DescripcionDeTableroM);
+                    command.Parameters.AddWithValue("@idUsuarioPropietario", tablero.IdUsuarioPropietarioM);
+                    command.Parameters.AddWithValue("@idTablero", tablero.IdTableroM);
+                    command.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"Error al cambiar el propietario de los tableros: {ex.Message}");
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+        }
+
+        public List<Tablero> BuscarTablerosPorPropietario(int idPropietario)
+        {
+            var query = "SELECT * FROM Tablero WHERE id_usuario_propietario = @idPropietario";
+            List<Tablero> tablerosAsociados = new List<Tablero>();
+            using (SQLiteConnection connection = new SQLiteConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    var command = new SQLiteCommand(query, connection);
+                    command.Parameters.Add(new SQLiteParameter("@idPropietario", idPropietario));
+
+                    using (SQLiteDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var tablero = new Tablero
+                            {
+                                IdTableroM = Convert.ToInt32(reader["id_tablero"]),
+                                NombreDeTableroM = reader["nombre_tablero"].ToString()!,
+                                DescripcionDeTableroM = reader["descripcion_tablero"].ToString(),
+                                IdUsuarioPropietarioM = Convert.ToInt32(reader["id_usuario_propietario"])
+                            };
+                            tablerosAsociados.Add(tablero);
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+                    throw new Exception("Hubo un problema al buscar tableros por propietario en la base de datos");
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+            return tablerosAsociados;
+        }
+
         public Tablero TreaerTableroPorId(int idRecibe)
         {
             var query = "SELECT * FROM Tablero INNER JOIN Usuario ON Tablero.id_usuario_propietario = Usuario.id_usuario WHERE id_tablero = @idTablero;";
@@ -160,29 +225,6 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
                 throw new Exception("Tablero no existe");
             }
             return tablero;
-        }
-
-        public void EliminarTableroPorId(int idTablero)
-        {
-            var query = "DELETE FROM Tablero WHERE id_tablero = @idTablero";
-            using (SQLiteConnection connection = new SQLiteConnection(connectionString))
-            {
-                try
-                {
-                    connection.Open();
-                    var command = new SQLiteCommand(query, connection);
-                    command.Parameters.Add(new SQLiteParameter("@idTablero", idTablero));
-                    command.ExecuteNonQuery();
-                }
-                catch (Exception)
-                {
-                    throw new Exception("Hubo un problema al borrar al Tablero");
-                }
-                finally
-                {
-                    connection.Close(); // Asegúrate de cerrar la conexión en el bloque finally
-                }
-            }
         }
 
         public void EliminarTableroYTareas(int idTablero)

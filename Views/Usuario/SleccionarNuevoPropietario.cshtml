@@ -1,0 +1,18 @@
+@model (List<Usuario> listaDeUsuario, int idUsuarioEliminar)
+
+<h2>Seleccionar Nuevo Propietario</h2>
+
+<form method="post" asp-controller="Usuario" asp-action="ConfirmarEliminarUsuarioConTablerosAsigYTareas">
+    <div class="form-group">
+        <label for="nuevoPropietario">Seleccione el nuevo propietario:</label>
+        <select class="form-control" id="nuevoPropietario" name="nuevoPropietario">
+            @foreach (var usuario in Model.listaDeUsuario.Where(t => t.IdUsuarioM !=
+            Model.idUsuarioEliminar))
+            {
+                <option value="@usuario.IdUsuarioM">@usuario.NombreDeUsuarioM</option>
+            }
+        </select>
+    </div>
+    <input type="hidden" name="idUsuarioEliminar" value="@Model.idUsuarioEliminar" />
+    <button type="submit" class="btn btn-primary">Confirmar Cambio</button>
+</form>

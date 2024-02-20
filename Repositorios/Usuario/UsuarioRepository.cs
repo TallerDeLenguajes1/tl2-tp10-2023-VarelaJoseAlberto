@@ -5,14 +5,12 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
 {
     public class UsuarioRepository : IUsuarioRepository
     {
-        // private string cadenaConexion = "Data Source=DB/kanban.db;Cache=Shared";
         private readonly string connectionString;
 
         public UsuarioRepository(string CadenaConexion)
         {
             connectionString = CadenaConexion;
         }
-
 
         public void CrearUsuario(Usuario nuevoUsuario)
         {
@@ -38,7 +36,6 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
                 }
             }
         }
-
 
         public List<Usuario> TraerTodosUsuarios()
         {
@@ -79,7 +76,6 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
             return listaDeUsuarios;
         }
 
-
         public Usuario TraerUsuarioPorId(int idRecibe)
         {
             var usuario = new Usuario();
@@ -118,7 +114,6 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
             return usuario;
         }
 
-
         public void EliminarUsuarioPorId(int idRecibe)
         {
             var query = "DELETE FROM Usuario WHERE id_usuario = @id_usuario";
@@ -141,7 +136,6 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
                 }
             }
         }
-
 
         public void ModificarUsuario(int idRecibe, Usuario nuevoUsuario)
         {
@@ -169,10 +163,8 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
             }
         }
 
-
         public Usuario ObtenerUsuarioPorCredenciales(string nombreUsuario, string contrasenia)
         {
-            // Usuario usuarioEncontrado = new Usuario();
             string query = "SELECT * FROM Usuario WHERE nombre_de_usuario = @nombreUsuario AND contrasenia = @contrasenia";
             Usuario? usuarioEncontrado = null;
 
@@ -222,7 +214,6 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
         {
             var query = "SELECT * FROM Usuario WHERE nombre_de_usuario LIKE @nombre";
             List<Usuario> listaDeUsuarios = new List<Usuario>();
-
             using (SQLiteConnection connection = new SQLiteConnection(connectionString))
             {
                 try

@@ -48,27 +48,24 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
         {
             try
             {
-                if (Autorizacion.EstaAutentificado(HttpContext))
-                {
-                    var rol = Autorizacion.ObtenerRol(HttpContext);
-                    if (Autorizacion.EsAdmin(HttpContext) || rol == "operador")
-                    {
-                        var viewModel = new CrearTareaViewModel()
-                        {
-                            ListadoUsuariosDisponibles = _usuarioRepository.TraerTodosUsuarios(),
-                            ListadoTableros = _tableroRepository.ListarTodosTableros()
-                        };
-                        _logger.LogInformation($"Accediendo al método CrearTarea del controlador Tarea con el rol '{rol}'.");
-                        return View(viewModel);
-                    }
-                    _logger.LogInformation("Intento de acceso denegado al método CrearTarea del controlador Tarea. Redirigiendo a AccesoDenegado.");
-                    return RedirectToAction("AccesoDenegado", "Usuario");
-                }
-                else
+                if (!Autorizacion.EstaAutentificado(HttpContext))
                 {
                     _logger.LogInformation("Intento de acceso sin autenticación al método CrearTarea del controlador Tarea. Redirigiendo al login.");
                     return RedirectToAction("Index", "Login");
                 }
+                var rol = Autorizacion.ObtenerRol(HttpContext);
+                if (Autorizacion.EsAdmin(HttpContext) || rol == "operador")
+                {
+                    var viewModel = new CrearTareaViewModel()
+                    {
+                        ListadoUsuariosDisponibles = _usuarioRepository.TraerTodosUsuarios(),
+                        ListadoTableros = _tableroRepository.ListarTodosTableros()
+                    };
+                    _logger.LogInformation($"Accediendo al método CrearTarea del controlador Tarea con el rol '{rol}'.");
+                    return View(viewModel);
+                }
+                _logger.LogInformation("Intento de acceso denegado al método CrearTarea del controlador Tarea. Redirigiendo a AccesoDenegado.");
+                return RedirectToAction("AccesoDenegado", "Usuario");
             }
             catch (Exception ex)
             {
@@ -76,32 +73,30 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                 return BadRequest();
             }
         }
+
         [HttpGet]
         public IActionResult CrearTareaXId(int idTablero)
         {
             try
             {
-                if (Autorizacion.EstaAutentificado(HttpContext))
-                {
-                    var rol = Autorizacion.ObtenerRol(HttpContext);
-                    if (Autorizacion.EsAdmin(HttpContext) || rol == "operador")
-                    {
-                        var viewModel = new CrearTareaViewModel(new Tarea())
-                        {
-                            ListadoUsuariosDisponibles = _usuarioRepository.TraerTodosUsuarios(),
-                            IdTablero = idTablero
-                        };
-                        _logger.LogInformation($"Accediendo al método CrearTarea del controlador Tarea con el rol '{rol}'.");
-                        return View(viewModel);
-                    }
-                    _logger.LogInformation("Intento de acceso denegado al método CrearTarea del controlador Tarea. Redirigiendo a AccesoDenegado.");
-                    return RedirectToAction("AccesoDenegado", "Usuario");
-                }
-                else
+                if (!Autorizacion.EstaAutentificado(HttpContext))
                 {
                     _logger.LogInformation("Intento de acceso sin autenticación al método CrearTarea del controlador Tarea. Redirigiendo al login.");
                     return RedirectToAction("Index", "Login");
                 }
+                var rol = Autorizacion.ObtenerRol(HttpContext);
+                if (Autorizacion.EsAdmin(HttpContext) || rol == "operador")
+                {
+                    var viewModel = new CrearTareaViewModel(new Tarea())
+                    {
+                        ListadoUsuariosDisponibles = _usuarioRepository.TraerTodosUsuarios(),
+                        IdTablero = idTablero
+                    };
+                    _logger.LogInformation($"Accediendo al método CrearTarea del controlador Tarea con el rol '{rol}'.");
+                    return View(viewModel);
+                }
+                _logger.LogInformation("Intento de acceso denegado al método CrearTarea del controlador Tarea. Redirigiendo a AccesoDenegado.");
+                return RedirectToAction("AccesoDenegado", "Usuario");
             }
             catch (Exception ex)
             {
@@ -109,6 +104,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                 return BadRequest();
             }
         }
+
         [HttpPost]
         public IActionResult ConfirmarCrearTarea(CrearTareaViewModel tareaViewModel)
         {
@@ -260,7 +256,6 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                     _logger.LogWarning("Intento de acceso sin autenticación al método ConfirmarModificarTarea del controlador Tarea. Redirigiendo al login.");
                     return RedirectToAction("Index", "Login");
                 }
-
                 if (ModelState.IsValid)
                 {
                     var tarea = new Tarea
@@ -346,7 +341,6 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                     _logger.LogWarning("Intento de acceso denegado al método ConfirmarEliminarTarea del controlador Tarea. Redirigiendo a AccesoDenegado.");
                     return View("AccesoDenegado");
                 }
-
             }
             catch (Exception ex)
             {
@@ -410,28 +404,25 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
         {
             try
             {
-                if (Autorizacion.EstaAutentificado(HttpContext))
-                {
-                    var todasLasTareas = _tareaRepository.ListarTareasDeUsuario(idUsuario);
-                    var tareaVM = todasLasTareas.Select(u => new TareaViewModel
-                    {
-                        IdTableroVM = u.IdTableroM,
-                        IdTareaVM = u.IdTareaM,
-                        NombreTareaVM = u.NombreTareaM,
-                        ColorVM = u.ColorM,
-                        EstadoTareaVM = u.EstadoTareaM,
-                        DescripcionTareaVM = u.DescripcionTareaM,
-                        IdUsuarioAsignadoVM = u.IdUsuarioAsignadoM.HasValue ? u.IdUsuarioAsignadoM.Value : 0
-                    }).ToList();
-                    var viewModel = new ListarTareaViewModel(tareaVM);
-                    _logger.LogInformation($"Se mostraron todas las tareas del usuario con ID {idUsuario} correctamente.");
-                    return View("MostrarTareas", viewModel);
-                }
-                else
+                if (!Autorizacion.EstaAutentificado(HttpContext))
                 {
                     _logger.LogWarning("Intento de acceso sin autenticación al método MostrarTareasUsuarioEspecifico del controlador Tarea. Redirigiendo al login.");
                     return RedirectToAction("Index", "Login");
                 }
+                var todasLasTareas = _tareaRepository.ListarTareasDeUsuario(idUsuario);
+                var tareaVM = todasLasTareas.Select(u => new TareaViewModel
+                {
+                    IdTableroVM = u.IdTableroM,
+                    IdTareaVM = u.IdTareaM,
+                    NombreTareaVM = u.NombreTareaM,
+                    ColorVM = u.ColorM,
+                    EstadoTareaVM = u.EstadoTareaM,
+                    DescripcionTareaVM = u.DescripcionTareaM,
+                    IdUsuarioAsignadoVM = u.IdUsuarioAsignadoM.HasValue ? u.IdUsuarioAsignadoM.Value : 0
+                }).ToList();
+                var viewModel = new ListarTareaViewModel(tareaVM);
+                _logger.LogInformation($"Se mostraron todas las tareas del usuario con ID {idUsuario} correctamente.");
+                return View("MostrarTareas", viewModel);
             }
             catch (Exception ex)
             {
@@ -444,29 +435,27 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
         {
             try
             {
-                if (Autorizacion.EstaAutentificado(HttpContext))
-                {
-                    var todasLasTareas = _tareaRepository.ListarTareasDeTablero(IdTablero);
-                    var tareaVM = todasLasTareas.Select(u => new TareaViewModel
-                    {
-                        IdTableroVM = u.IdTableroM,
-                        IdTareaVM = u.IdTareaM,
-                        NombreTareaVM = u.NombreTareaM,
-                        ColorVM = u.ColorM,
-                        EstadoTareaVM = u.EstadoTareaM,
-                        DescripcionTareaVM = u.DescripcionTareaM,
-                        IdUsuarioAsignadoVM = u.IdUsuarioAsignadoM.HasValue ? u.IdUsuarioAsignadoM.Value : 0,
-                        NombreUsuarioAsignadoVM = u.NombreUsuarioAsignadoM
-                    }).ToList();
-                    var viewModel = new ListarTareaViewModel(tareaVM);
-                    _logger.LogInformation($"Se mostraron todas las tareas del tablero con ID {IdTablero} correctamente.");
-                    return View("MostrarTareasTableroIdEspecifico", viewModel);
-                }
-                else
+                if (!Autorizacion.EstaAutentificado(HttpContext))
                 {
                     _logger.LogWarning("Intento de acceso sin autenticación al método MostrarTareasTableroIdEspecifico del controlador Tarea. Redirigiendo al login.");
                     return RedirectToAction("Index", "Login");
                 }
+                var todasLasTareas = _tareaRepository.ListarTareasDeTablero(IdTablero);
+                var tareaVM = todasLasTareas.Select(u => new TareaViewModel
+                {
+                    IdTableroVM = u.IdTableroM,
+                    IdTareaVM = u.IdTareaM,
+                    NombreTareaVM = u.NombreTareaM,
+                    ColorVM = u.ColorM,
+                    EstadoTareaVM = u.EstadoTareaM,
+                    DescripcionTareaVM = u.DescripcionTareaM,
+                    IdUsuarioAsignadoVM = u.IdUsuarioAsignadoM.HasValue ? u.IdUsuarioAsignadoM.Value : 0,
+                    NombreUsuarioAsignadoVM = u.NombreUsuarioAsignadoM,
+                    NombreDelTableroPerteneceVM = u.NombreDelTableroPerteneceM
+                }).ToList();
+                var viewModel = new ListarTareaViewModel(tareaVM);
+                _logger.LogInformation($"Se mostraron todas las tareas del tablero con ID {IdTablero} correctamente.");
+                return View("MostrarTareasTableroIdEspecifico", viewModel);
             }
             catch (Exception ex)
             {
@@ -480,22 +469,19 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
         {
             try
             {
-                if (Autorizacion.EstaAutentificado(HttpContext))
-                {
-                    if (Autorizacion.EsAdmin(HttpContext))
-                    {
-                        return MostrarTareas(nombre);
-                    }
-                    else
-                    {
-                        _logger.LogWarning("Intento de acceso denegado: Usuario sin permisos de administrador intentó acceder al método BuscarTareasPorNombre del controlador de tarea.");
-                        return View("AccesoDenegado");
-                    }
-                }
-                else
+                if (!Autorizacion.EstaAutentificado(HttpContext))
                 {
                     _logger.LogWarning("Intento de acceso sin loguearse: Alguien intentó acceder sin estar logueado al método BuscarTareasPorNombre del controlador de tarea.");
                     return RedirectToAction("Index", "Login");
+                }
+                if (Autorizacion.EsAdmin(HttpContext))
+                {
+                    return MostrarTareas(nombre);
+                }
+                else
+                {
+                    _logger.LogWarning("Intento de acceso denegado: Usuario sin permisos de administrador intentó acceder al método BuscarTareasPorNombre del controlador de tarea.");
+                    return View("AccesoDenegado");
                 }
             }
             catch (Exception ex)

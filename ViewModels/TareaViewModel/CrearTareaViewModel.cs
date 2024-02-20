@@ -20,6 +20,8 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.ViewModels
         [Display(Name = "Color de la Tarea")]
         public string? ColorTarea { get; set; }
 
+        [Required(ErrorMessage = "El Tablero es requerido.")]
+        [Display(Name = "Tablero para la Tarea")]
         public int IdTablero { get; set; }
         public List<Tablero>? ListadoTableros { get; set; }
 

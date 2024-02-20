@@ -109,11 +109,11 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
                             var tarea = new Tarea
                             {
                                 IdTareaM = Convert.ToInt32(reader["id_tarea"]),
-                                IdTableroM = Convert.ToInt32(reader["id_tablero"]),
                                 NombreTareaM = reader["nombre_tarea"].ToString()!,
                                 DescripcionTareaM = reader["descripcion_tarea"].ToString(),
-                                ColorM = reader["color_tarea"].ToString(),
                                 EstadoTareaM = (EstadoTarea)Enum.Parse(typeof(EstadoTarea), reader["estado_tarea"].ToString()!),
+                                ColorM = reader["color_tarea"].ToString(),
+                                IdTableroM = Convert.ToInt32(reader["id_tablero"]),
                                 IdUsuarioAsignadoM = Convert.ToInt32(reader["id_usuario_asignado"])
                             };
                             listaDeTareas.Add(tarea);
@@ -134,6 +134,37 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
                 throw new Exception("Lista de Tarea vacia");
             }
             return listaDeTareas;
+        }
+
+        public void CambiarPropietarioTarea(Tarea tarea)
+        {
+            var query = "UPDATE Tarea SET id_tablero = @idTablero, nombre_tarea = @nombreTarea, descripcion_tarea = @descripcionTarea," +
+            " estado_tarea = @estadoTarea, color_tarea = @colorTarea, id_usuario_asignado = @idUsuarioAsignado WHERE id_tarea = @idTarea;";
+            using (SQLiteConnection connection = new SQLiteConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    var command = new SQLiteCommand(query, connection);
+                    command.Parameters.Add(new SQLiteParameter("@idTablero", tarea.IdTableroM));
+                    command.Parameters.Add(new SQLiteParameter("@nombreTarea", tarea.NombreTareaM));
+                    command.Parameters.Add(new SQLiteParameter("@descripcionTarea", tarea.DescripcionTareaM));
+                    command.Parameters.Add(new SQLiteParameter("@estadoTarea", (int)tarea.EstadoTareaM));
+                    command.Parameters.Add(new SQLiteParameter("@colorTarea", tarea.ColorM));
+                    command.Parameters.Add(new SQLiteParameter("@idUsuarioAsignado", tarea.IdUsuarioAsignadoM));
+                    command.Parameters.Add(new SQLiteParameter("@idTarea", tarea.IdTareaM));
+                    command.ExecuteNonQuery();
+                    connection.Close();
+                }
+                catch (Exception)
+                {
+                    throw new Exception("Hubo un problema al Modificar la tarea");
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
         }
 
         public List<Tarea> ListarTareasDeTablero(int idTablero)
@@ -270,34 +301,6 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
                 catch (Exception)
                 {
                     throw new Exception("Hubo un problema al Modificar la tarea");
-                }
-                finally
-                {
-                    connection.Close();
-                }
-            }
-        }
-
-        public void AsignarUsuarioATarea(int idUsuario, int idTarea)
-        {
-            var query = "UPDATE Tarea SET id_usuario_asignado = @idUsuario WHERE id_tarea = @idTarea";
-
-            using (SQLiteConnection connection = new SQLiteConnection(connectionString))
-            {
-                try
-                {
-                    connection.Open();
-                    using (SQLiteCommand command = new SQLiteCommand(query, connection))
-                    {
-                        command.Parameters.AddWithValue("@idUsuario", idUsuario);
-                        command.Parameters.AddWithValue("@idTarea", idTarea);
-                        command.ExecuteNonQuery();
-                    }
-                    connection.Close();
-                }
-                catch (Exception)
-                {
-                    throw new Exception("Hubo un problema al asignar un usuario");
                 }
                 finally
                 {

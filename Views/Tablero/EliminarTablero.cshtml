@@ -9,6 +9,8 @@
             <h2 class="text-center mb-4">Confirmar Eliminación</h2>
             <div>
                 <p>¿Estás seguro de que deseas eliminar el Tablero <strong>"@Model.NombreDeTableroM"</strong>?</p>
+                <p><span class="text-danger"><strong> SI ELIMINA EL TABLERO SE ELIMINARAN LAS TAREAS ASOSIADAS AL
+                            TABLERO</strong></span></p>
             </div>
             <form asp-controller="Tablero" asp-action="ConfirmarEliminar" method="post" class="mt-4">
                 <input asp-for="@Model.IdTableroM" type="hidden" />
