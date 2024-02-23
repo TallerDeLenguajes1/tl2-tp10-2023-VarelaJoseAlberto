@@ -67,6 +67,11 @@
                             <span asp-validation-for="ColorTarea" class="text-danger"></span>
                         </div>
                     }
+                    else
+                    {
+                        <input asp-for="IdTablero" type="hidden" />
+                        <input asp-for="ColorTarea" type="hidden" />
+                    }
                 </fieldset>
                 <div class="col-12">
                     <button class="btn btn-success" type="submit">Actualizar</button>

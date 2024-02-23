@@ -350,6 +350,25 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
             }
         }
 
+        public IActionResult MostrarTableroId(int idTablero)
+        {
+            Tablero tablero = _tableroRepository.TreaerTableroPorId(idTablero);
+            if (tablero == null)
+            {
+                return NotFound();
+            }
+            List<Tarea> tareas = _tareaRepository.ListarTareasDeTablero(idTablero);
+
+            var viewModel = new TableroViewModel
+            {
+                IdTableroVM = tablero.IdTableroM,
+                NombreTableroVM = tablero.NombreDeTableroM,
+                DescripcionVM = tablero.DescripcionDeTableroM,
+                ListaDeTareas = tareas.ToList()
+            };
+            return View(viewModel);
+        }
+
         [HttpGet]
         public IActionResult ListarTablerosDeUsuarioEspecifico(int idUsuario)
         {

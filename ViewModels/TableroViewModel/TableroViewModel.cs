@@ -9,6 +9,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.ViewModels
         public string? NombreTableroVM { get; set; }
         public string? DescripcionVM { get; set; }
         public string? NombreDePropietarioVM { get; set; }
+        public List<Tarea>? ListaDeTareas { get; set; }
 
         public TableroViewModel(Tablero tablero)
         {

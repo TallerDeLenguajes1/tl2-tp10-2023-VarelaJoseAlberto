@@ -93,7 +93,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
 
         public List<Tarea> ListarTareasDeUsuario(int idUsuario)
         {
-            var query = "SELECT * FROM Tarea WHERE id_usuario_asignado = @id_usuario";
+            var query = "SELECT * FROM Tarea inner join Tablero on Tarea.id_tablero = Tablero.id_tablero  WHERE id_usuario_asignado = @id_usuario";
             List<Tarea> listaDeTareas = new List<Tarea>();
             using (SQLiteConnection connection = new SQLiteConnection(connectionString))
             {
@@ -114,7 +114,8 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
                                 EstadoTareaM = (EstadoTarea)Enum.Parse(typeof(EstadoTarea), reader["estado_tarea"].ToString()!),
                                 ColorM = reader["color_tarea"].ToString(),
                                 IdTableroM = Convert.ToInt32(reader["id_tablero"]),
-                                IdUsuarioAsignadoM = Convert.ToInt32(reader["id_usuario_asignado"])
+                                IdUsuarioAsignadoM = Convert.ToInt32(reader["id_usuario_asignado"]),
+                                NombreDelTableroPerteneceM = reader["nombre_tablero"].ToString()
                             };
                             listaDeTareas.Add(tarea);
                         }

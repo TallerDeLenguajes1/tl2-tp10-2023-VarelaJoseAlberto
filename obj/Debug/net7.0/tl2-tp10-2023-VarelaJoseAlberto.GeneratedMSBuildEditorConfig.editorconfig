@@ -56,6 +56,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGFibGVyb1xNb2RpZmljYXJUYWJsZXJvLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Taller2/Tps/tl2-tp10-2023-VarelaJoseAlberto/Views/Tablero/MostrarTableroId.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGFibGVyb1xNb3N0cmFyVGFibGVyb0lkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Taller2/Tps/tl2-tp10-2023-VarelaJoseAlberto/Views/Tablero/MostrarTodosTablero.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGFibGVyb1xNb3N0cmFyVG9kb3NUYWJsZXJvLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -86,6 +90,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Taller2/Tps/tl2-tp10-2023-VarelaJoseAlberto/Views/Tarea/MostrarTareasTableroIdEspecifico.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGFyZWFcTW9zdHJhclRhcmVhc1RhYmxlcm9JZEVzcGVjaWZpY28uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Taller2/Tps/tl2-tp10-2023-VarelaJoseAlberto/Views/Tarea/MostrarTareasUsuarioEspecifico.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGFyZWFcTW9zdHJhclRhcmVhc1VzdWFyaW9Fc3BlY2lmaWNvLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Taller2/Tps/tl2-tp10-2023-VarelaJoseAlberto/Views/Usuario/AccesoDenegado.cshtml]

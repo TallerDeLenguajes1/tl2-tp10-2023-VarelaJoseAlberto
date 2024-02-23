@@ -28,7 +28,6 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th scope="col" style="visibility: hidden;">Id Tablero</th>
                         <th scope="col">Nº</th>
                         <th scope="col">Nombre de Tablero</th>
                         <th scope="col">Descripcion</th>
@@ -60,6 +59,7 @@
                                         <a asp-controller="Tarea" asp-action="CrearTareaXId" class="btn btn-secondary"
                                             asp-route-idTablero="@tablero.IdTableroVM">
                                             <i class="fas fa-user-plus me-1"></i>Agregar tarea</a>
+
                                     </div>
                                 </td>
                             </tr>

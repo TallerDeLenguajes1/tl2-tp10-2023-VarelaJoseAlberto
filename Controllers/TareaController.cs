@@ -74,37 +74,6 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
             }
         }
 
-        [HttpGet]
-        public IActionResult CrearTareaXId(int idTablero)
-        {
-            try
-            {
-                if (!Autorizacion.EstaAutentificado(HttpContext))
-                {
-                    _logger.LogInformation("Intento de acceso sin autenticación al método CrearTarea del controlador Tarea. Redirigiendo al login.");
-                    return RedirectToAction("Index", "Login");
-                }
-                var rol = Autorizacion.ObtenerRol(HttpContext);
-                if (Autorizacion.EsAdmin(HttpContext) || rol == "operador")
-                {
-                    var viewModel = new CrearTareaViewModel(new Tarea())
-                    {
-                        ListadoUsuariosDisponibles = _usuarioRepository.TraerTodosUsuarios(),
-                        IdTablero = idTablero
-                    };
-                    _logger.LogInformation($"Accediendo al método CrearTarea del controlador Tarea con el rol '{rol}'.");
-                    return View(viewModel);
-                }
-                _logger.LogInformation("Intento de acceso denegado al método CrearTarea del controlador Tarea. Redirigiendo a AccesoDenegado.");
-                return RedirectToAction("AccesoDenegado", "Usuario");
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error al acceder al método CrearTarea del controlador Tarea.");
-                return BadRequest();
-            }
-        }
-
         [HttpPost]
         public IActionResult ConfirmarCrearTarea(CrearTareaViewModel tareaViewModel)
         {
@@ -138,36 +107,103 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                         return RedirectToAction("CrearTarea");
                     }
                 }
-                else if (Autorizacion.ObtenerRol(HttpContext) == "operador")
+                else
                 {
-                    var idUsuario = Autorizacion.ObtenerIdUsuario(HttpContext);
-                    var tableroIdDeUsuario = _tableroRepository.TreaerTableroPorId(idUsuario);
-                    if (tableroIdDeUsuario != null && tableroIdDeUsuario.IdUsuarioPropietarioM == tareaViewModel.IdUsuarioAsignado)
+                    _logger.LogWarning("Intento de acceso denegado al método ConfirmarCrearTarea del controlador Tarea. Redirigiendo a AccesoDenegado.");
+                    return RedirectToAction("AccesoDenegado", "Usuario");
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al ejecutar ConfirmarCrearTarea del controlador Tarea.");
+                return BadRequest();
+            }
+        }
+
+        [HttpGet]
+        public IActionResult CrearTareaXId(int idTablero)
+        {
+            try
+            {
+                if (!Autorizacion.EstaAutentificado(HttpContext))
+                {
+                    _logger.LogInformation("Intento de acceso sin autenticación al método CrearTarea del controlador Tarea. Redirigiendo al login.");
+                    return RedirectToAction("Index", "Login");
+                }
+                var rol = Autorizacion.ObtenerRol(HttpContext);
+                if (rol == "admin" || rol == "operador")
+                {
+                    var viewModel = new CrearTareaViewModel(new Tarea())
                     {
-                        if (ModelState.IsValid)
+                        ListadoUsuariosDisponibles = _usuarioRepository.TraerTodosUsuarios(),
+                        IdTablero = idTablero
+                    };
+                    _logger.LogInformation($"Accediendo al método CrearTareaXId del controlador Tarea con el rol '{rol}'.");
+                    return View(viewModel);
+                }
+                _logger.LogInformation("Intento de acceso denegado al método CrearTarea del controlador Tarea. Redirigiendo a AccesoDenegado.");
+                return RedirectToAction("AccesoDenegado", "Usuario");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al acceder al método CrearTarea del controlador Tarea.");
+                return BadRequest();
+            }
+        }
+
+        [HttpPost]
+        public IActionResult ConfirmarCrearTareaXId(CrearTareaViewModel tareaViewModel)
+        {
+            try
+            {
+                if (!Autorizacion.EstaAutentificado(HttpContext))
+                {
+                    _logger.LogWarning("Intento de acceso sin autenticación al método ConfirmarCrearTarea del controlador Tarea. Redirigiendo al login.");
+                    return RedirectToAction("Index", "Login");
+                }
+                if (Autorizacion.EsAdmin(HttpContext))
+                {
+                    if (ModelState.IsValid)
+                    {
+                        var nuevaTarea = new Tarea
                         {
-                            var nuevaTarea = new Tarea
-                            {
-                                NombreTareaM = tareaViewModel.NombreTarea!,
-                                DescripcionTareaM = tareaViewModel.DescripcionTarea,
-                                EstadoTareaM = tareaViewModel.EstadoTarea,
-                                ColorM = tareaViewModel.ColorTarea
-                            };
-                            _tareaRepository.CrearTarea(tableroIdDeUsuario.IdTableroM, nuevaTarea);
-                            _logger.LogInformation("Se ha creado una nueva tarea por el operador.");
-                            return RedirectToAction("Index");
-                        }
-                        else
-                        {
-                            _logger.LogWarning("El modelo de datos proporcionado no es válido al intentar crear una nueva tarea por el operador. Redirigiendo al formulario de creación de tarea.");
-                            tareaViewModel.ListadoTableros = _tableroRepository.ListarTodosTableros();
-                            return View("CrearTarea", tareaViewModel);
-                        }
+                            NombreTareaM = tareaViewModel.NombreTarea!,
+                            DescripcionTareaM = tareaViewModel.DescripcionTarea,
+                            EstadoTareaM = tareaViewModel.EstadoTarea,
+                            ColorM = tareaViewModel.ColorTarea,
+                            IdTableroM = tareaViewModel.IdTablero,
+                            IdUsuarioAsignadoM = tareaViewModel.IdUsuarioAsignado
+                        };
+                        _tareaRepository.CrearTarea(tareaViewModel.IdTablero, nuevaTarea);
+                        _logger.LogInformation("Se ha creado una nueva tarea por el administrador.");
+                        return RedirectToAction("MostrarTareas");
                     }
                     else
                     {
-                        _logger.LogWarning("El operador intentó acceder a un tablero que no le corresponde al crear una nueva tarea. Redirigiendo a AccesoDenegado.");
-                        return RedirectToAction("AccesoDenegado", "Usuario");
+                        _logger.LogWarning("El modelo de datos proporcionado no es válido al intentar crear una nueva tarea por el administrador. Redirigiendo al formulario de creación de tarea.");
+                        return RedirectToAction("CrearTarea");
+                    }
+                }
+                else if (Autorizacion.ObtenerRol(HttpContext) == "operador")
+                {
+                    if (ModelState.IsValid)
+                    {
+                        var nuevaTarea = new Tarea
+                        {
+                            NombreTareaM = tareaViewModel.NombreTarea!,
+                            DescripcionTareaM = tareaViewModel.DescripcionTarea,
+                            EstadoTareaM = tareaViewModel.EstadoTarea,
+                            ColorM = tareaViewModel.ColorTarea,
+                        };
+                        _tareaRepository.CrearTarea(tareaViewModel.IdTablero, nuevaTarea);
+                        _logger.LogInformation("Se ha creado una nueva tarea por el operador.");
+                        return RedirectToAction("MostrarTareasTableroIdEspecifico", new { idTablero = tareaViewModel.IdTablero });
+                    }
+                    else
+                    {
+                        _logger.LogWarning("El modelo de datos proporcionado no es válido al intentar crear una nueva tarea por el operador. Redirigiendo al formulario de creación de tarea.");
+                        tareaViewModel.ListadoTableros = _tableroRepository.ListarTodosTableros();
+                        return View("CrearTareaXId", tareaViewModel);
                     }
                 }
                 else
@@ -178,7 +214,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error al ejecutar ConfirmarCrearTarea del controlador Tarea.");
+                _logger.LogError(ex, "Error al ejecutar ConfirmarCrearTareaXId del controlador Tarea.");
                 return BadRequest();
             }
         }
@@ -225,10 +261,12 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                     }
                     var viewModel = new ModificarTareaViewModel
                     {
+                        IdTarea = tarea.IdTareaM,
                         NombreTarea = tarea.NombreTareaM,
                         DescripcionTarea = tarea.DescripcionTareaM,
                         EstadoTarea = (EstadoTarea)(int)tarea.EstadoTareaM,
                         IdUsuarioAsignado = tarea.IdUsuarioAsignadoM,
+                        ColorTarea = tarea.ColorM,
                         IdTablero = tarea.IdTableroM,
                         ListadoDeUsuarioDisponible = _usuarioRepository.TraerTodosUsuarios()
                     };
@@ -273,7 +311,14 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                     };
                     _tareaRepository.ModificarTarea(tareaViewModel.IdTarea, tarea);
                     _logger.LogInformation($"Se modificó la tarea con ID: {tareaViewModel.IdTarea} correctamente.");
-                    return RedirectToAction("MostrarTareas");
+                    if (Autorizacion.EsAdmin(HttpContext))
+                    {
+                        return RedirectToAction("MostrarTareas");
+                    }
+                    else
+                    {
+                        return RedirectToAction("MostrarTareasTableroIdEspecifico", new { idTablero = tarea.IdTableroM });
+                    }
                 }
                 else
                 {
@@ -298,22 +343,14 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                     _logger.LogWarning("Intento de acceso sin autenticación al método EliminarTarea del controlador Tarea. Redirigiendo al login.");
                     return RedirectToAction("Index", "Login");
                 }
-                if (Autorizacion.EsAdmin(HttpContext))
+                var tarea = _tareaRepository.ObtenerTareaPorId(idTarea);
+                if (tarea == null)
                 {
-                    var tarea = _tareaRepository.ObtenerTareaPorId(idTarea);
-                    if (tarea == null)
-                    {
-                        _logger.LogWarning($"No se encontró ninguna tarea con el ID: {idTarea} al intentar eliminarla. Redirigiendo a NotFound.");
-                        return NotFound();
-                    }
-                    _logger.LogInformation($"Se mostró la confirmación de eliminación para la tarea con ID: {idTarea}.");
-                    return View(tarea);
+                    _logger.LogWarning($"No se encontró ninguna tarea con el ID: {idTarea} al intentar eliminarla. Redirigiendo a NotFound.");
+                    return NotFound();
                 }
-                else
-                {
-                    _logger.LogWarning("Intento de acceso denegado al método EliminarTarea del controlador Tarea. Redirigiendo a AccesoDenegado.");
-                    return View("AccesoDenegado");
-                }
+                _logger.LogInformation($"Se mostró la confirmación de eliminación para la tarea con ID: {idTarea}.");
+                return View(tarea);
 
             }
             catch (Exception ex)
@@ -333,16 +370,18 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                     _logger.LogWarning("Intento de acceso sin autenticación al método ConfirmarEliminarTarea del controlador Tarea. Redirigiendo al login.");
                     return RedirectToAction("Index", "Login");
                 }
+                int idTab = tarea.IdTableroM;
+                _logger.LogInformation($"Se eliminó la tarea con ID: {tarea.IdTareaM} correctamente.");
+                _tareaRepository.EliminarTarea(tarea.IdTareaM);
                 if (Autorizacion.EsAdmin(HttpContext))
                 {
-                    _tareaRepository.EliminarTarea(tarea.IdTareaM);
-                    _logger.LogInformation($"Se eliminó la tarea con ID: {tarea.IdTareaM} correctamente.");
-                    return RedirectToAction("Index");
+                    return RedirectToAction("MostrarTareas");
                 }
                 else
                 {
-                    _logger.LogWarning("Intento de acceso denegado al método ConfirmarEliminarTarea del controlador Tarea. Redirigiendo a AccesoDenegado.");
-                    return View("AccesoDenegado");
+                    // _logger.LogWarning("Intento de acceso denegado al método ConfirmarEliminarTarea del controlador Tarea. Redirigiendo a AccesoDenegado.");
+                    // return View("AccesoDenegado");
+                    return RedirectToAction("MostrarTareasTableroIdEspecifico", new { idTablero = idTab });
                 }
             }
             catch (Exception ex)
@@ -421,11 +460,11 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                     ColorVM = u.ColorM,
                     EstadoTareaVM = u.EstadoTareaM,
                     DescripcionTareaVM = u.DescripcionTareaM,
-                    IdUsuarioAsignadoVM = u.IdUsuarioAsignadoM.HasValue ? u.IdUsuarioAsignadoM.Value : 0
+                    NombreDelTableroPerteneceVM = u.NombreDelTableroPerteneceM
                 }).ToList();
                 var viewModel = new ListarTareaViewModel(tareaVM);
                 _logger.LogInformation($"Se mostraron todas las tareas del usuario con ID {idUsuario} correctamente.");
-                return View("MostrarTareas", viewModel);
+                return View(viewModel);
             }
             catch (Exception ex)
             {
@@ -434,7 +473,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
             }
         }
 
-        public IActionResult MostrarTareasTableroIdEspecifico(int IdTablero)
+        public IActionResult MostrarTareasTableroIdEspecifico(int idTablero)
         {
             try
             {
@@ -443,7 +482,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                     _logger.LogWarning("Intento de acceso sin autenticación al método MostrarTareasTableroIdEspecifico del controlador Tarea. Redirigiendo al login.");
                     return RedirectToAction("Index", "Login");
                 }
-                var todasLasTareas = _tareaRepository.ListarTareasDeTablero(IdTablero);
+                var todasLasTareas = _tareaRepository.ListarTareasDeTablero(idTablero);
                 var tareaVM = todasLasTareas.Select(u => new TareaViewModel
                 {
                     IdTableroVM = u.IdTableroM,
@@ -457,7 +496,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                     NombreDelTableroPerteneceVM = u.NombreDelTableroPerteneceM
                 }).ToList();
                 var viewModel = new ListarTareaViewModel(tareaVM);
-                _logger.LogInformation($"Se mostraron todas las tareas del tablero con ID {IdTablero} correctamente.");
+                _logger.LogInformation($"Se mostraron todas las tareas del tablero con ID {idTablero} correctamente.");
                 return View("MostrarTareasTableroIdEspecifico", viewModel);
             }
             catch (Exception ex)
