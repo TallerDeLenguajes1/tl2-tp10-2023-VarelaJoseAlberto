@@ -16,6 +16,15 @@
                 <div class="card-body btn-group-vertical" role="group">
                     @if (Autorizacion.EsAdmin(ViewContext.HttpContext))
                     {
+                        <form asp-controller="Tablero" asp-action="BuscarTableroPorNombre" method="get">
+                            <div class="input-group mb-3">
+                                <input type="text" name="nombre" class="form-control" placeholder="Nombre del tablero"
+                                    aria-label="Nombre del tablero" aria-describedby="button-addon2">
+                                <button class="btn btn-primary" type="submit" id="button-addon2"><i
+                                        class="fas fa-search"></i></button>
+                            </div>
+                        </form>
+
                         <a asp-controller="Tablero" asp-action="CrearTablero" class="btn btn-success btn-block mb-3">
                             <i class="fas fa-plus mb-3"></i>
                             <h5 class="card-title">Crear Tablero</h5>
@@ -25,32 +34,13 @@
                             <i class="fas fa-tasks mb-3"></i>
                             <h5 class="card-title">Mostrar todas las Tableros</h5>
                         </a>
-
-                        <a asp-controller="Tablero" asp-action="ListarTablerosDeUsuarioEspecifico"
-                            asp-route-idUsuario="@Autorizacion.ObtenerIdUsuario(ViewContext.HttpContext)"
-                            class="btn btn-primary btn-block mb-3">
-                            <i class="fas fa-list mb-3"></i>
-                            <h5 class="card-title">Mostrar Mis Tableros</h5>
-                        </a>
-
-                        <form asp-controller="Tablero" asp-action="BuscarTableroPorNombre" method="get">
-                            <div class="input-group mb-3">
-                                <input type="text" name="nombre" class="form-control" placeholder="Nombre del tablero"
-                                    aria-label="Nombre del tablero" aria-describedby="button-addon2">
-                                <button class="btn btn-primary" type="submit" id="button-addon2"><i
-                                        class="fas fa-search"></i></button>
-                            </div>
-                        </form>
                     }
-                    else if (Autorizacion.ObtenerRol(ViewContext.HttpContext) == "operador")
-                    {
-                        <a asp-controller="Tablero" asp-action="ListarTablerosDeUsuarioEspecifico"
-                            asp-route-idUsuario="@Autorizacion.ObtenerIdUsuario(ViewContext.HttpContext)"
-                            class="btn btn-primary btn-block mb-3">
-                            <i class="fas fa-list mb-3"></i>
-                            <h5 class="card-title">Mostrar Mis Tableros</h5>
-                        </a>
-                    }
+                    <a asp-controller="Tablero" asp-action="ListarTablerosDeUsuarioEspecifico"
+                        asp-route-idUsuario="@Autorizacion.ObtenerIdUsuario(ViewContext.HttpContext)"
+                        class="btn btn-primary btn-block ">
+                        <i class="fas fa-list mb-3"></i>
+                        <h5 class="card-title">Mostrar Mis Tableros</h5>
+                    </a>
                 </div>
             </div>
         </div>

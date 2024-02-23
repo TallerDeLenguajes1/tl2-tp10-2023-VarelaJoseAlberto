@@ -6,7 +6,7 @@
         <div class="col-md-8">
             <div class="mb-3 d-flex justify-content-between align-items-center">
                 <div>
-                    <a asp-controller="Tarea" asp-action="CrearTarea" asp-route-idTablero="" class="btn btn-success"><i
+                    <a asp-controller="Tarea" asp-action="CrearTarea" class="btn btn-success"><i
                             class="fas fa-user-plus me-1"></i>Agregar Tareas</a>
                 </div>
                 <div>
@@ -29,7 +29,7 @@
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th scope="col">#</th>
+                            <th scope="col">Nº</th>
                             <th scope="col">Nombre de la tarea</th>
                             <th scope="col">Descripción</th>
                             <th scope="col">Estado</th>
@@ -45,7 +45,7 @@
                             @foreach (var tarea in Model.ListaTareasVM!)
                             {
                                 <tr>
-                                    <td>@tarea.IdTareaVM</td>
+                                    <td>@(Model.ListaTareasVM.IndexOf(tarea) + 1)</td>
                                     <td>@tarea.NombreTareaVM</td>
                                     <td>@tarea.DescripcionTareaVM</td>
                                     <td>@tarea.EstadoTareaVM</td>

@@ -29,7 +29,7 @@
                 <thead>
                     <tr>
                         <th scope="col" style="visibility: hidden;">Id Tablero</th>
-                        @* <th scope="col">Id Tablero</th> *@
+                        <th scope="col">Nº</th>
                         <th scope="col">Nombre de Tablero</th>
                         <th scope="col">Descripcion</th>
                         <th scope="col">Nombre del Propietario</th>
@@ -42,8 +42,7 @@
                         @foreach (var tablero in Model.ListaTablerosVM)
                         {
                             <tr>
-                                <td scope="row" style="visibility: hidden;">@tablero.IdTableroVM </td>
-                                @* <td>@tablero.IdTableroVM</td> *@
+                                <td>@(Model.ListaTablerosVM.IndexOf(tablero) + 1)</td>
                                 <td>@tablero.NombreTableroVM</td>
                                 <td>@tablero.DescripcionVM</td>
                                 <td>@tablero.NombreDePropietarioVM</td>

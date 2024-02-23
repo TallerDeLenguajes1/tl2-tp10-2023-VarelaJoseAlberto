@@ -227,7 +227,10 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                     {
                         NombreTarea = tarea.NombreTareaM,
                         DescripcionTarea = tarea.DescripcionTareaM,
-                        EstadoTarea = (EstadoTarea)(int)tarea.EstadoTareaM
+                        EstadoTarea = (EstadoTarea)(int)tarea.EstadoTareaM,
+                        IdUsuarioAsignado = tarea.IdUsuarioAsignadoM,
+                        IdTablero = tarea.IdTableroM,
+                        ListadoDeUsuarioDisponible = _usuarioRepository.TraerTodosUsuarios()
                     };
                     _logger.LogInformation($"Se mostró el formulario de modificación de tarea por el operador para la tarea con ID: {idTarea}.");
                     return View(viewModel);

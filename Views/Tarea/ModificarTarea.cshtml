@@ -1,3 +1,4 @@
+@using tl2_tp10_2023_VarelaJoseAlberto.Repositorios
 @model tl2_tp10_2023_VarelaJoseAlberto.ViewModels.ModificarTareaViewModel
 @{
     ViewData["Title"] = "Confirmar Modificación";
@@ -46,25 +47,26 @@
                         </select>
                         <span asp-validation-for="IdUsuarioAsignado" class="text-danger"></span>
                     </div>
+                    @if (Autorizacion.ObtenerRol(ViewContext.HttpContext) == "admin")
+                    {
+                        <div class="input-group mb-3">
+                            <label asp-for="IdTablero" class="input-group-text">Tablero</label>
+                            <select class="form-select" asp-for="IdTablero">
+                                <option value="" selected disabled> ---Seleccionar--- </option>
+                                @foreach (var tablero in Model.ListadoTableros!)
+                                {
+                                    <option value="@tablero.IdTableroM">@tablero.NombreDeTableroM</option>
+                                }
+                            </select>
+                            <span asp-validation-for="IdTablero" class="text-danger"></span>
+                        </div>
 
-                    <div class="input-group mb-3">
-                        <label asp-for="IdTablero" class="input-group-text">Tablero</label>
-                        <select class="form-select" asp-for="IdTablero">
-                            <option value="" selected disabled> ---Seleccionar--- </option>
-                            @foreach (var tablero in Model.ListadoTableros!)
-                            {
-                                <option value="@tablero.IdTableroM">@tablero.NombreDeTableroM</option>
-                            }
-                        </select>
-                        <span asp-validation-for="IdTablero" class="text-danger"></span>
-                    </div>
-
-                    <div class="input-group mb-3">
-                        <label asp-for="ColorTarea" class="input-group-text">Color</label>
-                        <input type="color" class="form-control form-control-color" asp-for="ColorTarea">
-                        <span asp-validation-for="ColorTarea" class="text-danger"></span>
-                    </div>
-
+                        <div class="input-group mb-3">
+                            <label asp-for="ColorTarea" class="input-group-text">Color</label>
+                            <input type="color" class="form-control form-control-color" asp-for="ColorTarea">
+                            <span asp-validation-for="ColorTarea" class="text-danger"></span>
+                        </div>
+                    }
                 </fieldset>
                 <div class="col-12">
                     <button class="btn btn-success" type="submit">Actualizar</button>

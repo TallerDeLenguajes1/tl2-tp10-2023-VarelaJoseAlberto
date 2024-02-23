@@ -11,7 +11,7 @@
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th scope="col">#</th>
+                            <th scope="col">N°</th>
                             <th scope="col">Nombre de la tarea</th>
                             <th scope="col">Descripción</th>
                             <th scope="col">Estado</th>
@@ -26,7 +26,7 @@
                             @foreach (var tarea in Model.ListaTareasVM!)
                             {
                                 <tr>
-                                    <td>@tarea.IdTareaVM</td>
+                                    <td>@(Model.ListaTareasVM.IndexOf(tarea) + 1)</td>
                                     <td>@tarea.NombreTareaVM</td>
                                     <td>@tarea.DescripcionTareaVM</td>
                                     <td>@tarea.EstadoTareaVM</td>
@@ -42,20 +42,11 @@
                                     </td>
                                     <td>
                                         <div class="btn-group" role="group" aria-label="Opciones">
-                                            @if (Autorizacion.EsAdmin(ViewContext.HttpContext))
-                                            {
-                                                <a asp-controller="Tarea" asp-action="ModificarTarea" class="btn btn-primary"
-                                                    asp-route-idTarea="@tarea.IdTareaVM"><i class="fas fa-edit me-1"></i>Editar</a>
-                                                <a asp-controller="Tarea" asp-action="EliminarTarea" class="btn btn-danger"
-                                                    asp-route-idTarea="@tarea.IdTareaVM"><i
-                                                        class="fas fa-trash-alt me-1"></i>Eliminar</a>
-                                            }
-                                            else
-                                            {
-                                                <a asp-controller="Tarea" asp-action="ModificarTarea" class="btn btn-info"
-                                                    asp-route-idTarea="@tarea.IdTareaVM" class="btn btn-sm btn-primary"><i
-                                                        class="fas fa-edit me-1"></i>Editar</a>
-                                            }
+                                            <a asp-controller="Tarea" asp-action="ModificarTarea" class="btn btn-primary"
+                                                asp-route-idTarea="@tarea.IdTareaVM"><i class="fas fa-edit me-1"></i>Editar</a>
+                                            <a asp-controller="Tarea" asp-action="EliminarTarea" class="btn btn-danger"
+                                                asp-route-idTarea="@tarea.IdTareaVM"><i
+                                                    class="fas fa-trash-alt me-1"></i>Eliminar</a>
                                         </div>
                                     </td>
                                 </tr>
@@ -64,7 +55,7 @@
                         else
                         {
                             <tr>
-                                <td colspan="8">No hay tareas disponibles.</td>
+                                <td colspan="8">El Tablero no tiene tareas disponibles.</td>
                             </tr>
                         }
                     </tbody>

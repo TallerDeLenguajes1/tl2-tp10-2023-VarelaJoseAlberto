@@ -12,12 +12,14 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly ITableroRepository _tableroRepository;
         private readonly IUsuarioRepository _usuarioRepository;
+        private readonly ITareaRepository _tareaRepository;
 
-        public TableroController(ILogger<HomeController> logger, ITableroRepository tableRepository, IUsuarioRepository usuarioRepository)
+        public TableroController(ILogger<HomeController> logger, ITableroRepository tableRepository, IUsuarioRepository usuarioRepository, ITareaRepository tareaRepository)
         {
             _logger = logger;
             _tableroRepository = tableRepository;
             _usuarioRepository = usuarioRepository;
+            _tareaRepository = tareaRepository;
         }
 
         public IActionResult Index()
@@ -142,6 +144,11 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                         {
                             _logger.LogWarning($"No se encontró ningún tablero con el ID: {idTablero}");
                             return NotFound();
+                        }
+                        var tareasAsociadas = _tareaRepository.ListarTareasDeTablero(idTablero);
+                        if (tareasAsociadas.Any())
+                        {
+                            TempData["Mensaje"] = "Eliminar este tablero también eliminará las tareas asociadas. ¿Está seguro de que desea proceder?";
                         }
                         _logger.LogInformation($"Mostrando vista para eliminar el tablero con ID: {idTablero}");
                         return View(tablero);
