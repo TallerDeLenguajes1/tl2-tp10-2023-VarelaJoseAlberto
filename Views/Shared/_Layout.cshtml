@@ -1,21 +1,21 @@
-﻿<!DOCTYPE html>
+﻿@using tl2_tp10_2023_VarelaJoseAlberto.Repositorios
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - tl2_tp10_2023_VarelaJoseAlberto</title>
+    <title>@ViewData["Title"] - Proyecto KanBan</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/tl2_tp10_2023_VarelaJoseAlberto.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 </head>
 
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home"
-                    asp-action="Index">tl2_tp10_2023_VarelaJoseAlberto</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
                     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -25,22 +25,64 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home"
-                                asp-action="Privacy">Privacy</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Usuario"
-                                asp-action="Index">Usuarios</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Tablero"
-                                asp-action="Index">Tableros</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Tarea"
-                                asp-action="Index">Tareas</a>
-                        </li>
+                        @if (Autorizacion.EsAdmin(ViewContext.HttpContext))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown1" role="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    Usuarios
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown1">
+                                    <li><a class="dropdown-item" href="@Url.Action("Index", "Usuario")">Index</a>
+                                    </li>
+                                    <li><a class="dropdown-item" href="@Url.Action("CrearUsuario", "Usuario")">Crear
+                                            Usuario</a></li>
+                                    <li><a class="dropdown-item"
+                                            href="@Url.Action("MostrarTodosUsuarios", "Usuario")">Mostrar Todos Usuarios</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown2" role="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    Tableros
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown2">
+                                    <li><a class="dropdown-item" href="@Url.Action("Index", "Tablero")">Index</a>
+                                    </li>
+                                    <li><a class="dropdown-item" href="@Url.Action("CrearTablero", "Tablero")">Crear
+                                            Tablero</a></li>
+                                    <li><a class="dropdown-item"
+                                            href="@Url.Action("MostrarTodosTablero", "Tablero")">Mostrar Todos Tableros</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown3" role="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    Tareas
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown3">
+                                    <li><a class="dropdown-item" href="@Url.Action("Index", "Tarea")">Index</a></li>
+                                    <li><a class="dropdown-item" href="@Url.Action("CrearTarea", "Tarea")">Crear Tarea</a>
+                                    </li>
+                                    <li><a class="dropdown-item" href="@Url.Action("MostrarTodasTareas", "Tarea")">Mostrar
+                                            Todos Tableros</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Tablero"
+                                    asp-action="Index">Tableros</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Tarea"
+                                    asp-action="Index">Tareas</a>
+                            </li>
+                        }
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="Logout">Cerrar
                                 sesión</a>
@@ -58,8 +100,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2023 - tl2_tp10_2023_VarelaJoseAlberto - <a asp-area="" asp-controller="Home"
-                asp-action="Privacy">Privacy</a>
+            &copy; 2024 - Proyecto KanBan - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
@@ -67,5 +108,3 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
-
-</html>

@@ -51,11 +51,13 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
                     {
                         while (reader.Read())
                         {
-                            var user = new Usuario();
-                            user.IdUsuarioM = Convert.ToInt32(reader["id_usuario"]);
-                            user.NombreDeUsuarioM = reader["nombre_de_usuario"].ToString()!;
-                            user.ContraseniaM = reader["contrasenia"].ToString()!;
-                            user.RolM = (Rol)Convert.ToInt32(reader["rol"]); // Convertir el entero almacenado en el enum
+                            var user = new Usuario
+                            {
+                                IdUsuarioM = Convert.ToInt32(reader["id_usuario"]),
+                                NombreDeUsuarioM = reader["nombre_de_usuario"].ToString()!,
+                                ContraseniaM = reader["contrasenia"].ToString()!,
+                                RolM = (Rol)Convert.ToInt32(reader["rol"])
+                            };
                             listaDeUsuarios.Add(user);
                         }
                     }
@@ -249,5 +251,37 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
             return listaDeUsuarios;
         }
 
+        public bool ExisteUsuario(string nombreDeUsuario)
+        {
+            bool existe = false;
+            var query = @"SELECT COUNT(*) FROM usuario WHERE nombre_de_usuario = @nombre;";
+            using (SQLiteConnection connection = new SQLiteConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open(); var command = new SQLiteCommand(query, connection);
+                    command.Parameters.Add(new SQLiteParameter("@nombre", nombreDeUsuario));
+                    using (SQLiteDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            while (reader.Read())
+                            {
+                                existe = true;
+                            }
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+                    throw new Exception("Hubo un problema al buscar el nombre del usuario en la base de datos");
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+            return existe;
+        }
     }
 }

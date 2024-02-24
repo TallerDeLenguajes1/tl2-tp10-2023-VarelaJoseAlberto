@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Taller2\\Tps\\tl2-tp10-2023-VarelaJoseAlberto\\tl2-tp10-2023-VarelaJoseAlberto.csproj": {}
+    "c:\\Taller2\\Tps\\tl2-tp10-2023-VarelaJoseAlberto\\tl2-tp10-2023-VarelaJoseAlberto.csproj": {}
   },
   "projects": {
-    "C:\\Taller2\\Tps\\tl2-tp10-2023-VarelaJoseAlberto\\tl2-tp10-2023-VarelaJoseAlberto.csproj": {
+    "c:\\Taller2\\Tps\\tl2-tp10-2023-VarelaJoseAlberto\\tl2-tp10-2023-VarelaJoseAlberto.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Taller2\\Tps\\tl2-tp10-2023-VarelaJoseAlberto\\tl2-tp10-2023-VarelaJoseAlberto.csproj",
+        "projectUniqueName": "c:\\Taller2\\Tps\\tl2-tp10-2023-VarelaJoseAlberto\\tl2-tp10-2023-VarelaJoseAlberto.csproj",
         "projectName": "tl2-tp10-2023-VarelaJoseAlberto",
-        "projectPath": "C:\\Taller2\\Tps\\tl2-tp10-2023-VarelaJoseAlberto\\tl2-tp10-2023-VarelaJoseAlberto.csproj",
+        "projectPath": "c:\\Taller2\\Tps\\tl2-tp10-2023-VarelaJoseAlberto\\tl2-tp10-2023-VarelaJoseAlberto.csproj",
         "packagesPath": "C:\\Users\\Usuario\\.nuget\\packages\\",
-        "outputPath": "C:\\Taller2\\Tps\\tl2-tp10-2023-VarelaJoseAlberto\\obj\\",
+        "outputPath": "c:\\Taller2\\Tps\\tl2-tp10-2023-VarelaJoseAlberto\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Usuario\\AppData\\Roaming\\NuGet\\NuGet.Config"

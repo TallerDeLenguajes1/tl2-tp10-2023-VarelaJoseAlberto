@@ -11,5 +11,6 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
         void EliminarUsuarioPorId(int id);
         Usuario ObtenerUsuarioPorCredenciales(string nombreUsuario, string contrasenia);
         List<Usuario> BuscarUsuarioPorNombre(string nombre);
+        bool ExisteUsuario(string nombreDeUsuario);
     }
 }
