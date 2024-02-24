@@ -1,12 +1,11 @@
+using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using tl2_tp10_2023_VarelaJoseAlberto.Models;
 using tl2_tp10_2023_VarelaJoseAlberto.ViewModels;
 using tl2_tp10_2023_VarelaJoseAlberto.Repositorios;
-using System.Diagnostics;
 
 namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
 {
-
     public class LoginController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -76,10 +75,9 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error al iniciar sesión del usuario en la sesión");
-                throw; // Es importante relanzar la excepción para que el controlador pueda manejarla adecuadamente
+                throw;
             }
         }
-
 
         [HttpGet]
         public IActionResult Logout()
@@ -89,13 +87,13 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
                 HttpContext.Session.Clear();
                 TempData["Mensaje"] = "¡La sesión se cerró exitosamente! ¡Vuelve pronto!";
                 _logger.LogInformation("La sesión se cerró exitosamente para el usuario.");
-                return RedirectToAction("Index", "Login"); // Redirige a donde quieras tras cerrar sesión
+                return RedirectToAction("Index", "Login");
             }
             catch (Exception ex)
             {
                 TempData["Mensaje"] = "Ocurrió un error al cerrar sesión. Por favor, inténtalo nuevamente más tarde.";
                 _logger.LogError(ex, "Error al cerrar sesión del usuario");
-                return RedirectToAction("Index", "Login"); // Puedes redirigir a una página de error en caso de fallo
+                return RedirectToAction("Index", "Login");
             }
         }
 

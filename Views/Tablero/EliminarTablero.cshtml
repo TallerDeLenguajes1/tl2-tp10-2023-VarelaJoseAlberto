@@ -18,7 +18,7 @@
             </div>
             <form asp-controller="Tablero" asp-action="ConfirmarEliminar" method="post" class="mt-4">
                 <input asp-for="@Model.IdTableroM" type="hidden" />
-                <div class="d-grid gap-2">
+                <div class="col-12">
                     <button type="submit" class="btn btn-danger">Eliminar</button>
                     <a asp-controller="Tablero" asp-action="MostrarTodosTablero" class="btn btn-secondary">Cancelar</a>
                 </div>

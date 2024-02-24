@@ -11,6 +11,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.ViewModels
         public string? NombreDePropietarioVM { get; set; }
         public List<Tarea>? ListaDeTareas { get; set; }
 
+        public TableroViewModel() { }
         public TableroViewModel(Tablero tablero)
         {
             IdTableroVM = tablero.IdTableroM;
@@ -18,10 +19,6 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.ViewModels
             NombreTableroVM = tablero.NombreDeTableroM;
             DescripcionVM = tablero.DescripcionDeTableroM!;
             NombreDePropietarioVM = tablero.NombreDePropietarioM!;
-        }
-
-        public TableroViewModel()
-        {
         }
     }
 }

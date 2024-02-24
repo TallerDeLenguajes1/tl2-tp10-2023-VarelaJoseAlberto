@@ -14,6 +14,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.ViewModels
         public string? NombreUsuarioAsignadoVM { get; set; }
         public string? NombreDelTableroPerteneceVM { get; set; }
 
+        public TareaViewModel() { }
         public TareaViewModel(Tarea tarea)
         {
             IdTareaVM = tarea.IdTareaM;
@@ -25,9 +26,6 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.ViewModels
             IdUsuarioAsignadoVM = tarea.IdUsuarioAsignadoM!;
             NombreUsuarioAsignadoVM = tarea.NombreUsuarioAsignadoM;
             NombreDelTableroPerteneceVM = tarea.NombreDelTableroPerteneceM;
-        }
-        public TareaViewModel()
-        {
         }
     }
 }

@@ -21,9 +21,8 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Models
         public string? ColorM { get; set; }
         public string? NombreUsuarioAsignadoM { get; set; }
         public string? NombreDelTableroPerteneceM { get; set; }
-        public Tarea()
-        {
-        }
+
+        public Tarea() { }
 
         public Tarea(TareaViewModel tareaViewModel)
         {

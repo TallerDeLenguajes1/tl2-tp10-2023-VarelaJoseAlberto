@@ -22,7 +22,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.ViewModels
         {
             NombreDeTablero = tablero.NombreDeTableroM!;
             DescripcionDeTablero = tablero.DescripcionDeTableroM;
-            IdUsuarioPropietario = (int)tablero.IdUsuarioPropietarioM!;
+            IdUsuarioPropietario = tablero.IdUsuarioPropietarioM!;
         }
     }
 }

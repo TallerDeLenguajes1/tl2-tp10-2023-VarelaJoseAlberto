@@ -1,0 +1,31 @@
+@model (List<Usuario> listaDeUsuario, int idUsuarioEliminar)
+@{
+    ViewData["Title"] = "Cambiar Propietario";
+}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h2 class="text-center mb-4">Seleccionar Nuevo Propietario</h2>
+            <div class="alert alert-warning" role="alert">
+                @TempData["Mensaje"]
+            </div>
+            <form method="post" asp-controller="Usuario" asp-action="ConfirmarEliminarUsuarioConTablerosAsigYTareas">
+                <div class="input-group mb-3">
+                    <label for="nuevoPropietario" class="input-group-text">Seleccione el nuevo propietario</label>
+                    <select class="form-select" id="nuevoPropietario" name="nuevoPropietario">
+                        @foreach (var usuario in Model.listaDeUsuario.Where(t => t.IdUsuarioM !=
+                        Model.idUsuarioEliminar))
+                        {
+                            <option value="@usuario.IdUsuarioM">@usuario.NombreDeUsuarioM</option>
+                        }
+                    </select>
+                </div>
+                <input type="hidden" name="idUsuarioEliminar" value="@Model.idUsuarioEliminar" />
+                <div class="col-12">
+                    <button type="submit" class="btn btn-danger">Confirmar Cambio</button>
+                    <a asp-controller="Usuario" asp-action="MostrarTodosUsuarios" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

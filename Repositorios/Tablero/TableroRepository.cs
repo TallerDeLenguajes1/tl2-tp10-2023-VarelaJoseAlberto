@@ -13,7 +13,8 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
 
         public void CrearTablero(Tablero nuevoTablero)
         {
-            var query = "INSERT INTO Tablero (id_usuario_propietario, nombre_tablero, descripcion_tablero) VALUES (@idPropietario, @nombreTablero, @descripTablero);";
+            var query = "INSERT INTO Tablero (id_usuario_propietario, nombre_tablero, descripcion_tablero)" +
+                        " VALUES (@idPropietario, @nombreTablero, @descripTablero);";
             using (SQLiteConnection connection = new SQLiteConnection(connectionString))
             {
                 try
@@ -81,7 +82,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
         public List<Tablero> ListarTablerosDeUsuarioEspecifico(int idRecibe)
         {
             var query = "SELECT * FROM Tablero INNER JOIN Usuario ON Tablero.id_usuario_propietario = Usuario.id_usuario " +
-            "WHERE id_usuario_propietario = @idUsuario;";
+                        "WHERE id_usuario_propietario = @idUsuario;";
             List<Tablero> tableros = new List<Tablero>();
             using (SQLiteConnection connection = new SQLiteConnection(connectionString))
             {

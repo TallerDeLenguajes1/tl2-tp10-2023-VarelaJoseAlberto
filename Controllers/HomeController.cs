@@ -3,10 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using tl2_tp10_2023_VarelaJoseAlberto.Models;
 using tl2_tp10_2023_VarelaJoseAlberto.Repositorios;
 
-
 namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
 {
-
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -19,24 +17,13 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Controllers
         {
             try
             {
-                if (Autorizacion.EstaAutentificado(HttpContext))
-                {
-                    if (Autorizacion.EsAdmin(HttpContext))
-                    {
-                        _logger.LogInformation("Accediendo al método Index del controlador Home.");
-                        return View();
-                    }
-                    else
-                    {
-                        _logger.LogInformation("Usuario no autorizado intentó acceder al método Index del controlador Home y fue redirigido al tablero.");
-                        return RedirectToAction("Index", "Tablero");
-                    }
-                }
-                else
+                if (!Autorizacion.EstaAutentificado(HttpContext))
                 {
                     _logger.LogInformation("Intento de acceso sin autenticación al método Index del controlador Home. Redirigiendo al login.");
                     return RedirectToAction("Index", "Login");
                 }
+                _logger.LogInformation("Accediendo al método Index del controlador Home.");
+                return View();
             }
             catch (Exception ex)
             {

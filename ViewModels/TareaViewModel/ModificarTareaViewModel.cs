@@ -30,9 +30,7 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.ViewModels
         public int IdTablero { get; set; }
         public List<Tablero>? ListadoTableros { get; set; }
 
-        public ModificarTareaViewModel()
-        {
-        }
+        public ModificarTareaViewModel() { }
         public ModificarTareaViewModel(Tarea tarea)
         {
             NombreTarea = tarea.NombreTareaM;

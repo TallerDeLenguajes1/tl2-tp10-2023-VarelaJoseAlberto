@@ -15,10 +15,6 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
         {
             return context.Session.GetString("Rol")!;
         }
-        public static string Nombre(HttpContext context)
-        {
-            return context.Session.GetString("NombreDeUsuario")!;
-        }
 
         public static int ObtenerIdUsuario(HttpContext context)
         {
