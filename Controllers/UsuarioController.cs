@@ -91,6 +91,12 @@ public class UsuarioController : Controller
             {
                 if (ModelState.IsValid)
                 {
+                    if (_usuarioRepository.ExisteUsuario(usuarioViewModel.NombreDeUsuario!))
+                    {
+                        ModelState.AddModelError("NombreDeUsuario", "El nombre de usuario ya existe.");
+                        return View("CrearUsuario", usuarioViewModel);
+                        // return RedirectToAction("CrearUsuario");
+                    }
                     var usuario = new Usuario
                     {
                         NombreDeUsuarioM = usuarioViewModel.NombreDeUsuario!,

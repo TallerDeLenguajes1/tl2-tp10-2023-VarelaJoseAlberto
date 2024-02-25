@@ -254,21 +254,19 @@ namespace tl2_tp10_2023_VarelaJoseAlberto.Repositorios
         public bool ExisteUsuario(string nombreDeUsuario)
         {
             bool existe = false;
-            var query = @"SELECT COUNT(*) FROM usuario WHERE nombre_de_usuario = @nombre;";
+            var query = "SELECT * FROM usuario WHERE nombre_de_usuario = @nombre;";
             using (SQLiteConnection connection = new SQLiteConnection(connectionString))
             {
                 try
                 {
-                    connection.Open(); var command = new SQLiteCommand(query, connection);
+                    connection.Open();
+                    var command = new SQLiteCommand(query, connection);
                     command.Parameters.Add(new SQLiteParameter("@nombre", nombreDeUsuario));
                     using (SQLiteDataReader reader = command.ExecuteReader())
                     {
-                        while (reader.Read())
+                        if (reader.Read())
                         {
-                            while (reader.Read())
-                            {
-                                existe = true;
-                            }
+                            existe = true;
                         }
                     }
                 }
